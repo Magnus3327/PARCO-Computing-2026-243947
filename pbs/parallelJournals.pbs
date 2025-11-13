@@ -1,0 +1,43 @@
+#Script to run the OpenMP parallel SpMV simulation using Journals.mtx matrix
+#!/bin/bash
+
+#Job Name
+#PBS -N ParallelOMP
+
+#Output and error files (only to have a log), the real output is in directory simulationResults
+#PBS -o ./ParallelOMP.output
+#PBS -e ./ParallelOMP.err
+
+#Queue Name
+#PBS -q short_cputQ
+
+#Set the maximum wall time
+#PBS -l walltime=06:00:00
+
+#Set the number of nodes and the memory
+#PBS -l select=1:ncpus=64:mem=64gb
+
+#Load modules
+module load perf
+module load valgrind-3.15.0
+module load gcc91
+g++() { g++-9.1.0 "$@"; }
+g++ --version
+
+#Select the working directory
+cd "$PBS_O_WORKDIR" #Directory where the qsub war run
+cd .. #exit the pbs folders
+
+#Compile
+g++ -std=c++11 -O3 -fopenmp -ftree-vectorize ./SpMV_parallel/SpMV_parallel.cpp -o ./SpMV_parallel/SpMV_parallel
+
+#Run e Benchmark
+
+export OMP_NUM_THREADS=4 #Just to clarify, set the variable even if it's override by -T= in program execution
+
+./SpMV_parallel/SpMV_parallel ./mtx/1.mtx -T=4 -S=static -C=100 -I=10 > ./simulationsResults/Parallel/p4static100.json
+
+perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+  -o ./simulationsResults/Parallel/perf_stat.txt ./SpMV_parallel/SpMV_parallel ./mtx/1.mtx -T=4 -S=static -C=100 -I=1
+
+valgrind --tool=callgrind --callgrind-out-file=./simulationsResults/Parallel/callgrind.out ./SpMV_parallel/SpMV_parallel ./mtx/1.mtx -T=4 -S=static -C=100 -I=1
