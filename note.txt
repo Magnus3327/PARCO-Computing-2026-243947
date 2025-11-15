@@ -1,6 +1,5 @@
 /*
 Considerazioni sulla parallelizzazione della SpMV con OpenMP:
-
 Allora potrei parallelizzare normalmente il ciclo esterno (sulle righe), ogni thread calcola la somma per una riga diversa.
 Questo funziona bene perché ogni thread scrive in una posizione diversa dell'array di output y, quindi non ci sono conflitti di scrittura.
 Ma non sappiamo se l'accesso alla memoria per csr.data e csr.indices sarà ottimale, perché diversi thread potrebbero accedere a posizioni di memoria non contigue.
@@ -15,3 +14,4 @@ Altri problemi potrebbero includere l'overhead di creazione e gestione dei threa
 Dobbiamo anche usare il giusto numero di thread in base al numero di core disponibili sulla macchina per evitare il sovraccarico.
 ma invece di usare direttamente 64 chucnks non lo si puo fare in base al nnz e ai threads disponibili?
 */
+
