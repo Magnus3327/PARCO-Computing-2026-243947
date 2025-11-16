@@ -4,7 +4,7 @@
     This program performs Sparse Matrix-Vector Multiplication (SpMV) using OpenMP
     to parallelize the operation. The matrix is stored in Compressed Sparse Row (CSR) format.
 
-    Workflow:
+    WORKFLOW:
     1. Reads a sparse matrix from a Matrix Market (MTX) file.
     2. Generates a random input vector.
     3. Performs the SpMV operation for a configurable number of iterations.
@@ -13,11 +13,11 @@
        and duration) in a ResultsManager and outputs JSON.
 
     CLI ARGUMENTS:
-    - matrix_path         (mandatory) Path to the MTX file.
-    - -T=num_threads      (optional) Number of OpenMP threads. Defaults to max threads or OMP_NUM_THREADS.
-    - -S=scheduling       (optional) OpenMP scheduling: static, dynamic, or guided. Default is static.
-    - -C=chunkSize        (optional) Chunk size for OpenMP scheduling. Default is 0 (let OpenMP decide).
-    - -I=iterations       (optional) Number of SpMV iterations. Default is 1.
+    - matrix_path (mandatory) Path to the MTX file.
+    - -T=num_threads (optional) Number of OpenMP threads. Defaults to max threads or OMP_NUM_THREADS.
+    - -S=scheduling (optional) OpenMP scheduling: static, dynamic, or guided. Default is static.
+    - -C=chunkSize (optional) Chunk size for OpenMP scheduling. Default is 0 (let OpenMP decide).
+    - -I=iterations (optional) Number of SpMV iterations. Default is 1.
 
     OPTIMIZATIONS:
     - Warm-up phase before timed iterations to avoid measuring thread creation overhead.
@@ -145,7 +145,7 @@ CLIOptions parseCLI(int argc, char* argv[], ResultsManager& resultsManager) {
         }
     }
 
-    // Cap requested threads to max available
+    // Cap requested threads to max available, instead of throwing error the execution continues reporting the error
     #ifdef _OPENMP
         int maxThreads = omp_get_max_threads();
         if (opts.numThreads > maxThreads) {

@@ -4,7 +4,7 @@
     This program performs Sparse Matrix-Vector Multiplication (SpMV) sequentially
     using the Compressed Sparse Row (CSR) format for matrix storage. 
 
-    Workflow:
+    WORKFLOW:
     1. Reads a sparse matrix from a Matrix Market (MTX) file.
     2. Generates a random input vector.
     3. Performs the SpMV operation for a configurable number of iterations.
@@ -13,8 +13,8 @@
        and outputs JSON.
 
     CLI ARGUMENTS:
-    - matrix_path      (mandatory) Path to the MTX file.
-    - -I=iterations    (optional) Number of SpMV iterations. Default is 1.
+    - matrix_path (mandatory) Path to the MTX file.
+    - -I=iterations (optional) Number of SpMV iterations. Default is 1.
 
     OPTIMIZATIONS:
     - Warm-up phase before timed iterations to reduce measurement overhead.
