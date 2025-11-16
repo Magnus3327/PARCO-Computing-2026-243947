@@ -1,3 +1,9 @@
+/*
+    This program contains all the necessary functions to read a sparse matrix from a Matrix Market (MTX) file,
+    convert it to Compressed Sparse Row (CSR) format, and perform Sparse Matrix-Vector Multiplication (SpMV) in parallel using OpenMP.
+
+    It's an alternative versione of /src/spmvParallel.cpp with all the code in a single file for easier compilation and testing.
+*/
 #include <iostream>
 #include <fstream>
 #include <vector>
