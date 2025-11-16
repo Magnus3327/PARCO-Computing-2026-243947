@@ -1,0 +1,146 @@
+{
+  "results": [
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.077
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.0539999
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.057
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.0430001
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.062
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.06
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.048
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.055
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.051
+},
+    {
+  "threads": 4,
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "scheduling_type": "dynamic",
+    "chunk_size": "10"
+  },
+  "duration_milliseconds": 0.045
+}
+  ],
+  "errors": [
+  ]
+}

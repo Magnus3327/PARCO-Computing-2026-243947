@@ -15,3 +15,31 @@ Dobbiamo anche usare il giusto numero di thread in base al numero di core dispon
 ma invece di usare direttamente 64 chucnks non lo si puo fare in base al nnz e ai threads disponibili?
 */
 
+1. Modularità e riusabilità
+	•	Tutte le operazioni su CSR (memoria, SpMV, stampa, ecc.) sono centralizzate in un oggetto o libreria.
+	•	Funzioni generiche (lettura MTX, generazione vettori, JSON output) sono separate dal main.
+	•	Facilita l’uso dello stesso codice sia in modalità sequenziale sia parallela senza duplicazioni.
+
+2. Manutenzione e leggibilità
+	•	Il main diventa un semplice orchestratore, più leggibile.
+	•	Separazione chiara tra I/O, gestione parametri e logica di calcolo.
+	•	Riduce il rischio di confusione quando si aggiungono nuove funzionalità.
+
+3. Sicurezza e gestione memoria
+	•	Oggetti con costruttore/distruttore riducono i memory leak.
+	•	Non serve fare delete[] manuali ovunque nel main.
+	•	Error handling centralizzato tramite throw + try/catch.
+
+4. Estensibilità
+	•	Facile aggiungere nuove funzioni (es. operazioni sparse-sparse, diverse routine parallele).
+	•	Nuove modalità (scheduling OpenMP, chunk size, numero di thread) possono essere aggiunte senza modificare il main.
+
+5. Preparazione HPC e scripting
+	•	Parametri runtime (threads, scheduling, chunk size, iterazioni) gestiti in modo uniforme.
+	•	Supporta warm-up e iterazioni multiple senza modificare il codice.
+	•	Facilita creare script PBS o bash per lanciare decine di combinazioni.
+
+6. Valutazione accademica e professionale
+	•	Codice modulare e leggibile è percepito come più professionale.
+	•	Migliore gestione della memoria e della struttura del progetto è apprezzata dai docenti.
+	•	Consente di consegnare un workflow chiaro, facilmente testabile e replicabile.
