@@ -31,7 +31,7 @@ cd .. || exit 1
 echo "Working directory: $(pwd)"
 
 #Compile
-g++ -std=c++11 -O3 -ftree-vectorize ./SpMV_sequential/SpMV_sequential.cpp -o ./SpMV_sequential/SpMV_sequential
+make sequential 
 
 #Run e Benchmark
 

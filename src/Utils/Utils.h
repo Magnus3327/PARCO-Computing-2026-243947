@@ -1,3 +1,10 @@
+/*
+    Utils.h
+    
+    This header file it's meant to be a collection of utility functions
+    
+*/
+
 #ifndef UTILS_H
 #define UTILS_H
 

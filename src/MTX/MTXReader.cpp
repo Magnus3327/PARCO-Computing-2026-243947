@@ -1,8 +1,19 @@
+/*
+    MTXReader.cpp
+
+    Implementation of a Matrix Market reader for .mtx files.
+    It extracts non-zero entries into a vector of Entry structs, 
+    each containing row index, column index, and value.
+
+    Notes:
+    - Row and column indices are converted from 1-based to 0-based.
+    - Entries are sorted first by row, then by column.
+    - The functionality is placed inside the 'mtx' namespace, 
+      so no object instantiation is required.
+    - Error handling is included for file operations and data parsing.
+*/
+
 #include "MTXReader.h"
-#include <fstream>
-#include <sstream>
-#include <stdexcept>
-#include <algorithm>
 
 namespace mtx {
     vector<Entry> readMTX(const string& filePath) {

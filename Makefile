@@ -14,7 +14,7 @@ BIN_DIR = bin
 CSR_SRC = $(SRC_DIR)/CSR/CSRMatrix.cpp
 MTX_SRC = $(SRC_DIR)/MTX/MTXReader.cpp
 UTILS_SRC = $(SRC_DIR)/Utils/Utils.cpp
-BENCH_SRC = $(SRC_DIR)/BenchmarkResult/BenchmarkResult.cpp
+MANAGER_SRC = $(SRC_DIR)/ResultsManager/ResultsManager.cpp
 
 SEQUENTIAL_SRC = $(SRC_DIR)/spmvSequential.cpp
 PARALLEL_SRC   = $(SRC_DIR)/spmvParallel.cpp
@@ -23,9 +23,9 @@ PARALLEL_SRC   = $(SRC_DIR)/spmvParallel.cpp
 CSR_OBJ   = $(OBJ_DIR)/CSR/CSRMatrix.o
 MTX_OBJ   = $(OBJ_DIR)/MTX/MTXReader.o
 UTILS_OBJ = $(OBJ_DIR)/Utils/Utils.o
-BENCH_OBJ = $(OBJ_DIR)/BenchmarkResult/BenchmarkResult.o
+MANAGER_OBJ = $(OBJ_DIR)/ResultsManager/ResultsManager.o
 
-COMMON_OBJS = $(CSR_OBJ) $(MTX_OBJ) $(UTILS_OBJ) $(BENCH_OBJ)
+COMMON_OBJS = $(CSR_OBJ) $(MTX_OBJ) $(UTILS_OBJ) $(MANAGER_OBJ)
 
 # Default target
 all: help
@@ -42,7 +42,7 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)/CSR
 	mkdir -p $(OBJ_DIR)/MTX
 	mkdir -p $(OBJ_DIR)/Utils
-	mkdir -p $(OBJ_DIR)/BenchmarkResult
+	mkdir -p $(OBJ_DIR)/ResultsManager
 	mkdir -p $(BIN_DIR)
 
 # Compile object files
@@ -55,7 +55,7 @@ $(MTX_OBJ): $(MTX_SRC) | $(OBJ_DIR)
 $(UTILS_OBJ): $(UTILS_SRC) | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(BENCH_OBJ): $(BENCH_SRC) | $(OBJ_DIR)
+$(MANAGER_OBJ): $(MANAGER_SRC) | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Sequential executable

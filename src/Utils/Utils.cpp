@@ -1,3 +1,9 @@
+/*
+    Utils.cpp
+    
+    This source file implements utility functions
+*/
+
 #include "Utils.h"
 
 namespace utils {
@@ -19,7 +25,7 @@ namespace utils {
             arr[i] = dist(gen);
         }
 
-        return arr; // ricorda di fare delete[] dopo l'uso!
+        return arr; 
     }
 
 } // namespace utils

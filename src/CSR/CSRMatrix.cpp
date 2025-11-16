@@ -1,16 +1,16 @@
-#include "./CSRMatrix.h"
-#include <iostream>
-#include <algorithm> // per std::max_element
+/*
+    Implementation of CSRMatrix class for Compressed Sparse Row matrix representation.
+*/
 
-// Costruttore
+#include "./CSRMatrix.h"
+
+// Constructor set members to zero/nullptr
 CSRMatrix::CSRMatrix() : indexPointers(nullptr), indices(nullptr), data(nullptr), rows(0), cols(0), nnz(0) {}
 
-// Distruttore
 CSRMatrix::~CSRMatrix() {
     clear();
 }
 
-// Libera memoria
 void CSRMatrix::clear() {
     delete[] indexPointers;
     delete[] indices;
@@ -26,7 +26,7 @@ void CSRMatrix::buildFromEntries(const vector<Entry>& entries) {
     if (entries.empty())
         throw runtime_error("Cannot build CSR: entries vector is empty.");
 
-    // Prima libera eventuale memoria esistente
+    // For safety, clear any existing data
     clear();
 
     nnz = entries.size();
@@ -66,20 +66,20 @@ void CSRMatrix::buildFromEntries(const vector<Entry>& entries) {
     }
 }
 
-// Debug: stampa CSR
+// Debug: print CSR
 void CSRMatrix::print() const {
     cout << "\nCSR Matrix:\n";
     cout << "Rows: " << rows << " Cols: " << cols << " NNZ: " << nnz << "\n";
 
     cout << "IndexPointers: ";
-    for (int i = 0; i <= rows; ++i) std::cout << indexPointers[i] << " ";
+    for (int i = 0; i <= rows; ++i) cout << indexPointers[i] << " ";
     cout << "\n";
 
     cout << "Indices: ";
-    for (int i = 0; i < nnz; ++i) std::cout << indices[i] << " ";
+    for (int i = 0; i < nnz; ++i) cout << indices[i] << " ";
     cout << "\n";
 
     cout << "Data: ";
-    for (int i = 0; i < nnz; ++i) std::cout << data[i] << " ";
+    for (int i = 0; i < nnz; ++i) cout << data[i] << " ";
     cout << "\n";
 }
