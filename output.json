@@ -1,7 +1,7 @@
 {
   "results": [
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -12,10 +12,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.077
+  "duration_milliseconds": 0.056
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -26,10 +26,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.0539999
+  "duration_milliseconds": 0.0730001
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -40,10 +40,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.057
+  "duration_milliseconds": 0.0700001
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -54,10 +54,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.0430001
+  "duration_milliseconds": 0.073
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -68,10 +68,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.062
+  "duration_milliseconds": 0.063
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -82,10 +82,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.06
+  "duration_milliseconds": 0.0679999
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -96,10 +96,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.048
+  "duration_milliseconds": 0.0849999
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -110,10 +110,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.055
+  "duration_milliseconds": 0.064
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -124,10 +124,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.051
+  "duration_milliseconds": 0.07
 },
     {
-  "threads": 4,
+  "threads": 10,
   "matrix": {
     "name": "Journals.mtx",
     "rows": 124,
@@ -138,9 +138,10 @@
     "scheduling_type": "dynamic",
     "chunk_size": "10"
   },
-  "duration_milliseconds": 0.045
+  "duration_milliseconds": 0.075
 }
   ],
   "errors": [
+    "Requested threads (40) exceeds maximum available (10). Using max."
   ]
 }

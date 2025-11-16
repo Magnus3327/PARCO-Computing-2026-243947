@@ -3,7 +3,7 @@
 #include <string>
 #include <stdexcept>
 #include <cstdlib> // getenv
-#include <memory> // unique_ptr
+#include <memory> // unique_ptr, its used for automatic memory management of dynamic arrays
 
 // include custom libraries
 #include "CSR/CSRMatrix.h"
@@ -75,11 +75,7 @@ CLIOptions parseCLI(int argc, char* argv[], BenchmarkResult& benchmarkResult) {
     CLIOptions opts;
     opts.filePath = argv[1];
 
-    #ifdef _OPENMP
-    const char* omp_env = getenv("OMP_NUM_THREADS");
-    opts.numThreads = (omp_env) ? max(1, atoi(omp_env)) : omp_get_max_threads();
-    #endif
-
+    // Leggi tutti gli argomenti
     for (int i = 2; i < argc; ++i) {
         string arg = argv[i];
         int val;
@@ -87,29 +83,37 @@ CLIOptions parseCLI(int argc, char* argv[], BenchmarkResult& benchmarkResult) {
         if (arg.rfind("-T=", 0) == 0) {
             val = stoi(arg.substr(3));
             if (val <= 0) throw runtime_error("numThreads must be > 0");
-            opts.numThreads = val;  // assegna solo se è valido
+            opts.numThreads = val;
         } 
         else if (arg.rfind("-S=", 0) == 0) {
             string val = arg.substr(3);
-            if (val != "static" && val != "dynamic" && val != "guided") {
+            if (val != "static" && val != "dynamic" && val != "guided")
                 throw runtime_error("Invalid scheduling type. Allowed: static, dynamic, guided");
-            }
-            opts.schedulingType = val; // assegna solo se valido
+            opts.schedulingType = val;
         } 
         else if (arg.rfind("-C=", 0) == 0) {
-            int val = stoi(arg.substr(3));
+            val = stoi(arg.substr(3));
             if (val < 0) throw runtime_error("chunkSize must be >= 0");
-            opts.chunkSize = val; // assegna solo se valido
+            opts.chunkSize = val;
         } 
         else if (arg.rfind("-I=", 0) == 0) {
-            int val = stoi(arg.substr(3));
+            val = stoi(arg.substr(3));
             if (val <= 0) throw runtime_error("iterations must be > 0");
-            opts.iterations = val; // assegna solo se valido
+            opts.iterations = val;
         } 
         else {
             throw runtime_error("Unknown argument: '" + arg + "'");
         }
     }
+
+    // --- Check massimo numero di thread solo dopo ---
+    #ifdef _OPENMP
+        int maxThreads = omp_get_max_threads();
+        if (opts.numThreads > maxThreads) {
+            benchmarkResult.addError("Requested threads (" + to_string(opts.numThreads) + ") exceeds maximum available (" + to_string(maxThreads) + "). Using max.");
+            opts.numThreads = maxThreads;
+        }
+    #endif
 
     return opts;
 }
@@ -122,6 +126,10 @@ int main(int argc, char* argv[]) {
 
     try {
         CLIOptions opts = parseCLI(argc, argv, benchmarkResult);
+
+        #ifdef _OPENMP
+        omp_set_num_threads(opts.numThreads);
+        #endif
 
         // Load matrix
         CSRMatrix csr;
