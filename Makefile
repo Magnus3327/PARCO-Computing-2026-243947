@@ -1,5 +1,5 @@
 # Compiler
-CXX = /opt/Homebrew/Cellar/gcc/15.2.0/bin/g++-15
+CXX ?= g++ # use g++ by default, can be overridden by environment variable such as alias or export
 CXXFLAGS = -std=c++11 -O3 -I./src
 
 # OpenMP flag
