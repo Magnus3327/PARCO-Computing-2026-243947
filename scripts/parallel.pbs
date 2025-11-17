@@ -26,7 +26,6 @@ module load gcc91
 g++() { g++-9.1.0 "$@"; }
 
 cd "$PBS_O_WORKDIR"
-cd ..
 
 # ------------------------------------------
 # Compile (Makefile selects the right compiler)
