@@ -60,8 +60,8 @@ for matrix in "$MATRIX_DIR"/*.mtx; do
             for c in "${CHUNKS[@]}"; do
 
                 # Filename EXACTLY:
-                # matrixNameT<threads>S<scheduling>C<chunk>.json
-                OUT_FILE="$OUT_DIR/${matrix_name}T${t}S${s}C${c}.json"
+                # M<matrixName>T<threads>S<scheduling>C<chunk>.json
+                OUT_FILE="$OUT_DIR/M${matrix_name}T${t}S${s}C${c}.json"
 
                 echo " -> T=$t S=$s C=$c"
 
