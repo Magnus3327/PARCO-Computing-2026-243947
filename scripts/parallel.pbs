@@ -9,7 +9,7 @@
 #PBS -e ./bin/pbs/Parallel/parallel_fullSweep.err
 
 # Queue
-#PBS -q short_cputQ
+#PBS -q short_cpuQ
 
 # Walltime
 #PBS -l walltime=06:00:00
