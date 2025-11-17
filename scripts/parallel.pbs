@@ -5,8 +5,8 @@
 #PBS -N SpMV_Parallel_FullSweep
 
 # Log files
-#PBS -o ./parallel_fullSweep.out
-#PBS -e ./parallel_fullSweep.err
+#PBS -o ./bin/pbs/Parallel/parallel_fullSweep.out
+#PBS -e ./bin/pbs/Parallel/parallel_fullSweep.err
 
 # Queue
 #PBS -q short_cputQ
@@ -20,8 +20,8 @@
 # ------------------------------------------
 # Load Required Modules
 # ------------------------------------------
-module load perf
-module load valgrind-3.15.0
+#module load perf
+#module load valgrind-3.15.0
 module load gcc91
 g++() { g++-9.1.0 "$@"; }
 
@@ -35,7 +35,7 @@ make parallel
 
 EXEC="./bin/spmvParallel"
 MATRIX_DIR="./matrices"
-OUT_DIR="./simulationsResults/Parallel"
+OUT_DIR="./results/Parallel"
 
 # Create output directory
 mkdir -p "$OUT_DIR"
