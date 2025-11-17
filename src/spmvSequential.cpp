@@ -51,7 +51,7 @@ double* SpMV(const CSRMatrix& csr, const double* x, double& duration) {
 
     // Row-wise multiplication
     for (int i = 0; i < csr.getRows(); i++) {
-        double sum = 0.0;
+        double sum = 0.0; // accumulate row sum its private to each thread
         for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i+1); j++)
             sum += csr.getData(j) * x[csr.getIndices(j)];
         y[i] = sum;
@@ -101,6 +101,7 @@ int main(int argc, char* argv[]) {
 
     try {
         CLIOptions opts = parseCLI(argc, argv, resultsManager);
+        double duration = 0.0;
 
         // Load matrix
         CSRMatrix csr;
@@ -111,13 +112,13 @@ int main(int argc, char* argv[]) {
         unique_ptr<double[]> inputVector(generateRandomVector(csr.getCols(), -1000.0, 1000.0));
         unique_ptr<double[]> outputVector(nullptr);
 
-        // Warm-up
-        double duration = 0.0;
-        outputVector.reset(SpMV(csr, inputVector.get(), duration));
+        // Warm-up, iterations/3 and at least one
+        for(int i=0;i<(opts.iterations/3)+1;i++) outputVector.reset(SpMV(csr, inputVector.get(), duration));
+        
         duration = 0.0;
 
         // Actual Timed iterations
-        for (int i = 0; i < opts.iterations; ++i) {
+        for (int i = 0; i < opts.iterations; i++) {
             outputVector.reset(SpMV(csr, inputVector.get(), duration));
             resultsManager.addResult(csr, duration, opts.filePath);
         }

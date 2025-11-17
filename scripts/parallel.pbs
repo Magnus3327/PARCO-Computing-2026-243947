@@ -5,8 +5,8 @@
 #PBS -N SpMV_Parallel_FullSweep
 
 # Log files
-#PBS -o ./bin/pbs/Parallel/parallel_fullSweep.out
-#PBS -e ./bin/pbs/Parallel/parallel_fullSweep.err
+#PBS -o ./bin/pbs/parallel_fullSweep.out
+#PBS -e ./bin/pbs/parallel_fullSweep.err
 
 # Queue
 #PBS -q short_cpuQ

@@ -75,7 +75,7 @@ double* SpMV(const CSRMatrix& csr, const double* x, double& duration, string sch
     // Parallel row-wise SpMV
     #pragma omp parallel for schedule(runtime)
     for (int i = 0; i < csr.getRows(); i++) {
-        double sum = 0.0;  // accumulate row sum
+        double sum = 0.0;  // accumulate row sum its private to each thread
         for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i+1); j++) {
             sum += csr.getData(j) * x[csr.getIndices(j)];
         }
@@ -163,6 +163,7 @@ int main(int argc, char* argv[]) {
 
     try {
         CLIOptions opts = parseCLI(argc, argv, resultsManager);
+        double duration = 0.0;
 
         #ifdef _OPENMP
         omp_set_num_threads(opts.numThreads);
@@ -177,13 +178,12 @@ int main(int argc, char* argv[]) {
         unique_ptr<double[]> inputVector(generateRandomVector(csr.getCols(), -1000.0, 1000.0));
         unique_ptr<double[]> outputVector(nullptr);
 
-        // Warm-up
-        double duration = 0.0;
-        outputVector.reset(SpMV(csr, inputVector.get(), duration, opts.schedulingType, opts.chunkSize));
+        // Warm-up, iterations/3 and at least one
+        for(int i=0;i<(opts.iterations/3)+1;i++) outputVector.reset(SpMV(csr, inputVector.get(), duration, opts.schedulingType, opts.chunkSize));
         duration = 0.0;
 
         // Actual Timed iterations
-        for (int i = 0; i < opts.iterations; ++i) {
+        for (int i = 0; i < opts.iterations; i++) {
             outputVector.reset(SpMV(csr, inputVector.get(), duration, opts.schedulingType, opts.chunkSize));
             resultsManager.addResult(csr, opts.numThreads, opts.schedulingType, opts.chunkSize, duration, opts.filePath);
         }
