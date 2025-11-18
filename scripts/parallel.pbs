@@ -41,7 +41,7 @@ if [ ! -f "$MATRIX_DIR"/rajat31.mtx ]; then
     mv rajat31/rajat31.mtx "$MATRIX_DIR"/
     rm -rf rajat31 rajat31.tar
 else
-    echo "rajat31.mtx già presente, salto download/estrazione."
+    echo "rajat31.mtx  is already in the folder, skip."
 fi
 
 # --- JGD_GL7d ---
@@ -52,7 +52,7 @@ if [ ! -f "$MATRIX_DIR"/GL7d20.mtx ]; then
     mv GL7d20/GL7d20.mtx "$MATRIX_DIR"/
     rm -rf GL7d20 GL7d20.tar
 else
-    echo "GL7d20.mtx già presente, salto download/estrazione."
+    echo "GL7d20.mtx  is already in the folder, skip."
 fi
 
 # ------------------------------------------
