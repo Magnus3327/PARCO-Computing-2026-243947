@@ -28,6 +28,34 @@ g++() { g++-9.1.0 "$@"; }
 cd "$PBS_O_WORKDIR"
 
 # ------------------------------------------
+# Download and prepare matrices (if not already done)
+# ------------------------------------------
+MATRIX_DIR="./matrices"
+mkdir -p ../"$MATRIX_DIR"
+
+# --- Rajat ---
+if [ ! -f ../"$MATRIX_DIR"/rajat31.mtx ]; then
+    wget https://suitesparse-collection-website.herokuapp.com/MM/Rajat/rajat31.tar.gz
+    gzip -d rajat31.tar.gz
+    tar -xf rajat31.tar
+    mv rajat31/rajat31.mtx ../"$MATRIX_DIR"/
+    rm -rf rajat31 rajat31.tar
+else
+    echo "rajat31.mtx già presente, salto download/estrazione."
+fi
+
+# --- JGD_GL7d ---
+if [ ! -f ../"$MATRIX_DIR"/GL7d20.mtx ]; then
+    wget https://suitesparse-collection-website.herokuapp.com/MM/JGD_GL7d/GL7d20.tar.gz
+    gzip -d GL7d20.tar.gz
+    tar -xf GL7d20.tar
+    mv GL7d20/GL7d20.mtx ../"$MATRIX_DIR"/
+    rm -rf GL7d20 GL7d20.tar
+else
+    echo "GL7d20.mtx già presente, salto download/estrazione."
+fi
+
+# ------------------------------------------
 # Compile (Makefile selects the right compiler)
 # ------------------------------------------
 make parallel

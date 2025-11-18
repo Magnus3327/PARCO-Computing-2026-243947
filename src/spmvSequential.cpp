@@ -33,6 +33,7 @@
 #include <vector>
 #include <stdexcept>
 #include <chrono>   // high_resolution_clock
+#include <cmath>    // fabs
 
 #include "CSR/CSRMatrix.h"
 #include "MTX/MTXReader.h"
@@ -51,7 +52,7 @@ double* SpMV(const CSRMatrix& csr, const double* x, double& duration) {
 
     // Row-wise multiplication
     for (int i = 0; i < csr.getRows(); i++) {
-        double sum = 0.0; // accumulate row sum its private to each thread
+        double sum = 0.0;  // accumulate row sum
         for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i+1); j++)
             sum += csr.getData(j) * x[csr.getIndices(j)];
         y[i] = sum;
@@ -95,6 +96,50 @@ CLIOptions parseCLI(int argc, char* argv[], ResultsManager& resultsManager) {
     return opts;
 }
 
+// Dynamic Warm-up Phase, adaptive iterations based on execution time stability with a cap and epsilon threshold
+int dynamicWarmupAdaptive(const CSRMatrix& csr, const double* x, int requestedIterations) {
+    const double epsilon = 0.03; // 3% variation threshold
+    const int globalCap = 20;
+    const int historySize = 3;
+
+    int max_iters = min(requestedIterations, globalCap);
+
+    vector<double> history;
+    history.reserve(historySize);
+
+    int stableCount = 0;
+    int iters;
+    for (iters = 0; iters < max_iters; iters++) {
+        double duration = 0.0;
+        double* y = SpMV(csr, x, duration);
+        delete[] y;
+
+        // History filling
+        if ((int)history.size() < historySize) {
+            history.push_back(duration);
+            continue;
+        }
+
+        // Average and variation calculation
+        double avg = (history[0] + history[1] + history[2]) / 3.0;
+        double variation = fabs(duration - avg) / (avg + 1e-9);
+
+        // Stability check
+        if (variation < epsilon) {
+            stableCount++;
+            if (stableCount >= historySize) break;
+        } else {
+            stableCount = 0;
+        }
+
+        // Sliding window
+        history.erase(history.begin());
+        history.push_back(duration);
+    }
+
+    return max(1, iters);
+}
+
 // Main
 int main(int argc, char* argv[]) {
     ResultsManager resultsManager;
@@ -112,10 +157,12 @@ int main(int argc, char* argv[]) {
         unique_ptr<double[]> inputVector(generateRandomVector(csr.getCols(), -1000.0, 1000.0));
         unique_ptr<double[]> outputVector(nullptr);
 
-        // Warm-up, iterations/3 and at least one
-        for(int i=0;i<(opts.iterations/3)+1;i++) outputVector.reset(SpMV(csr, inputVector.get(), duration));
-        
-        duration = 0.0;
+        // Dynamic Warm-up Phase
+        int w = dynamicWarmupAdaptive(csr, inputVector.get(), opts.iterations);
+        for (int i = 0; i < w; i++) {
+            double* y = SpMV(csr, inputVector.get(), duration);
+            delete[] y;
+        }
 
         // Actual Timed iterations
         for (int i = 0; i < opts.iterations; i++) {
