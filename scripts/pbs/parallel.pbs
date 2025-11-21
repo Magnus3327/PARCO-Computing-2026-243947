@@ -50,27 +50,6 @@ DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 MATRIX_DIR="./matrices"
 mkdir -p "$MATRIX_DIR"
 
-# --- Rajat ---
-#if [ ! -f "$MATRIX_DIR"/rajat31.mtx ]; then
-#    wget https://suitesparse-collection-website.herokuapp.com/MM/Rajat/rajat31.tar.gz
-#    gzip -d rajat31.tar.gz
-#    tar -xf rajat31.tar
-#    mv rajat31/rajat31.mtx "$MATRIX_DIR"/
-#    rm -rf rajat31 rajat31.tar
-#else
-#    echo "rajat31.mtx  is already in the folder, skip."
-#fi
-
-# --- JGD_GL7d ---
-#if [ ! -f "$MATRIX_DIR"/GL7d20.mtx ]; then
-#    wget https://suitesparse-collection-website.herokuapp.com/MM/JGD_GL7d/GL7d20.tar.gz
-#    gzip -d GL7d20.tar.gz
-#    tar -xf GL7d20.tar
-#    mv GL7d20/GL7d20.mtx "$MATRIX_DIR"/
-#    rm -rf GL7d20 GL7d20.tar
-#else
-#    echo "GL7d20.mtx  is already in the folder, skip."
-#fi
 
 # ------------------------------------------
 # Compile (Makefile selects the right compiler)
@@ -88,7 +67,7 @@ mkdir -p "$OUT_DIR"
 # ------------------------------------------
 # Sweep parameters
 # ------------------------------------------
-THREADS=(2 4 16 32)
+THREADS=(2 4 8 16 32)
 SCHEDS=("static" "dynamic" "guided")
 CHUNKS=(0 100 500 1000)
 ITER=10
