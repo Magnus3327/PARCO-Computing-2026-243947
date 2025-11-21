@@ -16,7 +16,7 @@
 # ------------------------------------------
 # Load Required Modules
 # ------------------------------------------
-#module load perf
+module load perf
 module load gcc91
 g++() { g++-9.1.0 "$@"; }
 
