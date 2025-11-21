@@ -59,7 +59,7 @@ make parallel
 
 EXEC="./bin/spmvParallel"
 MATRIX_DIR="./matrices"
-OUT_DIR="./results/Parallel"
+OUT_DIR="./results"
 SCRIPT_DIR="./scripts"
 
 # Create output directory
@@ -76,10 +76,10 @@ ITER=10
 # ------------------------------------------
 # Loop over all matrices and write to single JSON object
 # ------------------------------------------
-OUTPUT_FILE="$OUT_DIR/parallel.json"
+OUTPUT_FILE_PAR="$OUT_DIR/parallel.json"
 mkdir -p "$OUT_DIR"
 
-cat <<EOF > "$OUTPUT_FILE"
+cat <<EOF > "$OUTPUT_FILE_PAR"
 {
   "hardware": {
     "architecture": "$ARCH",
@@ -115,17 +115,17 @@ for matrix in "$MATRIX_DIR"/*.mtx; do
                 if [ "$first_entry" = true ]; then
                     first_entry=false
                 else
-                    echo "," >> "$OUTPUT_FILE"
+                    echo "," >> "$OUTPUT_FILE_PAR"
                 fi
 
-                echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
+                echo "$JSON_OUTPUT" >> "$OUTPUT_FILE_PAR"
             done
         done
     done
 done
 
-echo "  ]" >> "$OUTPUT_FILE"
-echo "}" >> "$OUTPUT_FILE"
+echo "  ]" >> "$OUTPUT_FILE_PAR"
+echo "}" >> "$OUTPUT_FILE_PAR"
 
 # ------------------------------------------
 # Benchmark 
