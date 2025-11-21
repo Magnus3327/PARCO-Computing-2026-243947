@@ -14,8 +14,8 @@
 #PBS -l select=1:ncpus=64:mem=32gb
 
 # Create log directory before run pbs
-#PBS -o $bin/pbs/fullSim.out
-#PBS -e $bin/pbs/fullSim.err
+#PBS -o bin/pbs/fullSim.out
+#PBS -e bin/pbs/fullSim.err
 
 # ------------------------------------------
 # Load Modules

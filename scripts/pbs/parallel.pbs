@@ -14,8 +14,8 @@
 #PBS -l select=1:ncpus=64:mem=16gb
 
 # Must create log directory before run pbs
-#PBS -o ./bin/pbs/parallel.out
-#PBS -e ./bin/pbs/parallel.err
+#PBS -o .bin/pbs/parallel.out
+#PBS -e .bin/pbs/parallel.err
 
 # ------------------------------------------
 # Load Required Modules
@@ -89,7 +89,7 @@ mkdir -p "$OUT_DIR"
 # ------------------------------------------
 # Simulation parameters
 # ------------------------------------------
-THREADS=(2 4 8 16 32 64)
+THREADS=(4 16 64)
 SCHEDS=("static" "dynamic" "guided")
 CHUNKS=(0 100 500 1000)
 ITER=10
