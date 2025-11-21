@@ -55,6 +55,9 @@ namespace mtx {
             return (a.row == b.row) ? (a.col < b.col) : (a.row < b.row);
         });
 
+        if (entries.empty())
+            throw runtime_error("No entries read from file: " + filePath);
+
         return entries;
     } 
 } // namespace mtx

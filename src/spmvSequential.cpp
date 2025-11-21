@@ -96,50 +96,6 @@ CLIOptions parseCLI(int argc, char* argv[], ResultsManager& resultsManager) {
     return opts;
 }
 
-// Dynamic Warm-up Phase, adaptive iterations based on execution time stability with a cap and epsilon threshold
-int dynamicWarmupAdaptive(const CSRMatrix& csr, const double* x, int requestedIterations) {
-    const double epsilon = 0.03; // 3% variation threshold
-    const int globalCap = 20;
-    const int historySize = 3;
-
-    int max_iters = min(requestedIterations, globalCap);
-
-    vector<double> history;
-    history.reserve(historySize);
-
-    int stableCount = 0;
-    int iters;
-    for (iters = 0; iters < max_iters; iters++) {
-        double duration = 0.0;
-        double* y = SpMV(csr, x, duration);
-        delete[] y;
-
-        // History filling
-        if ((int)history.size() < historySize) {
-            history.push_back(duration);
-            continue;
-        }
-
-        // Average and variation calculation
-        double avg = (history[0] + history[1] + history[2]) / 3.0;
-        double variation = fabs(duration - avg) / (avg + 1e-9);
-
-        // Stability check
-        if (variation < epsilon) {
-            stableCount++;
-            if (stableCount >= historySize) break;
-        } else {
-            stableCount = 0;
-        }
-
-        // Sliding window
-        history.erase(history.begin());
-        history.push_back(duration);
-    }
-
-    return max(1, iters);
-}
-
 // Main
 int main(int argc, char* argv[]) {
     ResultsManager resultsManager;

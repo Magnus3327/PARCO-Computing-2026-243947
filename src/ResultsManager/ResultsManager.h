@@ -1,41 +1,66 @@
 /*
-    ResultsManager.h
-    
-    This class manages the results and errors of the runs,
-    storing them and providing a method to output them in JSON format.
+    ResultsManager
 
-    The json format for result (parallel) is as follows:
+    This class collects, computes, and exports performance metrics 
+    for Sparse Matrix-Vector Multiplication (SpMV) executions.
+
+    It stores:
+      - Matrix metadata (rows, cols, nnz, name)
+      - Execution scenario (threads, scheduling policy, chunk size)
+      - Warm-up duration
+      - Per-iteration durations
+      - 90th percentile statistics
+      - Computed metrics: FLOPs, GFLOPS, Bandwidth
+
+    JSON OUTPUT FORMAT
+    ==================
+
+    PARALLEL MODE:
     {
-        "threads": num_threads,
         "matrix": {
-            "name": matrixName,
-            "rows": csr.getRows(),
-            "cols": csr.getCols(),
-            "nnz": csr.getNNZ()
+            "name": "<matrixName>",
+            "rows": <int>,
+            "cols": <int>,
+            "nnz": <int>
         },
         "scenario": {
-            "scheduling_type": schedulingType,
-            "chunk_size": chunkSize
+            "threads": <int>,
+            "scheduling_type": "<static|dynamic|guided>",
+            "chunk_size": <int>
         },
-        "duration_milliseconds": duration
+        "statistics90": {
+            "duration_ms": <double>,         // 90th percentile iteration time
+            "FLOPs": <double>,               // total operations 
+            "GFLOP/s": <double>,             // FLOP / time
+            "Bandwidth_GB/s": <double>       // total bytes / time
+            "arithmetic_intensity": <double> // FLOPs / total bytes
+        },
+        "warmUp_time_ms": <double>,
+        "all_iteration_times_ms": [ <double>, <double>, ... ]
     }
 
-    The json format for result (sequential) is as follows:
+    SEQUENTIAL MODE:
     {
         "matrix": {
-            "name": matrixName,
-            "rows": csr.getRows(),
-            "cols": csr.getCols(),
-            "nnz": csr.getNNZ()
+            "name": "<matrixName>",
+            "rows": <int>,
+            "cols": <int>,
+            "nnz": <int>
         },
-        "duration_milliseconds": duration
+        "statistics90": {
+            "duration_ms": <double>,
+            "FLOP": <double>,
+            "GFLOPS": <double>,
+            "Bandwidth_GBps": <double>
+        },
+        "warmUp_time_ms": <double>,
+        "all_iteration_times_ms": [ <double>, <double>, ... ]
     }
 
-    The results and errors are stored in vectors of strings, where each string
-    represents a JSON object for a single result or error message.
-
-    The class provides methods to add results and errors, and a method to
-    generate a complete JSON representation of all results and errors.
+    Notes:
+    - Duration values are in milliseconds.
+    - Bandwidth accounts for all bytes read/written by CSR SpMV.
+    - 90th percentile is computed after collecting all iteration durations.
 */
 
 #ifndef RESULTSMANAGER_H
@@ -45,30 +70,62 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
+#include <cmath> // ceil
+#include <stdexcept>
 #include "CSR/CSRMatrix.h"
 
 using namespace std;
 
 class ResultsManager {
 private:
-    vector<string> results;
+    CSRMatrix* csrMatrix = nullptr; // pointer to the CSR matrix
+    int numThreads = 0;
+    string schedulingType;
+    int chunkSize = 0;
+    string matrixName;
+    bool sequential = true;
+
+    double warmupDuration = 0.0;
+    vector<double> iterationDurations;
+
+    // Metrics
+    double duration90 = 0.0;
+    size_t flops = 0;
+    size_t bytesMoved = 0;
+    double gflops = 0.0;
+    double bandwidthGBps = 0.0;
+    double arithmeticIntensity = 0.0;
+
     vector<string> errors;
 
 public:
-    ResultsManager();
+    ResultsManager() = default;
     ~ResultsManager();
 
-    // Add result, its overloaded for parallel and sequential benchmarks
-    void addResult(const CSRMatrix& csr, int num_threads, string schedulingType, int chunksize, double duration, string matrixName = "unknown");
-    void addResult(CSRMatrix& csr, double duration, string matrixName = "unknown");
+    void setInformation(CSRMatrix* csr, int nThreads, const string schedType, int cSize, const string mtxName);   
+    void setInformation(CSRMatrix* csr, const string mtxName); 
 
-    // Add error message
-    void addError(const string& errorMessage) ;
+    // Warm-up
+    void setWarmupDuration(double duration);
 
-    // Generate JSON representation of results and errors in a string to be printed
-    string toJSON() const ;
+    // Real-time metrics during an esecution
+    void setRealTimeMetrics(size_t byteMoved, size_t flopsMoved);
 
-    // Remove all stored results and errors, called in the destructor
+    // Add iteration durations one by one or set all
+    void addIterationDuration(double duration);
+    void setIterationDurations(const vector<double>& durations);
+
+    // Compute all metrics (FLOPs, GFLOPS, Bandwidth, 90th percentile)
+    void computeAllMetrics();
+
+    // Add error
+    void addError(const string& msg);
+
+    // JSON output
+    string toJSON() const;
+
+    // Clear all stored data
     void clear();
 };
 

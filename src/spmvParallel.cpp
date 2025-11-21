@@ -2,36 +2,78 @@
     SPMV Parallel
 
     This program performs Sparse Matrix-Vector Multiplication (SpMV) using OpenMP
-    to parallelize the operation. The matrix is stored in Compressed Sparse Row (CSR) format.
+    and exports detailed performance metrics in JSON format.
 
-    WORKFLOW:
-    1. Reads a sparse matrix from a Matrix Market (MTX) file.
-    2. Generates a random input vector.
-    3. Performs the SpMV operation for a configurable number of iterations.
-    4. Measures execution time for each iteration.
-    5. Stores results (matrix details, scheduling type, chunk size, number of threads,
-       and duration) in a ResultsManager and outputs JSON.
+    WORKFLOW
+    --------
+    1. Reads a sparse matrix from a Matrix Market (.mtx) file.
+    2. Converts it into CSR (Compressed Sparse Row) format.
+    3. Generates a random input vector.
+    4. Executes a warm-up SpMV iteration (not timed).
+    5. Executes N timed SpMV iterations (N = -I=iterations).
+    6. Stores timings and metadata in ResultsManager.
+    7. Computes:
+        - 90th percentile iteration time
+        - FLOP count
+        - GFLOPS
+        - Memory Bandwidth (GB/s)
+    8. Prints a JSON block containing:
+        * Matrix metadata
+        * Execution scenario (threads, schedule type, chunk size)
+        * 90th percentile performance statistics
+        * Warm-up time
+        * List of all iteration durations
+        * Any warnings or errors collected
 
-    CLI ARGUMENTS:
-    - matrix_path (mandatory) Path to the MTX file.
-    - -T=num_threads (optional) Number of OpenMP threads. Defaults to max threads or OMP_NUM_THREADS.
-    - -S=scheduling (optional) OpenMP scheduling: static, dynamic, or guided. Default is static.
-    - -C=chunkSize (optional) Chunk size for OpenMP scheduling. Default is 0 (let OpenMP decide).
-    - -I=iterations (optional) Number of SpMV iterations. Default is 1.
+    CLI ARGUMENTS
+    -------------
+      matrix_path         Path to the input .mtx matrix (REQUIRED)
+      -T=<int>            Number of OpenMP threads
+      -S=<string>         Scheduling: static | dynamic | guided
+      -C=<int>            Chunk size for OpenMP scheduling
+      -I=<int>            Number of timed iterations
 
-    OPTIMIZATIONS:
-    - Warm-up phase before timed iterations to avoid measuring thread creation overhead.
-    - Use of unique_ptr for automatic memory management of dynamic arrays.
-    - Input and output vectors stored as pointers for faster access.
-    - CSRMatrix members accessed via inline getters to reduce access time.
+    Automatically handles:
+      - Validation of user input
+      - Capping threads to system max (with warning in JSON)
+      - Runtime OpenMP scheduling configuration
+      - Automatic memory management with unique_ptr
 
-    USAGE SUGGESTION:
-    Redirect output to a file for easier parsing:
-        ./spmvParallel matrix.mtx -T=4 -S=dynamic > output.json
+    OUTPUT FORMAT (JSON)
+    --------------------
+    {
+        "matrix": {
+            "name": <string>,
+            "rows": <int>,
+            "cols": <int>,
+            "nnz": <int>
+        },
+        "scenario": {
+            "threads": <int>,
+            "scheduling_type": <string>,
+            "chunk_size": <int>
+        },
+        "statistics90": {
+            "duration_ms": <double>,      
+            "FLOPs": <double>,               
+            "GFLOP/s": <double>,             
+            "Bandwidth_GB/s": <double>      
+            "arithmetic_intensity": <double> 
+        },
+        "warmUp_time_ms": <double>,
+        "all_iteration_times_ms": [ <double>, ... ],
+        "errors": [ <string>, ... ]
+    }
 
-    COMPILATION:
-    Requires OpenMP support, e.g.:
-        g++ -std=c++11 -O3 -fopenmp spmvParallel.cpp ...
+    COMPILATION
+    -----------
+        using makefile:
+            make spmvParallel
+
+    NOTE
+    ----
+    Changing scheduling_type or chunk_size does not require recompilation.
+    Everything is controlled via OpenMP runtime settings.
 */
 
 #include <iostream>
@@ -40,6 +82,7 @@
 #include <stdexcept>
 #include <cstdlib> // getenv
 #include <memory>  // unique_ptr
+#include <cmath>    // fabs
 
 #include "CSR/CSRMatrix.h"
 #include "MTX/MTXReader.h"
@@ -88,6 +131,43 @@ double* SpMV(const CSRMatrix& csr, const double* x, double& duration, string sch
 
     duration = (end - start) * 1e3; // convert seconds to milliseconds
     return y;
+}
+
+// SpMV warm-up function (parallel) also used to count bytes moved and flops during warm-up, instead of estimating them.
+void warmUp(const CSRMatrix& csr, const double* x, double& duration, string schedulingType, int chunksize, size_t& bytesMoved, size_t& flopsMoved) {
+    double* y = new double[csr.getRows()];
+    double start = 0.0, end = 0.0;
+
+    #ifdef _OPENMP
+    omp_sched_t schedule;
+    if (schedulingType == "static") schedule = omp_sched_static;
+    else if (schedulingType == "dynamic") schedule = omp_sched_dynamic;
+    else if (schedulingType == "guided") schedule = omp_sched_guided;
+    else throw runtime_error("Invalid scheduling type: use static, dynamic, or guided.");
+
+    omp_set_schedule(schedule, chunksize);
+    start = omp_get_wtime();
+    #endif
+
+    #pragma omp parallel for schedule(runtime) reduction(+:bytesMoved, flopsMoved)
+    for (int i = 0; i < csr.getRows(); i++) {
+        double sum = 0.0;
+        for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i+1); j++) {
+            sum += csr.getData(j) * x[csr.getIndices(j)];
+            bytesMoved += sizeof(double); // csr data
+            bytesMoved += sizeof(int);    // csr indices
+            bytesMoved += sizeof(double); // input vector x
+            flopsMoved += 2;              // 1 mul + 1 add
+        }
+        y[i] = sum;
+        bytesMoved += sizeof(double); // output vector y
+    }
+
+    #ifdef _OPENMP
+    end = omp_get_wtime();
+    #endif
+
+    duration = (end - start) * 1e3; // convert ms
 }
 
 // CLI parsing
@@ -157,50 +237,6 @@ CLIOptions parseCLI(int argc, char* argv[], ResultsManager& resultsManager) {
     return opts;
 }
 
-// Dynamic Warm-up Phase, adaptive iterations based on execution time stability with a cap and epsilon threshold
-int dynamicWarmupAdaptive(const CSRMatrix& csr, const double* x, int requestedIterations) {
-    const double epsilon = 0.03; // 3% variation threshold
-    const int globalCap = 20;
-    const int historySize = 3;
-
-    int max_iters = min(requestedIterations, globalCap);
-
-    vector<double> history;
-    history.reserve(historySize);
-
-    int stableCount = 0;
-    int iters;
-    for (iters = 0; iters < max_iters; iters++) {
-        double duration = 0.0;
-        double* y = SpMV(csr, x, duration);
-        delete[] y;
-
-        // History filling
-        if ((int)history.size() < historySize) {
-            history.push_back(duration);
-            continue;
-        }
-
-        // Average and variation calculation
-        double avg = (history[0] + history[1] + history[2]) / 3.0;
-        double variation = fabs(duration - avg) / (avg + 1e-9);
-
-        // Stability check
-        if (variation < epsilon) {
-            stableCount++;
-            if (stableCount >= historySize) break;
-        } else {
-            stableCount = 0;
-        }
-
-        // Sliding window
-        history.erase(history.begin());
-        history.push_back(duration);
-    }
-
-    return max(1, iters);
-}
-
 // Main
 int main(int argc, char* argv[]) {
     ResultsManager resultsManager;
@@ -218,22 +254,32 @@ int main(int argc, char* argv[]) {
         vector<Entry> entries = readMTX(opts.filePath);
         csr.buildFromEntries(entries);
 
+        string matrixName = opts.filePath.substr(opts.filePath.find_last_of("/\\") + 1);
+        
+        // in order to update the csrMatrix pointer in resultsManager, we need to pass by pointer
+        resultsManager.setInformation(&csr, opts.numThreads, opts.schedulingType, opts.chunkSize, matrixName);
+
         // Generate input vector
         unique_ptr<double[]> inputVector(generateRandomVector(csr.getCols(), -1000.0, 1000.0));
         unique_ptr<double[]> outputVector(nullptr);
 
-        // Dynamic Warm-up Phase
-        int w = dynamicWarmupAdaptive(csr, inputVector.get(), opts.iterations);
-        for (int i = 0; i < w; i++) {
-            double* y = SpMV(csr, inputVector.get(), duration);
-            delete[] y;
-        }
+        // Warm-up Phase
+        size_t bytesMoved = 0, flopsMoved = 0;
+        warmUp(csr, inputVector.get(), duration, opts.schedulingType, opts.chunkSize, bytesMoved, flopsMoved);
+        cout << "Warm-up completed in " << duration << " ms." << endl;
+        cout << "Bytes moved during warm-up: " << bytesMoved << endl;
+        cout << "FLOPs during warm-up: " << flopsMoved << endl;
+        resultsManager.setWarmupDuration(duration);
+        resultsManager.setRealTimeMetrics(bytesMoved, flopsMoved);
 
         // Actual Timed iterations
         for (int i = 0; i < opts.iterations; i++) {
             outputVector.reset(SpMV(csr, inputVector.get(), duration, opts.schedulingType, opts.chunkSize));
-            resultsManager.addResult(csr, opts.numThreads, opts.schedulingType, opts.chunkSize, duration, opts.filePath);
+            resultsManager.addIterationDuration(duration);
         }
+
+        // compute statistics about the runs
+        resultsManager.computeAllMetrics();
 
         cout << resultsManager.toJSON() << endl;
     }

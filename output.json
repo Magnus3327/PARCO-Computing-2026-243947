@@ -1,0 +1,27 @@
+Warm-up completed in 0.205 ms.
+Bytes moved during warm-up: 1934972
+FLOPs during warm-up: 182930
+Total Bytes: 1934972
+{
+  "matrix": {
+    "name": "big.mtx",
+    "rows": 13209,
+    "cols": 13209,
+    "nnz": 91465
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.123,
+    "FLOPs": 182930,
+    "GFLOPS": 1.48724,
+    "Bandwidth_GBps": 15.7315,
+    "Arithmetic_intensity": 0.0945388
+  },
+  "warmUp_time_ms": 0.205,
+  "all_iteration_times_ms": [0.133, 0.121, 0.12, 0.12, 0.12, 0.12, 0.119, 0.122, 0.123, 0.117],
+  "errors": []
+}

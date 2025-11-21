@@ -1,6 +1,6 @@
 # Compiler
 CXX ?= g++ # use g++ by default, can be overridden by environment variable such as alias or export
-CXXFLAGS = -std=c++11 -O3 -I./src
+CXXFLAGS = -std=c++11 -I./src
 
 # OpenMP flag
 OMPFLAG = -fopenmp

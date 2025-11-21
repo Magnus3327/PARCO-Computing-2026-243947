@@ -89,9 +89,10 @@ for matrix in "$MATRIX_DIR"/*.mtx; do
 
                 # Filename EXACTLY:
                 # M<matrixName>T<threads>S<scheduling>C<chunk>.json
+                
                 OUT_FILE="$OUT_DIR/M${matrix_name}T${t}S${s}C${c}.json"
 
-                echo " -> T=$t S=$s C=$c"
+                echo " -> M=$matrix_name T=$t S=$s C=$c"
 
                 $EXEC "$matrix" -T=$t -S=$s -C=$c -I=$ITER > "$OUT_FILE"
 
