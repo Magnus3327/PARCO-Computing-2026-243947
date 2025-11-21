@@ -2,11 +2,11 @@
 # ------------------------------------------
 # Job Name
 # ------------------------------------------
-#PBS -N SpMV_Parallel_FullSweep
+#PBS -N SpMV_Parallel
 
 # Log files
-#PBS -o ./bin/pbs/parallel.out
-#PBS -e ./bin/pbs/parallel.err
+#PBS -o ./results/simulation.out
+#PBS -e ./results/simulation.err
 
 # Queue
 #PBS -q short_cpuQ
@@ -136,6 +136,8 @@ echo "}" >> "$OUTPUT_FILE_PAR"
 # Benchmark 
 # Choose dynamically best, worst and median configurations for perf profiling
 # ------------------------------------------
+OMP_NUM_THREADS=$ncpus
+export OMP_NUM_THREADS
 SELECTED_PAR="$OUT_DIR/selected_configs.txt"
 
 python3 $SCRIPT_DIR/selectConfigs.py "$OUTPUT_FILE_PAR" "$SELECTED_PAR"
@@ -146,6 +148,9 @@ mkdir -p "$PERF_DIR"
 
 # Run the perf profiling for the selected configurations
 while read matrix type threads sched chunk; do
+    OMP_NUM_THREADS=$threads
+    export OMP_NUM_THREADS
+    
     echo "Profiling $matrix ($type): threads=$threads scheduling=$sched chunk=$chunk"
     perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
         -r $PERF_ITER \
