@@ -2,32 +2,29 @@
 # ------------------------------------------
 # Job Name
 # ------------------------------------------
-#PBS -N SpMV_Parallel
+#PBS -N SpMV_FullSim
 
 # Queue
 #PBS -q short_cpuQ
 
 # Walltime
-#PBS -l walltime=06:00:00
+#PBS -l walltime=6:00:00
 
 # Resources
-#PBS -l select=1:ncpus=64:mem=16gb
+#PBS -l select=1:ncpus=64:mem=32gb
 
-# Must create log directory before run pbs
-#PBS -o ./bin/pbs/parallel.out
-#PBS -e ./bin/pbs/parallel.err
+# Create log directory before run pbs
+#PBS -o $bin/pbs/fullSim.out
+#PBS -e $bin/pbs/fullSim.err
 
 # ------------------------------------------
-# Load Required Modules
+# Load Modules
 # ------------------------------------------
 module load perf
 module load gcc91
 g++() { g++-9.1.0 "$@"; }
 
 cd "$PBS_O_WORKDIR"
-
-#PBS -o ./bin/pbs/parallel.out
-#PBS -e ./bin/pbs/parallel.err
 
 # ------------------------------------------
 # Hardware Info
@@ -46,9 +43,8 @@ L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
 BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
 DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-
 # ------------------------------------------
-# Download and prepare large matrices (if not already done)
+# Prepare matrices
 # ------------------------------------------
 MATRIX_DIR="./matrices"
 mkdir -p "$MATRIX_DIR"
@@ -76,14 +72,14 @@ else
 fi
 
 # ------------------------------------------
-# Compile (Makefile selects the right compiler)
+# Compile executables
 # ------------------------------------------
 make parallel
+make sequential
 
-EXEC="./bin/spmvParallel"
-OUT_DIR="./results/"
-
-# Create output directory
+EXEC_PAR="./bin/spmvParallel"
+EXEC_SEQ="./bin/spmvSequential"
+OUT_DIR="./results"
 mkdir -p "$OUT_DIR"
 
 # ------------------------------------------
@@ -93,13 +89,16 @@ THREADS=(2 4 8 16 32 64)
 SCHEDS=("static" "dynamic" "guided")
 CHUNKS=(0 100 500 1000)
 ITER=10
+PERF_ITER=3
 
 # ------------------------------------------
-# Loop over all matrices and write to single JSON object
+# Parallel runs + perf
 # ------------------------------------------
-OUTPUT_FILE="$OUT_DIR/parallel.json"
+PERF_DIR_PAR="$OUT_DIR/perf/parallel"
+mkdir -p "$PERF_DIR_PAR"
+OUTPUT_FILE_PAR="$OUT_DIR/parallel.json"
 
-cat <<EOF > "$OUTPUT_FILE"
+cat <<EOF > "$OUTPUT_FILE_PAR"
 {
   "hardware": {
     "architecture": "$ARCH",
@@ -120,63 +119,68 @@ cat <<EOF > "$OUTPUT_FILE"
 EOF
 
 first_entry=true
-
 for matrix in "$MATRIX_DIR"/*.mtx; do
     matrix_name=$(basename "$matrix" .mtx)
-    echo "Processing $matrix_name..."
-
     for t in "${THREADS[@]}"; do
         for s in "${SCHEDS[@]}"; do
             for c in "${CHUNKS[@]}"; do
-                echo " -> M=$matrix_name T=$t S=$s C=$c"
+                JSON_OUTPUT=$($EXEC_PAR "$matrix" -T=$t -S=$s -C=$c -I=$ITER)
+                [ "$first_entry" = true ] && first_entry=false || echo "," >> "$OUTPUT_FILE_PAR"
+                echo "$JSON_OUTPUT" >> "$OUTPUT_FILE_PAR"
 
-                JSON_OUTPUT=$($EXEC "$matrix" -T=$t -S=$s -C=$c -I=$ITER)
-
-                if [ "$first_entry" = true ]; then
-                    first_entry=false
-                else
-                    echo "," >> "$OUTPUT_FILE"
-                fi
-
-                echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
+                # perf profiling
+                perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+                    -r $PERF_ITER \
+                    -o "$PERF_DIR_PAR/perf_M=${matrix_name}_T=${t}_S=${s}_C=${c}.txt" \
+                    $EXEC_PAR "$matrix" -T=$t -S=$s -C=$c -I=1
             done
         done
     done
 done
-
-echo "  ]" >> "$OUTPUT_FILE"
-echo "}" >> "$OUTPUT_FILE"
-
-
+echo "  ]" >> "$OUTPUT_FILE_PAR"
+echo "}" >> "$OUTPUT_FILE_PAR"
 
 # ------------------------------------------
-# Perf 
+# Sequential runs + perf
 # ------------------------------------------
-#PERF_DIR="$OUT_DIR/perf/parallel"
-#mkdir -p "$PERF_DIR"
+PERF_DIR_SEQ="$OUT_DIR/perf/sequential"
+mkdir -p "$PERF_DIR_SEQ"
+OUTPUT_FILE_SEQ="$OUT_DIR/sequential.json"
 
-# Simulation parameters for perf
-#THREADS=(2 4 8 16 32 64)
-#SCHEDS=("static" "dynamic" "guided")
-#CHUNKS=(0 100 500 1000)
-#PERF_ITER=3 # Number of iterations for perf profiling, perf will average over these runs
+cat <<EOF > "$OUTPUT_FILE_SEQ"
+{
+  "hardware": {
+    "architecture": "$ARCH",
+    "cpu_model": "$CPU_MODEL",
+    "cpu_mhz": $CPU_MHZ,
+    "sockets": $SOCKETS,
+    "cores_per_socket": $CORES_PER_SOCKET,
+    "threads_per_core": $THREADS_PER_CORE,
+    "total_cores": $TOTAL_CORES,
+    "l1d_cache": "$L1D_CACHE",
+    "l1i_cache": "$L1I_CACHE",
+    "l2_cache": "$L2_CACHE",
+    "l3_cache": "$L3_CACHE",
+    "byte_order": "$BYTE_ORDER",
+    "date": "$DATE_NOW"
+  },
+  "results": [
+EOF
 
-#for matrix in "$MATRIX_DIR"/*.mtx; do
-#    matrix_name=$(basename "$matrix" .mtx)
-#    echo "Processing perf for $matrix_name..."
-#
-#    for t in "${THREADS[@]}"; do
-#        for s in "${SCHEDS[@]}"; do
-#            for c in "${CHUNKS[@]}"; do
-#                echo " -> M=$matrix_name T=$t S=$s C=$c"
-#
-#                perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
-#                    -r $PERF_ITER \
-#                    -o "$PERF_DIR/perf_M=${matrix_name}_T=${t}_S=${s}_C=${c}.txt" \
-#                    $EXEC "$matrix" -T=$t -S=$s -C=$c -I=1
-#            done
-#        done
-#    done
-#done
+first_entry=true
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    matrix_name=$(basename "$matrix" .mtx)
+    JSON_OUTPUT=$($EXEC_SEQ "$matrix" -I=$ITER)
+    [ "$first_entry" = true ] && first_entry=false || echo "," >> "$OUTPUT_FILE_SEQ"
+    echo "$JSON_OUTPUT" >> "$OUTPUT_FILE_SEQ"
 
-echo "Parallel PBS job completed."
+    # perf profiling
+    perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+        -r $PERF_ITER \
+        -o "$PERF_DIR_SEQ/perf_${matrix_name}.txt" \
+        $EXEC_SEQ "$matrix" -I=1
+done
+echo "  ]" >> "$OUTPUT_FILE_SEQ"
+echo "}" >> "$OUTPUT_FILE_SEQ"
+
+echo "Full simulation PBS job completed."
