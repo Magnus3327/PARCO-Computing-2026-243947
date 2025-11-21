@@ -71,7 +71,7 @@ void ResultsManager::computeAllMetrics() {
 
     duration90 = sortedDur[idx90];                  // ms
     double seconds = duration90 / 1000.0;
-    cout << "Total Bytes: " << bytesMoved << endl;
+    
     // Performance (GFLOPS), bandwidth (GB/s), e Arithmetic Intensity (FLOP/byte)
     gflops = flops / seconds / 1e9;
     bandwidthGBps = double(bytesMoved) / (seconds * 1e9);

@@ -167,6 +167,8 @@ void warmUp(const CSRMatrix& csr, const double* x, double& duration, string sche
     end = omp_get_wtime();
     #endif
 
+    delete[] y;
+
     duration = (end - start) * 1e3; // convert ms
 }
 
@@ -266,9 +268,6 @@ int main(int argc, char* argv[]) {
         // Warm-up Phase
         size_t bytesMoved = 0, flopsMoved = 0;
         warmUp(csr, inputVector.get(), duration, opts.schedulingType, opts.chunkSize, bytesMoved, flopsMoved);
-        cout << "Warm-up completed in " << duration << " ms." << endl;
-        cout << "Bytes moved during warm-up: " << bytesMoved << endl;
-        cout << "FLOPs during warm-up: " << flopsMoved << endl;
         resultsManager.setWarmupDuration(duration);
         resultsManager.setRealTimeMetrics(bytesMoved, flopsMoved);
 
