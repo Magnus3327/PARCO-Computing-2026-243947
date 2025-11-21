@@ -28,6 +28,23 @@ g++() { g++-9.1.0 "$@"; }
 cd "$PBS_O_WORKDIR"
 
 # ------------------------------------------
+# Hardware Info
+# ------------------------------------------
+ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
+CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
+CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
+SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
+CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
+THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
+TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
+L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
+L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
+L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
+L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
+BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
+DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# ------------------------------------------
 # Download and prepare matrices (if not already done)
 # ------------------------------------------
 MATRIX_DIR="./matrices"
@@ -63,6 +80,7 @@ make parallel
 EXEC="./bin/spmvParallel"
 MATRIX_DIR="./matrices"
 OUT_DIR="./results/Parallel"
+SCRIPT_DIR="./scripts"
 
 # Create output directory
 mkdir -p "$OUT_DIR"
@@ -70,7 +88,7 @@ mkdir -p "$OUT_DIR"
 # ------------------------------------------
 # Sweep parameters
 # ------------------------------------------
-THREADS=(4 16 32)
+THREADS=(2 4 16 32)
 SCHEDS=("static" "dynamic" "guided")
 CHUNKS=(0 100 500 1000)
 ITER=10
@@ -80,21 +98,6 @@ ITER=10
 # ------------------------------------------
 OUTPUT_FILE="$OUT_DIR/parallel.json"
 mkdir -p "$OUT_DIR"
-
-# Extraction of hardware info
-ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
-CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
-CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
-SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
-CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
-THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
-TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
-L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
-L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
-L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
-L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
-BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
-DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 cat <<EOF > "$OUTPUT_FILE"
 {
@@ -143,3 +146,25 @@ done
 
 echo "  ]" >> "$OUTPUT_FILE"
 echo "}" >> "$OUTPUT_FILE"
+
+# ------------------------------------------
+# Benchmark 
+# Choose dynamically best, worst and median configurations for perf profiling
+# ------------------------------------------
+SELECTED_PAR="$OUT_DIR/selected_configs.txt"
+
+python3 $SCRIPT_DIR/selectConfigs.py "$OUTPUT_FILE_PAR" "$SELECTED_PAR"
+
+PERF_ITER=3 # Number of iterations for perf profiling, perf will average over these runs
+PERF_DIR_PAR="$OUT_DIR/perf/parallel"
+mkdir -p "$PERF_DIR"
+
+# Run the perf profiling for the selected configurations
+while read matrix type threads sched chunk; do
+    echo "Profiling $matrix ($type): threads=$threads scheduling=$sched chunk=$chunk"
+    perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+        -r $PERF_ITER \
+        -o "$PERF_DIR/perf_${matrix}_${type}_T${threads}_S${sched}_C${chunk}.txt" \
+        $EXEC "$MATRIX_DIR/$matrix.mtx" -T=$threads -S=$sched -C=$chunk -I=1
+done < "$SELECTED_PAR"
+
