@@ -20,8 +20,8 @@
 # ------------------------------------------
 # Load Required Modules
 # ------------------------------------------
-#module load perf
 
+module load perf
 module load gcc91
 module load python-3.10.14_gcc91
 g++() { g++-9.1.0 "$@"; }
@@ -68,9 +68,12 @@ mkdir -p "$OUT_DIR"
 # ------------------------------------------
 # Sweep parameters
 # ------------------------------------------
-THREADS=(2 4 8 16 32)
-SCHEDS=("static" "dynamic" "guided")
-CHUNKS=(0 100 500 1000)
+#THREADS=(2 4 8 16 32)
+#SCHEDS=("static" "dynamic" "guided")
+#CHUNKS=(0 100 500 1000)
+THREADS=(2 32)
+SCHEDS=("static" "dynamic")
+CHUNKS=(0 100)
 ITER=10
 
 # ------------------------------------------
@@ -144,13 +147,13 @@ python3 $SCRIPT_DIR/selectConfigs.py "$OUTPUT_FILE_PAR" "$SELECTED_PAR"
 
 PERF_ITER=3 # Number of iterations for perf profiling, perf will average over these runs
 PERF_DIR_PAR="$OUT_DIR/perf/parallel"
-mkdir -p "$PERF_DIR"
+mkdir -p "$PERF_DIR_PAR"
 
 # Run the perf profiling for the selected configurations
 while read matrix type threads sched chunk; do
     OMP_NUM_THREADS=$threads
     export OMP_NUM_THREADS
-    
+
     echo "Profiling $matrix ($type): threads=$threads scheduling=$sched chunk=$chunk"
     perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
         -r $PERF_ITER \
