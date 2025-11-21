@@ -1,8 +1,9 @@
 /*
     SPMV Parallel
 
-    This program performs Sparse Matrix-Vector Multiplication (SpMV) using OpenMP
-    and exports detailed performance metrics in JSON format.
+    This program performs Sparse Matrix-Vector Multiplication (SpMV) using OpenMP for parallelization,
+    using the Compressed Sparse Row (CSR) format for efficient sparse matrix storage.
+    It exports detailed performance metrics in JSON format.
 
     WORKFLOW
     --------
@@ -17,6 +18,7 @@
         - FLOP count
         - GFLOPS
         - Memory Bandwidth (GB/s)
+        - Arithmetic Intensity (FLOPs/Byte)
     8. Prints a JSON block containing:
         * Matrix metadata
         * Execution scenario (threads, schedule type, chunk size)
@@ -25,7 +27,7 @@
         * List of all iteration durations
         * Any warnings or errors collected
 
-    CLI ARGUMENTS
+    CLI ARGUMENTS (order does not matter)
     -------------
       matrix_path         Path to the input .mtx matrix (REQUIRED)
       -T=<int>            Number of OpenMP threads
@@ -56,7 +58,7 @@
         "statistics90": {
             "duration_ms": <double>,      
             "FLOPs": <double>,               
-            "GFLOP/s": <double>,             
+            "GFLOPS": <double>,             
             "Bandwidth_GB/s": <double>      
             "arithmetic_intensity": <double> 
         },
@@ -83,6 +85,7 @@
 #include <cstdlib> // getenv
 #include <memory>  // unique_ptr
 
+// include project headers
 #include "CSR/CSRMatrix.h"
 #include "MTX/MTXReader.h"
 #include "ResultsManager/ResultsManager.h"
@@ -134,7 +137,7 @@ double* SpMV(const CSRMatrix& csr, const double* x, double& duration, string sch
 
 // SpMV warm-up function (parallel) also used to count bytes moved and flops during warm-up, instead of estimating them.
 void warmUp(const CSRMatrix& csr, const double* x, double& duration, string schedulingType, int chunksize, size_t& bytesMoved, size_t& flopsMoved) {
-    double* y = new double[csr.getRows()];
+    double* y = new double[csr.getRows()];  // output vector
     double start = 0.0, end = 0.0;
 
     bytesMoved = 0;

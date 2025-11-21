@@ -1,10 +1,74 @@
 /*
-    SPMV Sequential 
+    SPMV Sequential
 
-    This program performs Sparse Matrix-Vector Multiplication (SpMV) sequentially 
-    in CSR format with warm-up, multiple iterations, detailed performance metrics,
-    and JSON output.
+    This program performs Sparse Matrix-Vector Multiplication (SpMV) sequentially
+    using the Compressed Sparse Row (CSR) format for efficient sparse matrix storage.
+    It exports detailed performance metrics in JSON format.
+
+    WORKFLOW
+    --------
+    1. Reads a sparse matrix from a Matrix Market (.mtx) file.
+    2. Converts it into CSR format.
+    3. Generates a random input vector.
+    4. Executes a warm-up SpMV iteration (not timed) counting bytes moved and FLOPs.
+    5. Executes N timed SpMV iterations (N = -I=iterations).
+    6. Stores timings and metadata in ResultsManager.
+    7. Computes:
+        - 90th percentile iteration time
+        - FLOP count
+        - GFLOPS
+        - Memory Bandwidth (GB/s)
+        - Arithmetic Intensity (FLOPs/Byte)
+    8. Prints a JSON block containing:
+        * Matrix metadata
+        * Execution scenario (threads=1 in sequential)
+        * 90th percentile performance statistics
+        * Warm-up time
+        * List of all iteration durations
+        * Any warnings or errors collected
+
+    CLI ARGUMENTS
+    -------------
+      matrix_path         Path to the input .mtx matrix (REQUIRED)
+      -I=<int>            Number of timed iterations (optional, default 1)
+
+    Automatically handles:
+      - Validation of user input
+      - Automatic memory management with unique_ptr
+      - Accurate timing and real byte/FLOP counting during warm-up
+
+    OUTPUT FORMAT (JSON)
+    --------------------
+    {
+        "matrix": {
+            "name": <string>,
+            "rows": <int>,
+            "cols": <int>,
+            "nnz": <int>
+        },
+        "statistics90": {
+            "duration_ms": <double>,
+            "FLOPs": <double>,
+            "GFLOPS": <double>,
+            "Bandwidth_GB/s": <double>,
+            "arithmetic_intensity": <double>
+        },
+        "warmUp_time_ms": <double>,
+        "all_iteration_times_ms": [ <double>, ... ],
+        "errors": [ <string>, ... ]
+    }
+
+    COMPILATION
+    -----------
+        using makefile:
+            make spmvSequential
+
+    NOTE
+    ----
+    No OpenMP parallelism; single-threaded execution.
+    Changing iterations does not require recompilation.
 */
+
 
 #include <iostream>
 #include <memory> 
@@ -31,7 +95,7 @@ double* SpMV(const CSRMatrix& csr, const double* x, double& duration) {
 
     for (int i = 0; i < csr.getRows(); i++) {
         double sum = 0.0;
-        for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i + 1); j++) {
+        for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i+1); j++) {
             sum += csr.getData(j) * x[csr.getIndices(j)];
         }
         y[i] = sum;

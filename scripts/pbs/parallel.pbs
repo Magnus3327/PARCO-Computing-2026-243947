@@ -1,0 +1,183 @@
+#!/bin/bash
+# ------------------------------------------
+# Job Name
+# ------------------------------------------
+#PBS -N SpMV_Parallel
+
+# Queue
+#PBS -q short_cpuQ
+
+# Walltime
+#PBS -l walltime=06:00:00
+
+# Resources
+#PBS -l select=1:ncpus=64:mem=16gb
+
+# ------------------------------------------
+# Load Required Modules
+# ------------------------------------------
+#module load perf
+module load gcc91
+g++() { g++-9.1.0 "$@"; }
+
+cd "$PBS_O_WORKDIR"
+
+# Log files
+LOG_FILES_DIR="./bin/pbs"
+mkdir -p "$LOG_FILES_DIR"
+mkdir -p ./bin/pbs
+
+#PBS -o ./bin/pbs/parallel.out
+#PBS -e ./bin/pbs/parallel.err
+
+# ------------------------------------------
+# Hardware Info
+# ------------------------------------------
+ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
+CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
+CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
+SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
+CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
+THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
+TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
+L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
+L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
+L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
+L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
+BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
+DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+
+# ------------------------------------------
+# Download and prepare large matrices (if not already done)
+# ------------------------------------------
+MATRIX_DIR="./matrices"
+mkdir -p "$MATRIX_DIR"
+
+# --- Rajat ---
+if [ ! -f "$MATRIX_DIR"/rajat31.mtx ]; then
+    wget https://suitesparse-collection-website.herokuapp.com/MM/Rajat/rajat31.tar.gz
+    gzip -d rajat31.tar.gz
+    tar -xf rajat31.tar
+    mv rajat31/rajat31.mtx "$MATRIX_DIR"/
+    rm -rf rajat31 rajat31.tar
+else
+    echo "rajat31.mtx  is already in the folder, skip."
+fi
+
+# --- JGD_GL7d ---
+if [ ! -f "$MATRIX_DIR"/GL7d20.mtx ]; then
+    wget https://suitesparse-collection-website.herokuapp.com/MM/JGD_GL7d/GL7d20.tar.gz
+    gzip -d GL7d20.tar.gz
+    tar -xf GL7d20.tar
+    mv GL7d20/GL7d20.mtx "$MATRIX_DIR"/
+    rm -rf GL7d20 GL7d20.tar
+else
+    echo "GL7d20.mtx  is already in the folder, skip."
+fi
+
+# ------------------------------------------
+# Compile (Makefile selects the right compiler)
+# ------------------------------------------
+make parallel
+
+EXEC="./bin/spmvParallel"
+MATRIX_DIR="./matrices"
+OUT_DIR="./results/"
+
+# Create output directory
+mkdir -p "$OUT_DIR"
+
+# ------------------------------------------
+# Simulation parameters
+# ------------------------------------------
+THREADS=(2 4 8 16 32 64)
+SCHEDS=("static" "dynamic" "guided")
+CHUNKS=(0 100 500 1000)
+ITER=10
+
+# ------------------------------------------
+# Loop over all matrices and write to single JSON object
+# ------------------------------------------
+OUTPUT_FILE="$OUT_DIR/parallel.json"
+
+cat <<EOF > "$OUTPUT_FILE"
+{
+  "hardware": {
+    "architecture": "$ARCH",
+    "cpu_model": "$CPU_MODEL",
+    "cpu_mhz": $CPU_MHZ,
+    "sockets": $SOCKETS,
+    "cores_per_socket": $CORES_PER_SOCKET,
+    "threads_per_core": $THREADS_PER_CORE,
+    "total_cores": $TOTAL_CORES,
+    "l1d_cache": "$L1D_CACHE",
+    "l1i_cache": "$L1I_CACHE",
+    "l2_cache": "$L2_CACHE",
+    "l3_cache": "$L3_CACHE",
+    "byte_order": "$BYTE_ORDER",
+    "date": "$DATE_NOW"
+  },
+  "results": [
+EOF
+
+first_entry=true
+
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    matrix_name=$(basename "$matrix" .mtx)
+    echo "Processing $matrix_name..."
+
+    for t in "${THREADS[@]}"; do
+        for s in "${SCHEDS[@]}"; do
+            for c in "${CHUNKS[@]}"; do
+                echo " -> M=$matrix_name T=$t S=$s C=$c"
+
+                JSON_OUTPUT=$($EXEC "$matrix" -T=$t -S=$s -C=$c -I=$ITER)
+
+                if [ "$first_entry" = true ]; then
+                    first_entry=false
+                else
+                    echo "," >> "$OUTPUT_FILE"
+                fi
+
+                echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
+            done
+        done
+    done
+done
+
+echo "  ]" >> "$OUTPUT_FILE"
+echo "}" >> "$OUTPUT_FILE"
+
+
+
+# ------------------------------------------
+# Perf 
+# ------------------------------------------
+PERF_DIR="$OUT_DIR/perf/parallel"
+mkdir -p "$PERF_DIR"
+
+# Simulation parameters for perf
+THREADS=(2 4 8 16 32 64)
+SCHEDS=("static" "dynamic" "guided")
+CHUNKS=(0 100 500 1000)
+PERF_ITER=3
+
+
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    matrix_name=$(basename "$matrix" .mtx)
+    echo "Processing perf for $matrix_name..."
+
+    for t in "${THREADS[@]}"; do
+        for s in "${SCHEDS[@]}"; do
+            for c in "${CHUNKS[@]}"; do
+                echo " -> M=$matrix_name T=$t S=$s C=$c"
+
+                perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+                    -r $PERF_ITER \
+                    -o "$PERF_DIR/perf_M=${matrix_name}_T=${t}_S=${s}_C=${c}.txt" \
+                    $EXEC "$matrix" -T=$t -S=$s -C=$c -I=1
+            done
+        done
+    done
+done
