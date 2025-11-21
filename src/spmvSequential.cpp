@@ -1,40 +1,19 @@
 /*
-    SPMV Sequential
+    SPMV Sequential 
 
-    This program performs Sparse Matrix-Vector Multiplication (SpMV) sequentially
-    using the Compressed Sparse Row (CSR) format for matrix storage. 
-
-    WORKFLOW:
-    1. Reads a sparse matrix from a Matrix Market (MTX) file.
-    2. Generates a random input vector.
-    3. Performs the SpMV operation for a configurable number of iterations.
-    4. Measures execution time for each iteration.
-    5. Stores results (matrix details and execution duration) in a ResultsManager
-       and outputs JSON.
-
-    CLI ARGUMENTS:
-    - matrix_path (mandatory) Path to the MTX file.
-    - -I=iterations (optional) Number of SpMV iterations. Default is 1.
-
-    OPTIMIZATIONS:
-    - Warm-up phase before timed iterations to reduce measurement overhead.
-    - Use of unique_ptr for automatic memory management of dynamic arrays.
-    - Input and output vectors stored as raw pointers for faster access.
-    - CSRMatrix members accessed via inline getters to reduce access time.
-
-    USAGE SUGGESTION:
-    Redirect output to a file for easier parsing:
-        ./spmvSequential matrix.mtx -I=5 > output.json
+    This program performs Sparse Matrix-Vector Multiplication (SpMV) sequentially 
+    in CSR format with warm-up, multiple iterations, detailed performance metrics,
+    and JSON output.
 */
 
 #include <iostream>
-#include <memory>   // unique_ptr
+#include <memory> 
 #include <string>
 #include <vector>
 #include <stdexcept>
-#include <chrono>   // high_resolution_clock
-#include <cmath>    // fabs
+#include <chrono> // high_resolution_clock
 
+// Include project headers
 #include "CSR/CSRMatrix.h"
 #include "MTX/MTXReader.h"
 #include "ResultsManager/ResultsManager.h"
@@ -48,19 +27,46 @@ using namespace chrono;
 // SpMV function (sequential)
 double* SpMV(const CSRMatrix& csr, const double* x, double& duration) {
     double* y = new double[csr.getRows()];
-    auto start = chrono::high_resolution_clock::now();
+    auto start = high_resolution_clock::now();
 
-    // Row-wise multiplication
     for (int i = 0; i < csr.getRows(); i++) {
-        double sum = 0.0;  // accumulate row sum
-        for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i+1); j++)
+        double sum = 0.0;
+        for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i + 1); j++) {
             sum += csr.getData(j) * x[csr.getIndices(j)];
+        }
         y[i] = sum;
     }
 
-    auto end = chrono::high_resolution_clock::now();
-    duration = chrono::duration_cast<chrono::nanoseconds>(end - start).count() / 1e6; // ms
+    auto end = high_resolution_clock::now();
+    duration = duration_cast<nanoseconds>(end - start).count() / 1e6; // ms
     return y;
+}
+
+// Warm-up function also counting bytes moved and flops 
+void warmUp(const CSRMatrix& csr, const double* x, double& duration, size_t& bytesMoved, size_t& flopsMoved) {
+    double* y = new double[csr.getRows()];
+    auto start = high_resolution_clock::now();
+
+    bytesMoved = 0;
+    flopsMoved = 0;
+
+    for (int i = 0; i < csr.getRows(); i++) {
+        double sum = 0.0;
+        for (int j = csr.getIndexPointers(i); j < csr.getIndexPointers(i + 1); j++) {
+            sum += csr.getData(j) * x[csr.getIndices(j)];
+            bytesMoved += sizeof(double); // csr data
+            bytesMoved += sizeof(int);    // csr indices
+            bytesMoved += sizeof(double); // input vector x
+            flopsMoved += 2;              // 1 mul + 1 add
+        }
+        y[i] = sum;
+        bytesMoved += sizeof(double); // output vector y
+    }
+
+    auto end = high_resolution_clock::now();
+    duration = duration_cast<nanoseconds>(end - start).count() / 1e6; // ms
+
+    delete[] y;
 }
 
 // CLI Options
@@ -69,9 +75,8 @@ struct CLIOptions {
     int iterations = 1;
 };
 
-// Parse CLI
 CLIOptions parseCLI(int argc, char* argv[], ResultsManager& resultsManager) {
-    // Check minimum arguments
+    // Basic argument check
     if (argc < 2) {
         resultsManager.addError(string(argv[0]) + " requires matrix_path [-I=iterations]");
         throw runtime_error("Insufficient CLI arguments");
@@ -80,7 +85,6 @@ CLIOptions parseCLI(int argc, char* argv[], ResultsManager& resultsManager) {
     CLIOptions opts;
     opts.filePath = argv[1];
 
-    // Optional iterations argument
     for (int i = 2; i < argc; ++i) {
         string arg = argv[i];
         if (arg.rfind("-I=", 0) == 0) {
@@ -96,43 +100,45 @@ CLIOptions parseCLI(int argc, char* argv[], ResultsManager& resultsManager) {
     return opts;
 }
 
-// Main
 int main(int argc, char* argv[]) {
     ResultsManager resultsManager;
 
     try {
         CLIOptions opts = parseCLI(argc, argv, resultsManager);
         double duration = 0.0;
+        size_t bytesMoved = 0, flopsMoved = 0;
 
         // Load matrix
         CSRMatrix csr;
         vector<Entry> entries = readMTX(opts.filePath);
         csr.buildFromEntries(entries);
 
+        string matrixName = opts.filePath.substr(opts.filePath.find_last_of("/\\") + 1);
+        resultsManager.setInformation(&csr, matrixName);
+
         // Generate input vector
         unique_ptr<double[]> inputVector(generateRandomVector(csr.getCols(), -1000.0, 1000.0));
         unique_ptr<double[]> outputVector(nullptr);
 
-        // Dynamic Warm-up Phase
-        int w = dynamicWarmupAdaptive(csr, inputVector.get(), opts.iterations);
-        for (int i = 0; i < w; i++) {
-            double* y = SpMV(csr, inputVector.get(), duration);
-            delete[] y;
-        }
+        // Warm-up phase
+        warmUp(csr, inputVector.get(), duration, bytesMoved, flopsMoved);
+        resultsManager.setWarmupDuration(duration);
+        resultsManager.setRealTimeMetrics(bytesMoved, flopsMoved);
 
-        // Actual Timed iterations
+        // Timed iterations
         for (int i = 0; i < opts.iterations; i++) {
             outputVector.reset(SpMV(csr, inputVector.get(), duration));
-            resultsManager.addResult(csr, duration, opts.filePath);
+            resultsManager.addIterationDuration(duration);
         }
 
-        // Print final JSON results
+        // Compute final metrics (percentiles, GFLOPS, bandwidth)
+        resultsManager.computeAllMetrics();
+
+        // print JSON output
         cout << resultsManager.toJSON() << endl;
     }
     catch (const exception& e) {
         resultsManager.addError(string("Fatal error: ") + e.what());
-
-        // Print JSON with errors
         cout << resultsManager.toJSON() << endl;
         return 1;
     }

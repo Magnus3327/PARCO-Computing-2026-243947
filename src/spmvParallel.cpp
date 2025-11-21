@@ -82,7 +82,6 @@
 #include <stdexcept>
 #include <cstdlib> // getenv
 #include <memory>  // unique_ptr
-#include <cmath>    // fabs
 
 #include "CSR/CSRMatrix.h"
 #include "MTX/MTXReader.h"
@@ -137,6 +136,9 @@ double* SpMV(const CSRMatrix& csr, const double* x, double& duration, string sch
 void warmUp(const CSRMatrix& csr, const double* x, double& duration, string schedulingType, int chunksize, size_t& bytesMoved, size_t& flopsMoved) {
     double* y = new double[csr.getRows()];
     double start = 0.0, end = 0.0;
+
+    bytesMoved = 0;
+    flopsMoved = 0;
 
     #ifdef _OPENMP
     omp_sched_t schedule;

@@ -15,7 +15,7 @@
 #PBS -l walltime=06:00:00
 
 # Resources
-#PBS -l select=1:ncpus=64:mem=64gb
+#PBS -l select=1:ncpus=64:mem=16gb
 
 # ------------------------------------------
 # Load Required Modules
@@ -81,8 +81,40 @@ ITER=10
 OUTPUT_FILE="$OUT_DIR/output.json"
 mkdir -p "$OUT_DIR"
 
-echo "{" > "$OUTPUT_FILE"
-echo "  \"results\": [" >> "$OUTPUT_FILE"
+# Extraction of hardware info
+ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
+CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
+CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
+SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
+CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
+THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
+TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
+L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
+L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
+L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
+L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
+BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
+DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+cat <<EOF > "$OUTPUT_FILE"
+{
+  "hardware": {
+    "architecture": "$ARCH",
+    "cpu_model": "$CPU_MODEL",
+    "cpu_mhz": $CPU_MHZ,
+    "sockets": $SOCKETS,
+    "cores_per_socket": $CORES_PER_SOCKET,
+    "threads_per_core": $THREADS_PER_CORE,
+    "total_cores": $TOTAL_CORES,
+    "l1d_cache": "$L1D_CACHE",
+    "l1i_cache": "$L1I_CACHE",
+    "l2_cache": "$L2_CACHE",
+    "l3_cache": "$L3_CACHE",
+    "byte_order": "$BYTE_ORDER",
+    "date": "$DATE_NOW"
+  },
+  "results": [
+EOF
 
 first_entry=true
 
@@ -111,6 +143,7 @@ done
 
 echo "  ]" >> "$OUTPUT_FILE"
 echo "}" >> "$OUTPUT_FILE"
+
 
 
 # ------------------------------------------
