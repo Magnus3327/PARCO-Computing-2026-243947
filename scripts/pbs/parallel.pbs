@@ -106,6 +106,11 @@ for matrix in "$MATRIX_DIR"/*.mtx; do
     echo "Processing $matrix_name..."
 
     for t in "${THREADS[@]}"; do
+
+        # Set number of threads for OpenMP, it's used if there are no -T arguments
+        OMP_NUM_THREADS=$t
+        export OMP_NUM_THREADS
+
         for s in "${SCHEDS[@]}"; do
             for c in "${CHUNKS[@]}"; do
                 echo " -> M=$matrix_name T=$t S=$s C=$c"
