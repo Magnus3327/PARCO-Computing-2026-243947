@@ -139,8 +139,6 @@ echo "}" >> "$OUTPUT_FILE_PAR"
 # Perf Profiling of Selected Configurations 
 # Choose dynamically best, worst and median configurations for perf profiling
 # ------------------------------------------
-OMP_NUM_THREADS=$ncpus
-export OMP_NUM_THREADS
 SELECTED_PAR="$OUT_DIR/selected_configs.txt"
 
 python3 $SCRIPT_DIR/selectConfigs.py "$OUTPUT_FILE_PAR" "$SELECTED_PAR"

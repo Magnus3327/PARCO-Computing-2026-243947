@@ -62,7 +62,7 @@ mkdir -p "$MATRIX_DIR"
 make sequential
 
 EXEC="./bin/spmvSequential"
-OUT_DIR="./results/sequential"
+OUT_DIR="./results"
 mkdir -p "$OUT_DIR"
 
 # ------------------------------------------
