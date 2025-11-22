@@ -157,7 +157,7 @@ while read matrix type threads sched chunk; do
     echo "Profiling $matrix ($type): threads=$threads scheduling=$sched chunk=$chunk"
     perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
         -r $PERF_ITER \
-        -o "$PERF_DIR/perf_${matrix}_${type}_T${threads}_S${sched}_C${chunk}.txt" \
-        $EXEC "$MATRIX_DIR/$matrix.mtx" -T=$threads -S=$sched -C=$chunk -I=1
+        -o "$PERF_DIR_PAR/perf_${matrix}_${type}_T${threads}_S${sched}_C${chunk}.txt" \
+        $EXEC "$MATRIX_DIR/$matrix" -T=$threads -S=$sched -C=$chunk -I=1
 done < "$SELECTED_PAR"
 
