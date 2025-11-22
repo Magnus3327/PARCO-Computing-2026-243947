@@ -76,9 +76,12 @@ EXEC_SEQ="./bin/spmvSequential"
 # ------------------------------------------
 # Parameters
 # ------------------------------------------
-THREADS=(2 4 8 16 32)
-SCHEDS=("static" "dynamic" "guided")
-CHUNKS=(0 100 500 1000)
+#THREADS=(2 4 8 16 32)
+#SCHEDS=("static" "dynamic" "guided")
+#CHUNKS=(0 100 500 1000)
+THREADS=(2 32)
+SCHEDS=("static" "dynamic")
+CHUNKS=(0 100)
 ITER=10
 PERF_ITER=3 #perf will run the command this many times and average the results
 
