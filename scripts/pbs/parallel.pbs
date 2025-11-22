@@ -1,3 +1,7 @@
+# ------------------------------------------
+# PBS - Parallel (OpenMP) Sparse Matrix-Vector Multiplication with perf profiling
+# ------------------------------------------
+
 #!/bin/bash
 # ------------------------------------------
 # Job Name
@@ -15,12 +19,11 @@
 #PBS -l walltime=06:00:00
 
 # Resources
-#PBS -l select=1:ncpus=32:mem=32gb
+#PBS -l select=1:ncpus=32:mem=16gb
 
 # ------------------------------------------
 # Load Required Modules
 # ------------------------------------------
-
 module load perf
 module load gcc91
 module load python-3.10.14_gcc91
@@ -51,14 +54,12 @@ DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 MATRIX_DIR="./matrices"
 mkdir -p "$MATRIX_DIR"
 
-
 # ------------------------------------------
 # Compile (Makefile selects the right compiler)
 # ------------------------------------------
 make parallel
 
 EXEC="./bin/spmvParallel"
-MATRIX_DIR="./matrices"
 OUT_DIR="./results"
 SCRIPT_DIR="./scripts"
 
@@ -80,7 +81,6 @@ ITER=10
 # Loop over all matrices and write to single JSON object
 # ------------------------------------------
 OUTPUT_FILE_PAR="$OUT_DIR/parallel.json"
-mkdir -p "$OUT_DIR"
 
 cat <<EOF > "$OUTPUT_FILE_PAR"
 {
@@ -136,7 +136,7 @@ echo "  ]" >> "$OUTPUT_FILE_PAR"
 echo "}" >> "$OUTPUT_FILE_PAR"
 
 # ------------------------------------------
-# Benchmark 
+# Perf Profiling of Selected Configurations 
 # Choose dynamically best, worst and median configurations for perf profiling
 # ------------------------------------------
 OMP_NUM_THREADS=$ncpus

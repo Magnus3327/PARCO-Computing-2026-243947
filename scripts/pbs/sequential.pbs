@@ -1,8 +1,17 @@
+# ------------------------------------------
+# PBS - Sequential Sparse Matrix-Vector Multiplication
+# ------------------------------------------
+
+
 #!/bin/bash
 # ------------------------------------------
 # Job Name
 # ------------------------------------------
 #PBS -N SpMV_Sequential
+
+#PBS -o ./bin/pbs/sequential.out
+#PBS -e ./bin/pbs/sequential.err
+
 
 # Queue
 #PBS -q short_cpuQ
@@ -13,8 +22,6 @@
 # Resources
 #PBS -l select=1:ncpus=1:mem=16gb
 
-#PBS -o ./bin/pbs/sequential.out
-#PBS -e ./bin/pbs/sequential.err
 
 # ------------------------------------------
 # Load Required Modules
@@ -48,25 +55,6 @@ DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 MATRIX_DIR="./matrices"
 mkdir -p "$MATRIX_DIR"
 
-if [ ! -f "$MATRIX_DIR/rajat31.mtx" ]; then
-    wget https://suitesparse-collection-website.herokuapp.com/MM/Rajat/rajat31.tar.gz
-    gzip -d rajat31.tar.gz
-    tar -xf rajat31.tar
-    mv rajat31/rajat31.mtx "$MATRIX_DIR"/
-    rm -rf rajat31 rajat31.tar
-else
-    echo "rajat31.mtx  is already in the folder, skip."
-fi
-
-if [ ! -f "$MATRIX_DIR/GL7d20.mtx" ]; then
-    wget https://suitesparse-collection-website.herokuapp.com/MM/JGD_GL7d/GL7d20.tar.gz
-    gzip -d GL7d20.tar.gz
-    tar -xf GL7d20.tar
-    mv GL7d20/GL7d20.mtx "$MATRIX_DIR"/
-    rm -rf GL7d20 GL7d20.tar
-else
-    echo "GL7d20.mtx  is already in the folder, skip."
-fi
 
 # ------------------------------------------
 # Compile sequential executable
@@ -113,40 +101,31 @@ for matrix in "$MATRIX_DIR"/*.mtx; do
     matrix_name=$(basename "$matrix" .mtx)
     echo "Processing $matrix_name..."
 
-    # Sequential has no threads or scheduling, but keep chunk param for compatibility
-    for c in "${CHUNKS[@]}"; do
-        echo " ->Processing M=$matrix_name"
+    JSON_OUTPUT=$($EXEC "$matrix" -I=$ITER)
 
-        JSON_OUTPUT=$($EXEC "$matrix" -I=$ITER)
+    if [ "$first_entry" = true ]; then
+        first_entry=false
+    else
+        echo "," >> "$OUTPUT_FILE"
+    fi
 
-        if [ "$first_entry" = true ]; then
-            first_entry=false
-        else
-            echo "," >> "$OUTPUT_FILE"
-        fi
-
-        echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
-    done
+    echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
 done
 
 echo "  ]" >> "$OUTPUT_FILE"
 echo "}" >> "$OUTPUT_FILE"
 
 # ------------------------------------------
-# Perf profiling on sequential runs (few selected cases)
+# Perf profiling for sequential
 # ------------------------------------------
-PERF_DIR="$OUT_DIR/perf/sequential"
-mkdir -p "$PERF_DIR"
+PERF_DIR_SEQ="$OUT_DIR/perf/sequential"
+mkdir -p "$PERF_DIR_SEQ"
 PERF_ITER=3 # Number of iterations for perf profiling, perf will average over these runs
 
 for matrix in "$MATRIX_DIR"/*.mtx; do
-    matrix_name=$(basename "$matrix" .mtx)
-    echo "Running perf on $matrix_name..."
-
+    echo "Profiling sequential $matrix"
     perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
         -r $PERF_ITER \
-        -o "$PERF_DIR/perf_${matrix_name}.txt" \
+        -o "$PERF_DIR_SEQ/seq_perf_$(basename $matrix).txt" \
         $EXEC "$matrix" -I=1
 done
-
-echo "Sequential PBS job completed."
