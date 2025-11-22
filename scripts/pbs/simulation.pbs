@@ -1,0 +1,225 @@
+# ------------------------------------------
+# PBS - Sparse Matrix-Vector Multiplication
+# Parallel and Sequential Execution
+# Perf profiling and plotting
+# ------------------------------------------
+
+#!/bin/bash
+# ------------------------------------------
+# Job Name
+# ------------------------------------------
+#PBS -N SpMV_Simulation
+
+# Log files
+#PBS -o ./results/simulation.out
+#PBS -e ./results/simulation.err
+
+# Queue
+#PBS -q short_cpuQ
+
+# Walltime
+#PBS -l walltime=06:00:00
+
+# Resources
+#PBS -l select=1:ncpus=32:mem=16gb
+
+# ------------------------------------------
+# Load Required Modules
+# ------------------------------------------
+module load perf
+module load gcc91
+module load python-3.10.14_gcc91
+g++() { g++-9.1.0 "$@"; }
+
+cd "$PBS_O_WORKDIR"
+
+# ------------------------------------------
+# Hardware Info
+# ------------------------------------------
+ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
+CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
+CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
+SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
+CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
+THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
+TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
+L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
+L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
+L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
+L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
+BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
+DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# ------------------------------------------
+# Prepare input and output dirs
+# ------------------------------------------
+MATRIX_DIR="./matrices"
+OUT_DIR="./results"
+SCRIPT_DIR="./scripts"
+PAR_OUTPUT_FILE="$OUT_DIR/parallel.json"
+SEQ_OUTPUT_FILE="$OUT_DIR/sequential.json"
+PERF_DIR_PAR="$OUT_DIR/perf/parallel"
+PERF_DIR_SEQ="$OUT_DIR/perf/sequential"
+
+mkdir -p "$MATRIX_DIR" "$OUT_DIR" "$PERF_DIR_PAR" "$PERF_DIR_SEQ"
+
+# ------------------------------------------
+# Download and prepare large matrices (if not already done)
+# ------------------------------------------
+# --- DIMACS10 rgg_n_2_21_s0 ---
+if [ ! -f "$MATRIX_DIR"/rgg_n_2_21_s0.mtx ]; then
+    wget https://suitesparse-collection-website.herokuapp.com/MM/DIMACS10/rgg_n_2_21_s0.tar.gz
+    gzip -d rgg_n_2_21_s0.tar.gz
+    tar -xf rgg_n_2_21_s0.tar
+    mv rgg_n_2_21_s0/rgg_n_2_21_s0.mtx "$MATRIX_DIR"/
+    rm -rf rgg_n_2_21_s0 rgg_n_2_21_s0.tar
+else
+    echo "rgg_n_2_21_s0.mtx is already in the folder, skip."
+fi
+
+# ------------------------------------------
+# Compile both executables
+# ------------------------------------------
+make parallel
+make sequential
+
+EXEC_PAR="./bin/spmvParallel"
+EXEC_SEQ="./bin/spmvSequential"
+
+# ------------------------------------------
+# Parameters
+# ------------------------------------------
+#THREADS=(2 4 8 16 32)
+#SCHEDS=("static" "dynamic" "guided")
+#CHUNKS=(0 100 500 1000)
+THREADS=(2 32)
+SCHEDS=("static" "dynamic")
+CHUNKS=(0 100)
+ITER=10
+PERF_ITER=3 #perf will run the command this many times and average the results
+
+# ------------------------------------------
+# Run parallel SpMV sweep and generate JSON
+# ------------------------------------------
+cat <<EOF > "$PAR_OUTPUT_FILE"
+{
+  "hardware": {
+    "architecture": "$ARCH",
+    "cpu_model": "$CPU_MODEL",
+    "cpu_mhz": $CPU_MHZ,
+    "sockets": $SOCKETS,
+    "cores_per_socket": $CORES_PER_SOCKET,
+    "threads_per_core": $THREADS_PER_CORE,
+    "total_cores": $TOTAL_CORES,
+    "l1d_cache": "$L1D_CACHE",
+    "l1i_cache": "$L1I_CACHE",
+    "l2_cache": "$L2_CACHE",
+    "l3_cache": "$L3_CACHE",
+    "byte_order": "$BYTE_ORDER",
+    "date": "$DATE_NOW"
+  },
+  "results": [
+EOF
+
+first_entry=true
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    matrix_name=$(basename "$matrix" .mtx)
+    echo "Processing parallel $matrix_name..."
+
+    for t in "${THREADS[@]}"; do
+
+        # Default setting, set number of threads for OpenMP. It's used if there are no -T arguments.
+        OMP_NUM_THREADS=$t
+        export OMP_NUM_THREADS
+
+        for s in "${SCHEDS[@]}"; do
+            for c in "${CHUNKS[@]}"; do
+                echo " -> M=$matrix_name T=$t S=$s C=$c"
+                JSON_OUTPUT=$($EXEC_PAR "$matrix" -T=$t -S=$s -C=$c -I=$ITER)
+
+                if [ "$first_entry" = true ]; then
+                    first_entry=false
+                else
+                    echo "," >> "$PAR_OUTPUT_FILE"
+                fi
+                echo "$JSON_OUTPUT" >> "$PAR_OUTPUT_FILE"
+            done
+        done
+    done
+done
+
+echo "  ]" >> "$PAR_OUTPUT_FILE"
+echo "}" >> "$PAR_OUTPUT_FILE"
+
+# ------------------------------------------
+# Select configurations for perf on parallel run
+# ------------------------------------------
+SELECTED_PAR="$OUT_DIR/selected_configs.txt"
+python3 "$SCRIPT_DIR/selectConfigs.py" "$PAR_OUTPUT_FILE" "$SELECTED_PAR"
+
+# ------------------------------------------
+# Perf Profiling parallel
+# ------------------------------------------
+while read matrix type threads sched chunk; do
+    OMP_NUM_THREADS=$threads
+    export OMP_NUM_THREADS
+
+    echo "Profiling parallel $matrix ($type): threads=$threads sched=$sched chunk=$chunk"
+    perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+        -r $PERF_ITER \
+        -o "$PERF_DIR_PAR/perf_${matrix}_${type}_T${threads}_S${sched}_C${chunk}.txt" \
+        $EXEC_PAR "$MATRIX_DIR/$matrix" -T=$threads -S=$sched -C=$chunk -I=1
+done < "$SELECTED_PAR"
+
+# ------------------------------------------
+# Run sequential SpMV and generate JSON
+# ------------------------------------------
+cat <<EOF > "$SEQ_OUTPUT_FILE"
+{
+  "hardware": {
+    "architecture": "$ARCH",
+    "cpu_model": "$CPU_MODEL",
+    "cpu_mhz": $CPU_MHZ,
+    "sockets": $SOCKETS,
+    "cores_per_socket": $CORES_PER_SOCKET,
+    "threads_per_core": $THREADS_PER_CORE,
+    "total_cores": $TOTAL_CORES,
+    "l1d_cache": "$L1D_CACHE",
+    "l1i_cache": "$L1I_CACHE",
+    "l2_cache": "$L2_CACHE",
+    "l3_cache": "$L3_CACHE",
+    "byte_order": "$BYTE_ORDER",
+    "date": "$DATE_NOW"
+  },
+  "results": [
+EOF
+
+first_entry=true
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    matrix_name=$(basename "$matrix" .mtx)
+    echo "Processing sequential $matrix_name..."
+
+    JSON_OUTPUT=$($EXEC_SEQ "$matrix" -I=$ITER)
+
+    if [ "$first_entry" = true ]; then
+        first_entry=false
+    else
+        echo "," >> "$SEQ_OUTPUT_FILE"
+    fi
+
+    echo "$JSON_OUTPUT" >> "$SEQ_OUTPUT_FILE"
+done
+
+echo "  ]" >> "$SEQ_OUTPUT_FILE"
+echo "}" >> "$SEQ_OUTPUT_FILE"
+
+# ------------------------------------------
+# Perf Profiling sequential
+# ------------------------------------------
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    echo "Profiling sequential $matrix"
+    perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+        -r $PERF_ITER \
+        -o "$PERF_DIR_SEQ/seq_perf_$(basename $matrix).txt" \
+        $EXEC_SEQ "$matrix" -I=1
+done

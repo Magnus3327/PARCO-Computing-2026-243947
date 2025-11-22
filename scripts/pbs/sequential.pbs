@@ -1,0 +1,131 @@
+# ------------------------------------------
+# PBS - Sequential Sparse Matrix-Vector Multiplication
+# ------------------------------------------
+
+
+#!/bin/bash
+# ------------------------------------------
+# Job Name
+# ------------------------------------------
+#PBS -N SpMV_Sequential
+
+#PBS -o ./bin/pbs/sequential.out
+#PBS -e ./bin/pbs/sequential.err
+
+
+# Queue
+#PBS -q short_cpuQ
+
+# Walltime
+#PBS -l walltime=06:00:00
+
+# Resources
+#PBS -l select=1:ncpus=1:mem=16gb
+
+
+# ------------------------------------------
+# Load Required Modules
+# ------------------------------------------
+module load perf
+module load gcc91
+g++() { g++-9.1.0 "$@"; }
+
+cd "$PBS_O_WORKDIR"
+
+# ------------------------------------------
+# Hardware Info
+# ------------------------------------------
+ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
+CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
+CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
+SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
+CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
+THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
+TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
+L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
+L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
+L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
+L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
+BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
+DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# ------------------------------------------
+# Download and prepare large matrices (if not already done)
+# ------------------------------------------
+MATRIX_DIR="./matrices"
+mkdir -p "$MATRIX_DIR"
+
+
+# ------------------------------------------
+# Compile sequential executable
+# ------------------------------------------
+make sequential
+
+EXEC="./bin/spmvSequential"
+OUT_DIR="./results"
+mkdir -p "$OUT_DIR"
+
+# ------------------------------------------
+# Simulation parameters for sequential
+# ------------------------------------------
+ITER=10
+
+# ------------------------------------------
+# Write JSON output file header
+# ------------------------------------------
+OUTPUT_FILE="$OUT_DIR/sequential.json"
+
+cat <<EOF > "$OUTPUT_FILE"
+{
+  "hardware": {
+    "architecture": "$ARCH",
+    "cpu_model": "$CPU_MODEL",
+    "cpu_mhz": $CPU_MHZ,
+    "sockets": $SOCKETS,
+    "cores_per_socket": $CORES_PER_SOCKET,
+    "threads_per_core": $THREADS_PER_CORE,
+    "total_cores": $TOTAL_CORES,
+    "l1d_cache": "$L1D_CACHE",
+    "l1i_cache": "$L1I_CACHE",
+    "l2_cache": "$L2_CACHE",
+    "l3_cache": "$L3_CACHE",
+    "byte_order": "$BYTE_ORDER",
+    "date": "$DATE_NOW"
+  },
+  "results": [
+EOF
+
+first_entry=true
+
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    matrix_name=$(basename "$matrix" .mtx)
+    echo "Processing $matrix_name..."
+
+    JSON_OUTPUT=$($EXEC "$matrix" -I=$ITER)
+
+    if [ "$first_entry" = true ]; then
+        first_entry=false
+    else
+        echo "," >> "$OUTPUT_FILE"
+    fi
+
+    echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
+done
+
+echo "  ]" >> "$OUTPUT_FILE"
+echo "}" >> "$OUTPUT_FILE"
+
+# ------------------------------------------
+# Perf profiling for sequential
+# ------------------------------------------
+PERF_DIR_SEQ="$OUT_DIR/perf/sequential"
+mkdir -p "$PERF_DIR_SEQ"
+PERF_ITER=3 # Number of iterations for perf profiling, perf will average over these runs
+
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    echo "Profiling sequential $matrix"
+    perf stat -e L1-dcache-loads,L1-dcache-load-misses,LLC-loads,LLC-load-misses,cache-references,cache-misses \
+        -r $PERF_ITER \
+        -o "$PERF_DIR_SEQ/seq_perf_$(basename $matrix).txt" \
+        $EXEC "$matrix" -I=1
+done
