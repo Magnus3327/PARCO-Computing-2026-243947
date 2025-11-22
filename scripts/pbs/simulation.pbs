@@ -21,8 +21,7 @@
 #PBS -l walltime=06:00:00
 
 # Resources
-# ask for 1 node with 32 CPUs and 32GB of RAM, the sequential part will use only 1 CPU
-# PBS -l select=1:ncpus=32:mem=32gb
+#PBS -l select=1:ncpus=32:mem=16gb
 
 # ------------------------------------------
 # Load Required Modules
