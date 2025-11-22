@@ -64,6 +64,20 @@ PERF_DIR_SEQ="$OUT_DIR/perf/sequential"
 mkdir -p "$MATRIX_DIR" "$OUT_DIR" "$PERF_DIR_PAR" "$PERF_DIR_SEQ"
 
 # ------------------------------------------
+# Download and prepare large matrices (if not already done)
+# ------------------------------------------
+# --- DIMACS10 rgg_n_2_21_s0 ---
+if [ ! -f "$MATRIX_DIR"/rgg_n_2_21_s0.mtx ]; then
+    wget https://suitesparse-collection-website.herokuapp.com/MM/DIMACS10/rgg_n_2_21_s0.tar.gz
+    gzip -d rgg_n_2_21_s0.tar.gz
+    tar -xf rgg_n_2_21_s0.tar
+    mv rgg_n_2_21_s0/rgg_n_2_21_s0.mtx "$MATRIX_DIR"/
+    rm -rf rgg_n_2_21_s0 rgg_n_2_21_s0.tar
+else
+    echo "rgg_n_2_21_s0.mtx is already in the folder, skip."
+fi
+
+# ------------------------------------------
 # Compile both executables
 # ------------------------------------------
 make parallel
