@@ -38,7 +38,7 @@ def extract_parallel_best_duration_by_threads(data):
             parallel_best_duration[name][threads] = duration
     return parallel_best_duration
 
-def plot_strong_scalability_with_single_theory(sequential_file, parallel_file):
+def plot_strong_scalability_with_single_theory(sequential_file, parallel_file, output_folder):
     # Main plotting routine: draws one colored line per matrix for performance,
     # plus a single dashed gray line for theoretical scalability in the legend.
     seq_json = load_json(sequential_file)
@@ -78,14 +78,6 @@ def plot_strong_scalability_with_single_theory(sequential_file, parallel_file):
 
     plt.xlabel('Number of Threads (1 = Sequential)')
     plt.ylabel('Duration Time (ms)')
-    plt.title('Strong Scalability of SpMV: Duration vs Threads per Matrix (Log-Log)\nBest Run + Theoretical Scalability (gray dashed)')
-    plt.grid(True, which='both', linestyle=':')
-    # Log-log scaling shows theoretical lines as straight with slope -1
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.xticks([1, 2, 4, 8, 16, 32], ["1", "2", "4", "8", "16", "32"])  # Explicit numbers as tick labels
-    plt.xlabel('Number of Threads (1 = Sequential)')
-    plt.ylabel('Duration Time (ms)')
     plt.title('Strong Scalability of SpMV: \nDuration vs Threads per Matrix (Log-Log)')
     plt.grid(True, which='both', linestyle=':')
     plt.xscale('log')
@@ -94,15 +86,16 @@ def plot_strong_scalability_with_single_theory(sequential_file, parallel_file):
     plt.legend()
     plt.tight_layout()
 
-    os.makedirs('plots', exist_ok=True)
-    plt.savefig('plots/spmv_strong_scalability_single_theory_gray.png')
+    os.makedirs(output_folder, exist_ok=True)
+    plt.savefig(os.path.join(output_folder, "spmv_strong_scalability.png"))
     plt.show()
 
 if __name__ == "__main__":
-    # Usage: python plot_scalability.py sequential.json parallel.json
-    if len(sys.argv) != 3:
-        print("Usage: python plot_scalability.py <sequential.json> <parallel.json>")
+    # Usage: python plot_scalability.py sequential.json parallel.json output_folder
+    if len(sys.argv) != 4:
+        print("Usage: python plot_scalability.py <sequential.json> <parallel.json> <output_folder>")
         sys.exit(1)
     sequential_file = sys.argv[1]
     parallel_file = sys.argv[2]
-    plot_strong_scalability_with_single_theory(sequential_file, parallel_file)
+    output_folder = sys.argv[3]
+    plot_strong_scalability_with_single_theory(sequential_file, parallel_file, output_folder)
