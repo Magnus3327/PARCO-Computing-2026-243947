@@ -286,7 +286,7 @@ Run scritps
 ```
 python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
 python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
-python scripts/plots/schedChunk.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
+python scripts/plots/schedChunk.py heart1.mtx results/sequential.json results/parallel.json results/plots
 python scripts/plots/rooflineModel.py results/parallel.json results/plots 563 3530
 python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
 python scripts/plots/memoryMisses.py results/perf results/plots
