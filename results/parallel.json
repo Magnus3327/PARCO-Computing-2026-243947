@@ -1,0 +1,5418 @@
+{
+  "hardware": {
+    "architecture": "x86_64",
+    "cpu_model": "Intel(R) Xeon(R) Gold 6252N CPU @ 2.30GHz",
+    "cpu_mhz": 2300,
+    "sockets": 4,
+    "cores_per_socket": 24,
+    "threads_per_core": 1,
+    "total_cores": 96,
+    "l1d_cache": "32K",
+    "l1i_cache": "32K",
+    "l2_cache": "1024K",
+    "l3_cache": "36608K",
+    "byte_order": "Little Endian",
+    "date": "2025-11-23T12:14:38Z"
+  },
+  "results": [
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0207555,
+    "FLOPs": 63754,
+    "GFLOPS": 3.07167,
+    "Bandwidth_GBps": 30.9981,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.133334,
+  "all_iteration_times_ms": [0.0207555, 0.020111, 0.0363495, 0.019284, 0.0191145, 0.0196025, 0.0197534, 0.019338, 0.019772, 0.0191331],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0188071,
+    "FLOPs": 63754,
+    "GFLOPS": 3.38988,
+    "Bandwidth_GBps": 34.2094,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.129517,
+  "all_iteration_times_ms": [0.0186861, 0.0188071, 0.0321567, 0.0178162, 0.0177622, 0.017345, 0.017345, 0.017345, 0.0173096, 0.0178479],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0218246,
+    "FLOPs": 63754,
+    "GFLOPS": 2.9212,
+    "Bandwidth_GBps": 29.4796,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.114601,
+  "all_iteration_times_ms": [0.0223257, 0.0216421, 0.0217166, 0.0216216, 0.0217017, 0.0215899, 0.021413, 0.0213645, 0.0215825, 0.0218246],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0561997,
+    "FLOPs": 63754,
+    "GFLOPS": 1.13442,
+    "Bandwidth_GBps": 11.4481,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.156194,
+  "all_iteration_times_ms": [0.0561997, 0.0530686, 0.0543408, 0.0524912, 0.0527538, 0.0518244, 0.0601001, 0.052603, 0.0523068, 0.0533871],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0190139,
+    "FLOPs": 63754,
+    "GFLOPS": 3.35302,
+    "Bandwidth_GBps": 33.8374,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.131147,
+  "all_iteration_times_ms": [0.0218991, 0.0190139, 0.0189021, 0.0178386, 0.0179298, 0.0185333, 0.018172, 0.0179131, 0.0178795, 0.0178386],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0213049,
+    "FLOPs": 63754,
+    "GFLOPS": 2.99245,
+    "Bandwidth_GBps": 30.1986,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.119906,
+  "all_iteration_times_ms": [0.0253189, 0.0213049, 0.0211168, 0.0210218, 0.0209324, 0.0212081, 0.0209548, 0.02102, 0.021005, 0.0208747],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.018863,
+    "FLOPs": 63754,
+    "GFLOPS": 3.37984,
+    "Bandwidth_GBps": 34.108,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.118896,
+  "all_iteration_times_ms": [0.021657, 0.0187159, 0.0186414, 0.018863, 0.0179019, 0.0175312, 0.0175759, 0.01809, 0.0177044, 0.0179168],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0186674,
+    "FLOPs": 63754,
+    "GFLOPS": 3.41525,
+    "Bandwidth_GBps": 34.4654,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.115717,
+  "all_iteration_times_ms": [0.0206232, 0.0185221, 0.0185836, 0.0183191, 0.0186674, 0.0181552, 0.0179876, 0.0180621, 0.0179391, 0.0181999],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0217855,
+    "FLOPs": 63754,
+    "GFLOPS": 2.92644,
+    "Bandwidth_GBps": 29.5325,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.117537,
+  "all_iteration_times_ms": [0.0260733, 0.0217855, 0.02167, 0.021426, 0.0209715, 0.0209771, 0.0210591, 0.0210349, 0.0209957, 0.0209454],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0166558,
+    "FLOPs": 63754,
+    "GFLOPS": 3.82774,
+    "Bandwidth_GBps": 38.628,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.186583,
+  "all_iteration_times_ms": [0.0166558, 0.0381935, 0.0148099, 0.0152625, 0.0142381, 0.0132825, 0.0138804, 0.0137798, 0.0135265, 0.0149645],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0140835,
+    "FLOPs": 63754,
+    "GFLOPS": 4.52687,
+    "Bandwidth_GBps": 45.6834,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.126412,
+  "all_iteration_times_ms": [0.0140518, 0.0199564, 0.0140835, 0.0132937, 0.0126567, 0.0134632, 0.0133123, 0.0123903, 0.0130497, 0.0131782],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0258647,
+    "FLOPs": 63754,
+    "GFLOPS": 2.4649,
+    "Bandwidth_GBps": 24.8748,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.198334,
+  "all_iteration_times_ms": [0.0258647, 0.023799, 0.0249054, 0.0249129, 0.0238232, 0.0237357, 0.0267942, 0.024762, 0.0234786, 0.0234339],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0957549,
+    "FLOPs": 63754,
+    "GFLOPS": 0.665804,
+    "Bandwidth_GBps": 6.71903,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.237569,
+  "all_iteration_times_ms": [0.101032, 0.0957549, 0.0851098, 0.0954308, 0.0907239, 0.0898857, 0.0898428, 0.087671, 0.0950377, 0.0899509],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0193361,
+    "FLOPs": 63754,
+    "GFLOPS": 3.29715,
+    "Bandwidth_GBps": 33.2735,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.155522,
+  "all_iteration_times_ms": [0.0197105, 0.0184234, 0.0193361, 0.0149533, 0.0171661, 0.0171233, 0.0156481, 0.0179261, 0.0175443, 0.0144541],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0385251,
+    "FLOPs": 63754,
+    "GFLOPS": 1.65487,
+    "Bandwidth_GBps": 16.7003,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.146179,
+  "all_iteration_times_ms": [0.0294466, 0.0385251, 0.0266638, 0.0561085, 0.0330135, 0.0233762, 0.0288878, 0.0232477, 0.0255611, 0.0241306],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0233203,
+    "FLOPs": 63754,
+    "GFLOPS": 2.73384,
+    "Bandwidth_GBps": 27.5888,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.158664,
+  "all_iteration_times_ms": [0.0214446, 0.0199415, 0.0184737, 0.0276808, 0.0153854, 0.0156742, 0.0142902, 0.0148658, 0.0233203, 0.0146069],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0266042,
+    "FLOPs": 63754,
+    "GFLOPS": 2.39639,
+    "Bandwidth_GBps": 24.1834,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.173843,
+  "all_iteration_times_ms": [0.0266042, 0.0298079, 0.0166651, 0.0186153, 0.0167117, 0.0160318, 0.0156406, 0.0161547, 0.0166204, 0.0167787],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0371896,
+    "FLOPs": 63754,
+    "GFLOPS": 1.7143,
+    "Bandwidth_GBps": 17.3,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.160573,
+  "all_iteration_times_ms": [0.0285916, 0.0255834, 0.0283774, 0.0239946, 0.0233836, 0.0371896, 0.0431426, 0.0239071, 0.0266843, 0.0241194],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0135694,
+    "FLOPs": 63754,
+    "GFLOPS": 4.69838,
+    "Bandwidth_GBps": 47.4141,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.239445,
+  "all_iteration_times_ms": [0.0100974, 0.0125114, 0.0226088, 0.0104085, 0.0122599, 0.0135694, 0.0104439, 0.0125691, 0.0126939, 0.0118967],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0160821,
+    "FLOPs": 63754,
+    "GFLOPS": 3.96429,
+    "Bandwidth_GBps": 40.006,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.254432,
+  "all_iteration_times_ms": [0.0138208, 0.0138413, 0.0333861, 0.0146199, 0.0140667, 0.014158, 0.0160821, 0.0151172, 0.0136849, 0.0128765],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.027569,
+    "FLOPs": 63754,
+    "GFLOPS": 2.31252,
+    "Bandwidth_GBps": 23.3371,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.249788,
+  "all_iteration_times_ms": [0.0246298, 0.0248142, 0.0257362, 0.0270959, 0.0265799, 0.0278167, 0.0249967, 0.0274777, 0.027569, 0.0263564],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.10385,
+    "FLOPs": 63754,
+    "GFLOPS": 0.613905,
+    "Bandwidth_GBps": 6.19529,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.397867,
+  "all_iteration_times_ms": [0.116009, 0.10385, 0.100559, 0.0985228, 0.0974797, 0.098886, 0.0976752, 0.0992864, 0.0970177, 0.0982899],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0241417,
+    "FLOPs": 63754,
+    "GFLOPS": 2.64082,
+    "Bandwidth_GBps": 26.6501,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.270423,
+  "all_iteration_times_ms": [0.0241417, 0.0173319, 0.0249855, 0.0187308, 0.0160728, 0.015527, 0.0152811, 0.013737, 0.0135247, 0.0129975],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0456106,
+    "FLOPs": 63754,
+    "GFLOPS": 1.39779,
+    "Bandwidth_GBps": 14.1059,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.274165,
+  "all_iteration_times_ms": [0.0332464, 0.0625253, 0.03694, 0.039015, 0.0433158, 0.0287071, 0.0323281, 0.0370182, 0.029657, 0.0456106],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0291076,
+    "FLOPs": 63754,
+    "GFLOPS": 2.19029,
+    "Bandwidth_GBps": 22.1035,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.285948,
+  "all_iteration_times_ms": [0.0263732, 0.0255983, 0.0291076, 0.0223145, 0.0232887, 0.0220928, 0.031326, 0.0235941, 0.0236481, 0.0205338],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0223517,
+    "FLOPs": 63754,
+    "GFLOPS": 2.85231,
+    "Bandwidth_GBps": 28.7843,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.287026,
+  "all_iteration_times_ms": [0.0223517, 0.0214744, 0.036357, 0.0140499, 0.0152513, 0.0159182, 0.0148602, 0.0141971, 0.0158027, 0.012828],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0455193,
+    "FLOPs": 63754,
+    "GFLOPS": 1.40059,
+    "Bandwidth_GBps": 14.1342,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.296798,
+  "all_iteration_times_ms": [0.0451282, 0.0567921, 0.0294372, 0.037577, 0.0400282, 0.0343658, 0.0272766, 0.0273827, 0.0260826, 0.0455193],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0163075,
+    "FLOPs": 63754,
+    "GFLOPS": 3.9095,
+    "Bandwidth_GBps": 39.4531,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.48463,
+  "all_iteration_times_ms": [0.0136513, 0.0116155, 0.0163075, 0.0150483, 0.0166483, 0.0134893, 0.0151992, 0.0147521, 0.0146739, 0.0142939],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0207387,
+    "FLOPs": 63754,
+    "GFLOPS": 3.07416,
+    "Bandwidth_GBps": 31.0232,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.460563,
+  "all_iteration_times_ms": [0.0178125, 0.0184104, 0.0163894, 0.0172239, 0.0135899, 0.0152886, 0.0169482, 0.0319444, 0.0207387, 0.015486],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.034282,
+    "FLOPs": 63754,
+    "GFLOPS": 1.85969,
+    "Bandwidth_GBps": 18.7673,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.415333,
+  "all_iteration_times_ms": [0.0269003, 0.0306256, 0.027271, 0.02742, 0.0297464, 0.0300147, 0.0317562, 0.0303593, 0.034282, 0.0368748],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0867099,
+    "FLOPs": 63754,
+    "GFLOPS": 0.735257,
+    "Bandwidth_GBps": 7.41992,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.48401,
+  "all_iteration_times_ms": [0.0867099, 0.0809375, 0.0874419, 0.0793803, 0.0831764, 0.0784323, 0.0772886, 0.0792686, 0.077825, 0.0777505],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0217892,
+    "FLOPs": 63754,
+    "GFLOPS": 2.92594,
+    "Bandwidth_GBps": 29.5274,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.386355,
+  "all_iteration_times_ms": [0.0224542, 0.0200514, 0.0217892, 0.0165552, 0.0166595, 0.017114, 0.0206176, 0.0174474, 0.018442, 0.0173654],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.056155,
+    "FLOPs": 63754,
+    "GFLOPS": 1.13532,
+    "Bandwidth_GBps": 11.4572,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.425164,
+  "all_iteration_times_ms": [0.0690203, 0.0526626, 0.0340361, 0.056155, 0.0442192, 0.0295918, 0.0305083, 0.0342745, 0.0394452, 0.0294745],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.039978,
+    "FLOPs": 63754,
+    "GFLOPS": 1.59473,
+    "Bandwidth_GBps": 16.0934,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.403091,
+  "all_iteration_times_ms": [0.0434108, 0.036044, 0.038093, 0.0364818, 0.0379309, 0.0370014, 0.0350084, 0.039978, 0.0364929, 0.0388455],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0294875,
+    "FLOPs": 63754,
+    "GFLOPS": 2.16207,
+    "Bandwidth_GBps": 21.8187,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.411624,
+  "all_iteration_times_ms": [0.0237487, 0.0198912, 0.0294875, 0.0341088, 0.0180192, 0.0206437, 0.0170842, 0.0167284, 0.0206679, 0.0174772],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0496171,
+    "FLOPs": 63754,
+    "GFLOPS": 1.28492,
+    "Bandwidth_GBps": 12.9669,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.431022,
+  "all_iteration_times_ms": [0.0318084, 0.0496171, 0.0706892, 0.0411086, 0.0326354, 0.0357144, 0.0300966, 0.0365991, 0.0455789, 0.027243],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0287872,
+    "FLOPs": 63754,
+    "GFLOPS": 2.21467,
+    "Bandwidth_GBps": 22.3495,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.93789,
+  "all_iteration_times_ms": [0.0283215, 0.0243895, 0.0419971, 0.0235476, 0.0254475, 0.0248328, 0.0270233, 0.0287872, 0.0264104, 0.0247676],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.026416,
+    "FLOPs": 63754,
+    "GFLOPS": 2.41346,
+    "Bandwidth_GBps": 24.3557,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.793366,
+  "all_iteration_times_ms": [0.0238009, 0.0225715, 0.021033, 0.026416, 0.0261459, 0.0250246, 0.0220947, 0.0235215, 0.0298955, 0.0242889],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.042472,
+    "FLOPs": 63754,
+    "GFLOPS": 1.50108,
+    "Bandwidth_GBps": 15.1483,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.871804,
+  "all_iteration_times_ms": [0.0399277, 0.0352655, 0.0348333, 0.0445731, 0.0322498, 0.0369083, 0.0354704, 0.0350475, 0.0402536, 0.042472],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.093881,
+    "FLOPs": 63754,
+    "GFLOPS": 0.679093,
+    "Bandwidth_GBps": 6.85314,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.903288,
+  "all_iteration_times_ms": [0.0912901, 0.093881, 0.0989512, 0.0789519, 0.082368, 0.0791587, 0.0782348, 0.079263, 0.0802334, 0.0795126],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.031596,
+    "FLOPs": 63754,
+    "GFLOPS": 2.01778,
+    "Bandwidth_GBps": 20.3627,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.783565,
+  "all_iteration_times_ms": [0.031596, 0.023542, 0.0341199, 0.0276677, 0.0251178, 0.0259001, 0.0228845, 0.0239629, 0.0230484, 0.0187997],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0501052,
+    "FLOPs": 63754,
+    "GFLOPS": 1.2724,
+    "Bandwidth_GBps": 12.8406,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.836033,
+  "all_iteration_times_ms": [0.0664964, 0.0501052, 0.0440888, 0.0370946, 0.0339542, 0.0318177, 0.0366997, 0.0345279, 0.0309162, 0.0493564],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0670329,
+    "FLOPs": 63754,
+    "GFLOPS": 0.951086,
+    "Bandwidth_GBps": 9.59798,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.892395,
+  "all_iteration_times_ms": [0.0665206, 0.062421, 0.0601094, 0.0649039, 0.0629462, 0.0800267, 0.0630207, 0.0670329, 0.0669211, 0.0657458],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0322573,
+    "FLOPs": 63754,
+    "GFLOPS": 1.97642,
+    "Bandwidth_GBps": 19.9453,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.958186,
+  "all_iteration_times_ms": [0.0285283, 0.0322573, 0.0385977, 0.0287648, 0.029495, 0.0247434, 0.0317004, 0.0303034, 0.0247881, 0.029441],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0570659,
+    "FLOPs": 63754,
+    "GFLOPS": 1.1172,
+    "Bandwidth_GBps": 11.2743,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.832003,
+  "all_iteration_times_ms": [0.0527613, 0.0516307, 0.0661872, 0.0489801, 0.0570659, 0.0356883, 0.0398383, 0.0432618, 0.0340361, 0.0478681],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.848051,
+    "FLOPs": 2775546,
+    "GFLOPS": 3.27285,
+    "Bandwidth_GBps": 32.7621,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.07501,
+  "all_iteration_times_ms": [0.912787, 0.848051, 0.840208, 0.832399, 0.831032, 0.824541, 0.831241, 0.832064, 0.833666, 0.831746],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.85501,
+    "FLOPs": 2775546,
+    "GFLOPS": 3.24621,
+    "Bandwidth_GBps": 32.4954,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.10446,
+  "all_iteration_times_ms": [0.908216, 0.85501, 0.84856, 0.84036, 0.848116, 0.847735, 0.845833, 0.848586, 0.847539, 0.840519],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.998305,
+    "FLOPs": 2775546,
+    "GFLOPS": 2.78026,
+    "Bandwidth_GBps": 27.8311,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.22542,
+  "all_iteration_times_ms": [1.06344, 0.998305, 0.980703, 0.97857, 0.978364, 0.979368, 0.978794, 0.976983, 0.978246, 0.9772],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.05308,
+    "FLOPs": 2775546,
+    "GFLOPS": 2.63564,
+    "Bandwidth_GBps": 26.3834,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.42235,
+  "all_iteration_times_ms": [1.12481, 1.05308, 1.04098, 1.02069, 1.02804, 1.03871, 1.0285, 1.02421, 1.0219, 1.01998],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.863425,
+    "FLOPs": 2775546,
+    "GFLOPS": 3.21458,
+    "Bandwidth_GBps": 32.1787,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.06896,
+  "all_iteration_times_ms": [0.889404, 0.863425, 0.858417, 0.843333, 0.842769, 0.84102, 0.835251, 0.838764, 0.83003, 0.837507],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.956561,
+    "FLOPs": 2775546,
+    "GFLOPS": 2.90159,
+    "Bandwidth_GBps": 29.0456,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.23817,
+  "all_iteration_times_ms": [1.01507, 0.956561, 0.945028, 0.937792, 0.942517, 0.938246, 0.935325, 0.93825, 0.936896, 0.929935],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.889918,
+    "FLOPs": 2775546,
+    "GFLOPS": 3.11888,
+    "Bandwidth_GBps": 31.2208,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.09875,
+  "all_iteration_times_ms": [0.891799, 0.889918, 0.84783, 0.831451, 0.830732, 0.832977, 0.823917, 0.829937, 0.834282, 0.833353],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.944989,
+    "FLOPs": 2775546,
+    "GFLOPS": 2.93712,
+    "Bandwidth_GBps": 29.4013,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.1246,
+  "all_iteration_times_ms": [0.951089, 0.944989, 0.882946, 0.839395, 0.83215, 0.829346, 0.823995, 0.832465, 0.830555, 0.833226],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.884403,
+    "FLOPs": 2775546,
+    "GFLOPS": 3.13833,
+    "Bandwidth_GBps": 31.4155,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.0723,
+  "all_iteration_times_ms": [0.90847, 0.884403, 0.862017, 0.834109, 0.832362, 0.831762, 0.823535, 0.829387, 0.831397, 0.830892],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.448182,
+    "FLOPs": 2775546,
+    "GFLOPS": 6.1929,
+    "Bandwidth_GBps": 61.9925,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.81224,
+  "all_iteration_times_ms": [0.61195, 0.448182, 0.446029, 0.444604, 0.435473, 0.43539, 0.444856, 0.436196, 0.440117, 0.435824],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.451317,
+    "FLOPs": 2775546,
+    "GFLOPS": 6.14988,
+    "Bandwidth_GBps": 61.5619,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.766756,
+  "all_iteration_times_ms": [0.567561, 0.451317, 0.449974, 0.440219, 0.447433, 0.440579, 0.439746, 0.449378, 0.438876, 0.446139],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.510015,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.44209,
+    "Bandwidth_GBps": 54.4767,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.783438,
+  "all_iteration_times_ms": [0.563409, 0.510015, 0.498906, 0.498882, 0.491653, 0.49754, 0.492608, 0.500046, 0.491435, 0.501402],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.848835,
+    "FLOPs": 2775546,
+    "GFLOPS": 3.26983,
+    "Bandwidth_GBps": 32.7318,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.09384,
+  "all_iteration_times_ms": [0.886288, 0.848835, 0.781862, 0.739638, 0.723507, 0.704831, 0.70478, 0.695309, 0.699485, 0.678333],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.518767,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.35027,
+    "Bandwidth_GBps": 53.5576,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.734013,
+  "all_iteration_times_ms": [0.518767, 0.551835, 0.518534, 0.485001, 0.464259, 0.451306, 0.443429, 0.456916, 0.445787, 0.445807],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.623519,
+    "FLOPs": 2775546,
+    "GFLOPS": 4.45142,
+    "Bandwidth_GBps": 44.5599,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.757882,
+  "all_iteration_times_ms": [0.584127, 0.639144, 0.623519, 0.514077, 0.550123, 0.525994, 0.593998, 0.492197, 0.499144, 0.491861],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.543183,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.10978,
+    "Bandwidth_GBps": 51.1502,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.7197,
+  "all_iteration_times_ms": [0.543183, 0.589374, 0.432711, 0.471262, 0.464205, 0.424257, 0.424791, 0.417966, 0.424903, 0.415867],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.525983,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.27687,
+    "Bandwidth_GBps": 52.8228,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.725672,
+  "all_iteration_times_ms": [0.525983, 0.622664, 0.496903, 0.452707, 0.433663, 0.437569, 0.46373, 0.440439, 0.439486, 0.472246],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.639049,
+    "FLOPs": 2775546,
+    "GFLOPS": 4.34324,
+    "Bandwidth_GBps": 43.4769,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.770032,
+  "all_iteration_times_ms": [0.639049, 0.565698, 0.684347, 0.509154, 0.493096, 0.484919, 0.484295, 0.493966, 0.485362, 0.546541],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.277461,
+    "FLOPs": 2775546,
+    "GFLOPS": 10.0034,
+    "Bandwidth_GBps": 100.136,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.760728,
+  "all_iteration_times_ms": [0.387376, 0.265814, 0.277461, 0.260644, 0.261184, 0.260942, 0.272771, 0.262542, 0.261519, 0.260975],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.24629,
+    "FLOPs": 2775546,
+    "GFLOPS": 11.2694,
+    "Bandwidth_GBps": 112.81,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.756433,
+  "all_iteration_times_ms": [0.351505, 0.24629, 0.234907, 0.243206, 0.236113, 0.233881, 0.234215, 0.241773, 0.236342, 0.233941],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.291165,
+    "FLOPs": 2775546,
+    "GFLOPS": 9.53255,
+    "Bandwidth_GBps": 95.4233,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.81047,
+  "all_iteration_times_ms": [0.403998, 0.291165, 0.259833, 0.257445, 0.258105, 0.270739, 0.256099, 0.257142, 0.258444, 0.268036],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.670165,
+    "FLOPs": 2775546,
+    "GFLOPS": 4.14159,
+    "Bandwidth_GBps": 41.4583,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.07079,
+  "all_iteration_times_ms": [0.73001, 0.670165, 0.618706, 0.554686, 0.534147, 0.53194, 0.520773, 0.519497, 0.516679, 0.514593],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.418566,
+    "FLOPs": 2775546,
+    "GFLOPS": 6.63108,
+    "Bandwidth_GBps": 66.3788,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.686053,
+  "all_iteration_times_ms": [0.418566, 0.421107, 0.348305, 0.360202, 0.300737, 0.269337, 0.260942, 0.247478, 0.232408, 0.234831],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.478355,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.80227,
+    "Bandwidth_GBps": 58.0822,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.801973,
+  "all_iteration_times_ms": [0.489546, 0.424124, 0.398943, 0.40268, 0.478355, 0.400269, 0.411883, 0.348721, 0.29568, 0.334149],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.451401,
+    "FLOPs": 2775546,
+    "GFLOPS": 6.14874,
+    "Bandwidth_GBps": 61.5504,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.673961,
+  "all_iteration_times_ms": [0.350855, 0.464682, 0.451401, 0.284484, 0.240499, 0.277875, 0.276193, 0.244245, 0.226656, 0.218678],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.424905,
+    "FLOPs": 2775546,
+    "GFLOPS": 6.53216,
+    "Bandwidth_GBps": 65.3886,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.695698,
+  "all_iteration_times_ms": [0.44141, 0.424905, 0.351859, 0.264384, 0.312788, 0.251813, 0.255166, 0.24298, 0.239523, 0.250835],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.491168,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.65091,
+    "Bandwidth_GBps": 56.567,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.771752,
+  "all_iteration_times_ms": [0.585858, 0.491168, 0.441918, 0.349291, 0.313036, 0.307031, 0.356197, 0.300553, 0.260146, 0.266094],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.155829,
+    "FLOPs": 2775546,
+    "GFLOPS": 17.8115,
+    "Bandwidth_GBps": 178.298,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.889691,
+  "all_iteration_times_ms": [0.227418, 0.152303, 0.155829, 0.138687, 0.15101, 0.138629, 0.136953, 0.139546, 0.137335, 0.138901],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.192801,
+    "FLOPs": 2775546,
+    "GFLOPS": 14.3959,
+    "Bandwidth_GBps": 144.107,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.984261,
+  "all_iteration_times_ms": [0.252066, 0.192801, 0.158975, 0.151942, 0.154143, 0.156498, 0.154458, 0.153938, 0.162151, 0.15475],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.291103,
+    "FLOPs": 2775546,
+    "GFLOPS": 9.53457,
+    "Bandwidth_GBps": 95.4434,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.04737,
+  "all_iteration_times_ms": [0.422604, 0.286946, 0.278994, 0.267366, 0.269525, 0.291103, 0.268839, 0.26671, 0.266302, 0.288328],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.510633,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.4355,
+    "Bandwidth_GBps": 54.4107,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.12537,
+  "all_iteration_times_ms": [0.545466, 0.510633, 0.474505, 0.41589, 0.400003, 0.398604, 0.379797, 0.379439, 0.383968, 0.368673],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.270266,
+    "FLOPs": 2775546,
+    "GFLOPS": 10.2697,
+    "Bandwidth_GBps": 102.802,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.791887,
+  "all_iteration_times_ms": [0.244742, 0.310861, 0.270266, 0.200989, 0.2166, 0.187628, 0.186332, 0.177965, 0.15815, 0.160249],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.528902,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.24775,
+    "Bandwidth_GBps": 52.5313,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.28068,
+  "all_iteration_times_ms": [0.528902, 0.529978, 0.512253, 0.513306, 0.499588, 0.395032, 0.407148, 0.346649, 0.32758, 0.304941],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.290485,
+    "FLOPs": 2775546,
+    "GFLOPS": 9.55487,
+    "Bandwidth_GBps": 95.6466,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.800455,
+  "all_iteration_times_ms": [0.299871, 0.287371, 0.193585, 0.215696, 0.244197, 0.290485, 0.171229, 0.161324, 0.141401, 0.139076],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.294272,
+    "FLOPs": 2775546,
+    "GFLOPS": 9.43191,
+    "Bandwidth_GBps": 94.4158,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.845579,
+  "all_iteration_times_ms": [0.409864, 0.291226, 0.290506, 0.180356, 0.229781, 0.187431, 0.294272, 0.162909, 0.15088, 0.164274],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.566855,
+    "FLOPs": 2775546,
+    "GFLOPS": 4.89639,
+    "Bandwidth_GBps": 49.0141,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.999641,
+  "all_iteration_times_ms": [0.536157, 0.610322, 0.562115, 0.566855, 0.396095, 0.492958, 0.277571, 0.471778, 0.265216, 0.265073],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.113053,
+    "FLOPs": 2775546,
+    "GFLOPS": 24.5508,
+    "Bandwidth_GBps": 245.76,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.40297,
+  "all_iteration_times_ms": [0.154287, 0.108533, 0.113053, 0.0926256, 0.0867043, 0.0838842, 0.0882782, 0.101265, 0.0919681, 0.085989],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.145435,
+    "FLOPs": 2775546,
+    "GFLOPS": 19.0844,
+    "Bandwidth_GBps": 191.04,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.39288,
+  "all_iteration_times_ms": [0.149289, 0.145435, 0.115832, 0.101916, 0.106553, 0.105502, 0.104064, 0.104558, 0.101721, 0.104867],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.316782,
+    "FLOPs": 2775546,
+    "GFLOPS": 8.76169,
+    "Bandwidth_GBps": 87.7068,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.50574,
+  "all_iteration_times_ms": [0.350306, 0.316782, 0.297511, 0.289045, 0.316262, 0.294376, 0.295579, 0.304377, 0.292879, 0.291647],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.466961,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.94384,
+    "Bandwidth_GBps": 59.4994,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.59659,
+  "all_iteration_times_ms": [0.509502, 0.466961, 0.421111, 0.367919, 0.34187, 0.337703, 0.33302, 0.319347, 0.317765, 0.308229],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.342749,
+    "FLOPs": 2775546,
+    "GFLOPS": 8.0979,
+    "Bandwidth_GBps": 81.062,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.3362,
+  "all_iteration_times_ms": [0.947721, 0.342749, 0.253428, 0.225758, 0.191763, 0.136163, 0.158958, 0.139097, 0.104612, 0.102961],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.565518,
+    "FLOPs": 2775546,
+    "GFLOPS": 4.90797,
+    "Bandwidth_GBps": 49.1301,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.69253,
+  "all_iteration_times_ms": [0.532087, 0.510218, 0.420006, 0.478094, 0.750735, 0.341043, 0.565518, 0.301147, 0.338539, 0.293478],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.324989,
+    "FLOPs": 2775546,
+    "GFLOPS": 8.54044,
+    "Bandwidth_GBps": 85.4919,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.38432,
+  "all_iteration_times_ms": [0.409622, 0.324989, 0.286823, 0.290601, 0.156006, 0.140728, 0.135027, 0.13498, 0.120373, 0.119172],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.382626,
+    "FLOPs": 2775546,
+    "GFLOPS": 7.25393,
+    "Bandwidth_GBps": 72.6137,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.26104,
+  "all_iteration_times_ms": [0.382626, 0.432087, 0.277169, 0.199053, 0.195313, 0.153931, 0.13154, 0.105793, 0.102382, 0.0961442],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.586575,
+    "FLOPs": 2775546,
+    "GFLOPS": 4.73178,
+    "Bandwidth_GBps": 47.3664,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.73876,
+  "all_iteration_times_ms": [0.659496, 0.562597, 0.586575, 0.406625, 0.349758, 0.310672, 0.35223, 0.312375, 0.289004, 0.272971],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.00955909,
+    "FLOPs": 12192,
+    "GFLOPS": 1.27543,
+    "Bandwidth_GBps": 12.8581,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.132568,
+  "all_iteration_times_ms": [0.00955909, 0.00918843, 0.00889227, 0.00952929, 0.00855327, 0.00883453, 0.00849552, 0.00854395, 0.0099726, 0.00797771],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0110343,
+    "FLOPs": 12192,
+    "GFLOPS": 1.10492,
+    "Bandwidth_GBps": 11.1391,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.135809,
+  "all_iteration_times_ms": [0.00996143, 0.0110343, 0.010116, 0.00999309, 0.0103377, 0.0124034, 0.00890717, 0.00987202, 0.00950135, 0.00752509],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.00795536,
+    "FLOPs": 12192,
+    "GFLOPS": 1.53255,
+    "Bandwidth_GBps": 15.4502,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.058258,
+  "all_iteration_times_ms": [0.0079684, 0.00763685, 0.00762008, 0.00752695, 0.00757724, 0.00760891, 0.00751577, 0.00795536, 0.00761449, 0.00751764],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0349674,
+    "FLOPs": 12192,
+    "GFLOPS": 0.348667,
+    "Bandwidth_GBps": 3.51504,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.095712,
+  "all_iteration_times_ms": [0.0349674, 0.0251122, 0.0236407, 0.0234842, 0.0222418, 0.0241622, 0.021955, 0.0247844, 0.0222959, 0.0365619],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.00687316,
+    "FLOPs": 12192,
+    "GFLOPS": 1.77386,
+    "Bandwidth_GBps": 17.8829,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.10974,
+  "all_iteration_times_ms": [0.00726432, 0.00615977, 0.00635535, 0.00687316, 0.00637397, 0.00604615, 0.00624359, 0.0064522, 0.00643544, 0.00646897],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.00938028,
+    "FLOPs": 12192,
+    "GFLOPS": 1.29975,
+    "Bandwidth_GBps": 13.1032,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.106838,
+  "all_iteration_times_ms": [0.0117738, 0.00938028, 0.00769086, 0.00754744, 0.00766292, 0.00767037, 0.00755303, 0.00849366, 0.00801124, 0.00857376],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0108443,
+    "FLOPs": 12192,
+    "GFLOPS": 1.12428,
+    "Bandwidth_GBps": 11.3342,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.126524,
+  "all_iteration_times_ms": [0.0108443, 0.0113361, 0.00965036, 0.0101831, 0.00839494, 0.00746176, 0.0084769, 0.010306, 0.00767969, 0.00752881],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.00680424,
+    "FLOPs": 12192,
+    "GFLOPS": 1.79182,
+    "Bandwidth_GBps": 18.064,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.104938,
+  "all_iteration_times_ms": [0.00753254, 0.00618398, 0.00642985, 0.00640377, 0.00659749, 0.00680424, 0.00634044, 0.00646152, 0.00669248, 0.00649877],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.00828877,
+    "FLOPs": 12192,
+    "GFLOPS": 1.47091,
+    "Bandwidth_GBps": 14.8287,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.0967626,
+  "all_iteration_times_ms": [0.0208393, 0.0078138, 0.00752136, 0.0075642, 0.00757352, 0.00748411, 0.00747107, 0.00758097, 0.00743568, 0.00828877],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0119936,
+    "FLOPs": 12192,
+    "GFLOPS": 1.01654,
+    "Bandwidth_GBps": 10.2482,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.167008,
+  "all_iteration_times_ms": [0.0111293, 0.0111926, 0.0127181, 0.0119936, 0.0110734, 0.0115894, 0.011554, 0.0110716, 0.0100825, 0.0107978],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0131093,
+    "FLOPs": 12192,
+    "GFLOPS": 0.930027,
+    "Bandwidth_GBps": 9.37594,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.172956,
+  "all_iteration_times_ms": [0.0115503, 0.0113528, 0.0140574, 0.0121687, 0.0131093, 0.0123475, 0.0123233, 0.0116304, 0.0114013, 0.0113826],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0125188,
+    "FLOPs": 12192,
+    "GFLOPS": 0.973892,
+    "Bandwidth_GBps": 9.81816,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.103232,
+  "all_iteration_times_ms": [0.0108629, 0.0125188, 0.0108555, 0.0106115, 0.0131391, 0.0110902, 0.0102073, 0.0117905, 0.00982359, 0.0116508],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0318158,
+    "FLOPs": 12192,
+    "GFLOPS": 0.383205,
+    "Bandwidth_GBps": 3.86323,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.121294,
+  "all_iteration_times_ms": [0.03477, 0.0310708, 0.0304412, 0.0299998, 0.0282153, 0.0318158, 0.031691, 0.0306591, 0.030851, 0.0287537],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0129864,
+    "FLOPs": 12192,
+    "GFLOPS": 0.938831,
+    "Bandwidth_GBps": 9.4647,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.129029,
+  "all_iteration_times_ms": [0.0110734, 0.0348855, 0.00916608, 0.00900403, 0.0104997, 0.0100471, 0.0129864, 0.00987574, 0.0101309, 0.00878237],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0172313,
+    "FLOPs": 12192,
+    "GFLOPS": 0.707548,
+    "Bandwidth_GBps": 7.13305,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.175424,
+  "all_iteration_times_ms": [0.0114199, 0.0104606, 0.0172313, 0.0100192, 0.0240877, 0.0097435, 0.0128224, 0.00962988, 0.0113603, 0.00914373],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0155885,
+    "FLOPs": 12192,
+    "GFLOPS": 0.782116,
+    "Bandwidth_GBps": 7.8848,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.155423,
+  "all_iteration_times_ms": [0.0147987, 0.0142828, 0.0155885, 0.0158958, 0.0146795, 0.0126455, 0.0141282, 0.0138041, 0.0143051, 0.0119638],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0132229,
+    "FLOPs": 12192,
+    "GFLOPS": 0.922036,
+    "Bandwidth_GBps": 9.29538,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.0873748,
+  "all_iteration_times_ms": [0.0132229, 0.0105035, 0.00935234, 0.0104457, 0.0155475, 0.0129882, 0.0111759, 0.0116546, 0.00975467, 0.00990741],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0168607,
+    "FLOPs": 12192,
+    "GFLOPS": 0.723103,
+    "Bandwidth_GBps": 7.28987,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.136033,
+  "all_iteration_times_ms": [0.0168607, 0.0280254, 0.0165757, 0.0158679, 0.0155028, 0.00990555, 0.0133086, 0.0105854, 0.0112168, 0.0105966],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0213273,
+    "FLOPs": 12192,
+    "GFLOPS": 0.571662,
+    "Bandwidth_GBps": 5.76313,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.196258,
+  "all_iteration_times_ms": [0.0213273, 0.0183601, 0.0202097, 0.0219662, 0.0182614, 0.0148956, 0.0152178, 0.0181794, 0.0177193, 0.0139531],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0155214,
+    "FLOPs": 12192,
+    "GFLOPS": 0.785495,
+    "Bandwidth_GBps": 7.91886,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.246027,
+  "all_iteration_times_ms": [0.0129845, 0.014795, 0.0138525, 0.0129137, 0.0124909, 0.0122059, 0.0132192, 0.0155214, 0.0155661, 0.0115186],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.014469,
+    "FLOPs": 12192,
+    "GFLOPS": 0.842627,
+    "Bandwidth_GBps": 8.49483,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.239544,
+  "all_iteration_times_ms": [0.0126213, 0.0111144, 0.0129193, 0.014469, 0.0136048, 0.0136308, 0.0129454, 0.0121482, 0.0123996, 0.0148676],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0341609,
+    "FLOPs": 12192,
+    "GFLOPS": 0.356899,
+    "Bandwidth_GBps": 3.59803,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.819128,
+  "all_iteration_times_ms": [0.0383202, 0.0329129, 0.0341609, 0.0281464, 0.0267923, 0.024071, 0.0315607, 0.0329502, 0.0319127, 0.0330713],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0222009,
+    "FLOPs": 12192,
+    "GFLOPS": 0.549168,
+    "Bandwidth_GBps": 5.53636,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.234747,
+  "all_iteration_times_ms": [0.0222083, 0.0164676, 0.0222009, 0.0141151, 0.0156425, 0.0155438, 0.0122953, 0.017222, 0.012489, 0.00995025],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0222605,
+    "FLOPs": 12192,
+    "GFLOPS": 0.547697,
+    "Bandwidth_GBps": 5.52154,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.263778,
+  "all_iteration_times_ms": [0.0202004, 0.0293404, 0.0222605, 0.0126977, 0.0175852, 0.0183266, 0.0146609, 0.0167694, 0.0164043, 0.0120904],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.025874,
+    "FLOPs": 12192,
+    "GFLOPS": 0.471207,
+    "Bandwidth_GBps": 4.75041,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.251099,
+  "all_iteration_times_ms": [0.0290796, 0.025874, 0.02506, 0.0208225, 0.019012, 0.0190344, 0.0198912, 0.0199825, 0.0211075, 0.0178721],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0184141,
+    "FLOPs": 12192,
+    "GFLOPS": 0.662101,
+    "Bandwidth_GBps": 6.67488,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.182601,
+  "all_iteration_times_ms": [0.0182781, 0.018362, 0.0165477, 0.0187587, 0.0184141, 0.0158288, 0.0170954, 0.0141598, 0.0125915, 0.0109728],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0203047,
+    "FLOPs": 12192,
+    "GFLOPS": 0.600452,
+    "Bandwidth_GBps": 6.05338,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.236155,
+  "all_iteration_times_ms": [0.0162423, 0.0119209, 0.0196584, 0.0285897, 0.0135172, 0.0155326, 0.0144802, 0.0203047, 0.0148732, 0.013357],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0318531,
+    "FLOPs": 12192,
+    "GFLOPS": 0.382757,
+    "Bandwidth_GBps": 3.85871,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.391642,
+  "all_iteration_times_ms": [0.0326596, 0.0288673, 0.0293516, 0.0270996, 0.0305176, 0.0291113, 0.0281334, 0.0318531, 0.0264831, 0.0307839],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0180472,
+    "FLOPs": 12192,
+    "GFLOPS": 0.675563,
+    "Bandwidth_GBps": 6.8106,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.405418,
+  "all_iteration_times_ms": [0.0200178, 0.0180472, 0.0167526, 0.0144225, 0.0144653, 0.0148676, 0.0162069, 0.016747, 0.0154842, 0.0130329],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.017684,
+    "FLOPs": 12192,
+    "GFLOPS": 0.689439,
+    "Bandwidth_GBps": 6.95048,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.318827,
+  "all_iteration_times_ms": [0.0145826, 0.0200495, 0.0157151, 0.017684, 0.0155196, 0.0163391, 0.0171755, 0.0158045, 0.0155289, 0.0149664],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0366159,
+    "FLOPs": 12192,
+    "GFLOPS": 0.33297,
+    "Bandwidth_GBps": 3.3568,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.881143,
+  "all_iteration_times_ms": [0.0394341, 0.0343993, 0.0366159, 0.035733, 0.0305809, 0.0305977, 0.0291932, 0.0361074, 0.029806, 0.0349954],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0195485,
+    "FLOPs": 12192,
+    "GFLOPS": 0.623681,
+    "Bandwidth_GBps": 6.28755,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.40812,
+  "all_iteration_times_ms": [0.0242069, 0.0170376, 0.0195485, 0.0167936, 0.0135303, 0.0139903, 0.0132862, 0.0164397, 0.0124406, 0.014618],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0287816,
+    "FLOPs": 12192,
+    "GFLOPS": 0.423604,
+    "Bandwidth_GBps": 4.27051,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.401996,
+  "all_iteration_times_ms": [0.0176076, 0.0287816, 0.0178702, 0.0138078, 0.0344031, 0.0150893, 0.0160262, 0.0154264, 0.0148714, 0.0148807],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0387132,
+    "FLOPs": 12192,
+    "GFLOPS": 0.314931,
+    "Bandwidth_GBps": 3.17494,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.391243,
+  "all_iteration_times_ms": [0.0387132, 0.0363868, 0.0370536, 0.0419691, 0.036953, 0.0331569, 0.0328161, 0.0350662, 0.0379309, 0.0348706],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0264142,
+    "FLOPs": 12192,
+    "GFLOPS": 0.46157,
+    "Bandwidth_GBps": 4.65326,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.417871,
+  "all_iteration_times_ms": [0.0187047, 0.01611, 0.0148956, 0.0234302, 0.0280403, 0.019107, 0.0190567, 0.0144951, 0.0264142, 0.0159703],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0237599,
+    "FLOPs": 12192,
+    "GFLOPS": 0.513133,
+    "Bandwidth_GBps": 5.17309,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.372328,
+  "all_iteration_times_ms": [0.0280105, 0.0225734, 0.0188723, 0.0237599, 0.0204444, 0.013344, 0.0138059, 0.0165477, 0.0185892, 0.0191443],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.036547,
+    "FLOPs": 12192,
+    "GFLOPS": 0.333598,
+    "Bandwidth_GBps": 3.36313,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.771483,
+  "all_iteration_times_ms": [0.0349525, 0.0253953, 0.0322741, 0.0286736, 0.036547, 0.0313651, 0.0300426, 0.035651, 0.0563227, 0.0217389],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0270288,
+    "FLOPs": 12192,
+    "GFLOPS": 0.451074,
+    "Bandwidth_GBps": 4.54744,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.652228,
+  "all_iteration_times_ms": [0.0270288, 0.0198167, 0.0241417, 0.0227951, 0.0239797, 0.0231601, 0.0214968, 0.0248253, 0.0212714, 0.0280626],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0272952,
+    "FLOPs": 12192,
+    "GFLOPS": 0.446672,
+    "Bandwidth_GBps": 4.50306,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.653304,
+  "all_iteration_times_ms": [0.0190046, 0.0272952, 0.0229497, 0.0248402, 0.0203792, 0.0247359, 0.0278726, 0.022674, 0.0214931, 0.0187624],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0370834,
+    "FLOPs": 12192,
+    "GFLOPS": 0.328772,
+    "Bandwidth_GBps": 3.31447,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.636777,
+  "all_iteration_times_ms": [0.0345763, 0.0394396, 0.0370834, 0.0360589, 0.0330657, 0.0358112, 0.0367779, 0.03157, 0.0336673, 0.037035],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0269879,
+    "FLOPs": 12192,
+    "GFLOPS": 0.451759,
+    "Bandwidth_GBps": 4.55434,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.654044,
+  "all_iteration_times_ms": [0.0294521, 0.0262763, 0.0269879, 0.016747, 0.0207685, 0.020016, 0.0268854, 0.0207033, 0.0218414, 0.0230856],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0357889,
+    "FLOPs": 12192,
+    "GFLOPS": 0.340665,
+    "Bandwidth_GBps": 3.43436,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.616914,
+  "all_iteration_times_ms": [0.0281334, 0.0368282, 0.0357889, 0.0277236, 0.0287797, 0.0266563, 0.0299606, 0.0256673, 0.032369, 0.0194479],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0428166,
+    "FLOPs": 12192,
+    "GFLOPS": 0.284749,
+    "Bandwidth_GBps": 2.87066,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.572611,
+  "all_iteration_times_ms": [0.0335239, 0.0363216, 0.0425819, 0.0381488, 0.0380576, 0.0451077, 0.0398401, 0.0385977, 0.0341106, 0.0428166],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.0318885,
+    "FLOPs": 12192,
+    "GFLOPS": 0.382332,
+    "Bandwidth_GBps": 3.85443,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.585081,
+  "all_iteration_times_ms": [0.0350308, 0.0219308, 0.0276342, 0.0318885, 0.0237841, 0.0233781, 0.0308603, 0.0206996, 0.0277888, 0.0297111],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0273641,
+    "FLOPs": 12192,
+    "GFLOPS": 0.445547,
+    "Bandwidth_GBps": 4.49172,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.653876,
+  "all_iteration_times_ms": [0.0205655, 0.0309441, 0.0253171, 0.0251252, 0.0268575, 0.0273641, 0.0261478, 0.0216793, 0.0223238, 0.022497],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 14.0462,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.37527,
+    "Bandwidth_GBps": 14.9472,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 14.9371,
+  "all_iteration_times_ms": [14.0462, 14.8512, 12.462, 12.3656, 12.3667, 12.4101, 12.4526, 12.4314, 12.3825, 12.3357],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 19.5059,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.990331,
+    "Bandwidth_GBps": 10.7634,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 19.1112,
+  "all_iteration_times_ms": [19.5059, 19.5241, 16.2203, 16.204, 16.167, 16.2056, 16.1884, 16.1802, 16.1613, 16.1542],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 16.6255,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.16191,
+    "Bandwidth_GBps": 12.6282,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 16.7654,
+  "all_iteration_times_ms": [16.6255, 17.5393, 14.1726, 14.0836, 13.9781, 13.9295, 13.8451, 13.94, 13.8252, 13.8491],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 118.734,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.162695,
+    "Bandwidth_GBps": 1.76825,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 118.515,
+  "all_iteration_times_ms": [118.024, 117.739, 118.449, 118.057, 118.734, 117.629, 117.422, 118.507, 117.833, 118.774],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 19.7949,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.975872,
+    "Bandwidth_GBps": 10.6063,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 20.0431,
+  "all_iteration_times_ms": [19.7949, 19.8323, 17.1042, 17.0747, 17.1356, 17.1168, 17.0676, 16.9718, 16.9328, 17.0258],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 16.6044,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.16338,
+    "Bandwidth_GBps": 12.6442,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 16.8562,
+  "all_iteration_times_ms": [16.6044, 17.1475, 14.2488, 14.0859, 13.9277, 13.9208, 13.8623, 13.8375, 13.8378, 13.855],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 13.7959,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.40022,
+    "Bandwidth_GBps": 15.2183,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 14.7204,
+  "all_iteration_times_ms": [13.7959, 14.4556, 12.4598, 12.6089, 12.6871, 12.6559, 12.637, 12.6578, 12.5526, 12.653],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 13.4735,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.43372,
+    "Bandwidth_GBps": 15.5824,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 14.8709,
+  "all_iteration_times_ms": [13.4735, 14.4148, 12.5913, 12.4015, 12.4515, 12.3523, 12.3995, 12.2913, 12.4548, 12.3617],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 13.4779,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.43326,
+    "Bandwidth_GBps": 15.5774,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 14.601,
+  "all_iteration_times_ms": [13.4779, 14.4589, 12.3846, 12.3096, 12.3321, 12.3605, 12.3568, 12.2676, 12.318, 12.312],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 9.3007,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.07698,
+    "Bandwidth_GBps": 22.5736,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 9.16144,
+  "all_iteration_times_ms": [10.262, 9.3007, 9.04909, 6.99056, 8.07416, 8.43683, 6.69282, 7.96332, 6.61043, 6.48176],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 13.1278,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.47148,
+    "Bandwidth_GBps": 15.9928,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 15.3701,
+  "all_iteration_times_ms": [14.2771, 12.7724, 12.9309, 11.1792, 13.1278, 12.6356, 11.1183, 12.7032, 11.1148, 11.0449],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 9.90078,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.95109,
+    "Bandwidth_GBps": 21.2055,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 12.3024,
+  "all_iteration_times_ms": [10.606, 9.86615, 9.90078, 8.07333, 9.70168, 9.7601, 7.97495, 9.68137, 7.95519, 7.88494],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 318.422,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.0606658,
+    "Bandwidth_GBps": 0.659346,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 241.423,
+  "all_iteration_times_ms": [233.231, 281.37, 316.061, 318.422, 318.634, 315.404, 315.939, 316.214, 317.84, 318.087],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 14.336,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.34747,
+    "Bandwidth_GBps": 14.645,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 17.6299,
+  "all_iteration_times_ms": [14.6831, 14.336, 14.3061, 11.0863, 14.1481, 13.9929, 11.0529, 14.0328, 11.0357, 10.951],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 10.2703,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.8809,
+    "Bandwidth_GBps": 20.4426,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 14.0204,
+  "all_iteration_times_ms": [10.4014, 10.2703, 10.1882, 7.65247, 10.006, 9.96535, 7.58933, 10.0026, 7.50225, 7.35143],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 8.72883,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.21305,
+    "Bandwidth_GBps": 24.0525,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 8.23848,
+  "all_iteration_times_ms": [7.88389, 9.359, 8.72883, 6.97867, 8.46906, 7.90914, 7.55042, 7.98177, 7.01511, 6.98361],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 8.37201,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.30737,
+    "Bandwidth_GBps": 25.0777,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 8.07101,
+  "all_iteration_times_ms": [8.09377, 9.21386, 8.24599, 7.93196, 8.37201, 8.285, 7.03794, 8.06278, 7.26364, 6.7233],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 8.22382,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.34895,
+    "Bandwidth_GBps": 25.5295,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 7.97383,
+  "all_iteration_times_ms": [7.75081, 9.22602, 8.16017, 7.77815, 7.67109, 8.22382, 6.87768, 7.26797, 7.7847, 6.96504],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 4.91097,
+    "FLOPs": 19317326,
+    "GFLOPS": 3.9335,
+    "Bandwidth_GBps": 42.7513,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 5.38214,
+  "all_iteration_times_ms": [4.91097, 4.93142, 4.82471, 4.31586, 4.60542, 4.66282, 4.14489, 4.54686, 4.03851, 3.98868],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 10.6112,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.82047,
+    "Bandwidth_GBps": 19.7858,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 12.7956,
+  "all_iteration_times_ms": [10.6112, 10.1847, 10.4085, 7.12389, 9.94972, 10.6273, 7.11168, 10.2734, 7.06412, 6.98608],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 6.45698,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.9917,
+    "Bandwidth_GBps": 32.5153,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 7.63205,
+  "all_iteration_times_ms": [6.65955, 6.45698, 6.41158, 4.69816, 6.09773, 6.07403, 4.60177, 6.19913, 4.55398, 4.51545],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 266.81,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.0724009,
+    "Bandwidth_GBps": 0.78689,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 265.437,
+  "all_iteration_times_ms": [261.751, 255.855, 262.182, 266.722, 264.517, 264.29, 263.944, 268.146, 266.81, 258.57],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 13.0274,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.48282,
+    "Bandwidth_GBps": 16.1161,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 16.5681,
+  "all_iteration_times_ms": [13.5813, 13.0274, 12.8862, 7.6682, 12.629, 12.6403, 7.56971, 12.642, 7.54909, 7.34764],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 6.72103,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.87416,
+    "Bandwidth_GBps": 31.2378,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 9.4922,
+  "all_iteration_times_ms": [7.07779, 6.70579, 6.63844, 4.72661, 6.72103, 6.48973, 4.60324, 6.52073, 4.56502, 4.36387],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 5.18526,
+    "FLOPs": 19317326,
+    "GFLOPS": 3.72543,
+    "Bandwidth_GBps": 40.4899,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 5.18171,
+  "all_iteration_times_ms": [4.9233, 5.12248, 5.51608, 4.33413, 4.86171, 4.78012, 3.9932, 5.18526, 3.89095, 4.30509],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 4.82056,
+    "FLOPs": 19317326,
+    "GFLOPS": 4.00728,
+    "Bandwidth_GBps": 43.5532,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.69064,
+  "all_iteration_times_ms": [4.68929, 4.85652, 4.78175, 4.68407, 4.82056, 4.70609, 4.37105, 4.7979, 4.26161, 4.11439],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 5.11138,
+    "FLOPs": 19317326,
+    "GFLOPS": 3.77928,
+    "Bandwidth_GBps": 41.0751,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.67814,
+  "all_iteration_times_ms": [4.8365, 5.11138, 5.38681, 4.35712, 4.51955, 4.96462, 4.02932, 4.59398, 3.80572, 3.75668],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.90824,
+    "FLOPs": 19317326,
+    "GFLOPS": 6.64227,
+    "Bandwidth_GBps": 72.1916,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.4238,
+  "all_iteration_times_ms": [3.06887, 2.90824, 2.78977, 2.22765, 2.61898, 2.61148, 2.03947, 2.52376, 1.94059, 1.89876],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 9.81543,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.96806,
+    "Bandwidth_GBps": 21.3898,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 13.1102,
+  "all_iteration_times_ms": [9.81543, 9.04167, 9.81202, 4.22528, 9.01976, 9.42448, 4.27193, 9.96604, 4.27209, 3.81599],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 4.56951,
+    "FLOPs": 19317326,
+    "GFLOPS": 4.22744,
+    "Bandwidth_GBps": 45.9459,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 6.35162,
+  "all_iteration_times_ms": [4.9498, 4.56951, 4.44172, 2.82689, 4.37704, 4.39809, 2.80176, 4.55664, 2.76013, 2.53146],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 226.288,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.0853661,
+    "Bandwidth_GBps": 0.927802,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 227.052,
+  "all_iteration_times_ms": [224.052, 220.139, 221.343, 224.453, 222.091, 227.434, 226.288, 221.821, 222.306, 223.09],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 12.563,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.53763,
+    "Bandwidth_GBps": 16.7117,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 15.3466,
+  "all_iteration_times_ms": [12.8321, 12.563, 12.337, 5.3144, 12.2717, 12.1302, 5.18569, 12.1492, 5.16839, 4.9552],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 5.77156,
+    "FLOPs": 19317326,
+    "GFLOPS": 3.34698,
+    "Bandwidth_GBps": 36.3767,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 8.39008,
+  "all_iteration_times_ms": [5.84709, 5.58957, 5.40363, 3.69364, 5.77156, 5.35355, 3.55741, 5.51613, 3.62195, 3.28007],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 3.66559,
+    "FLOPs": 19317326,
+    "GFLOPS": 5.26991,
+    "Bandwidth_GBps": 57.2761,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.51649,
+  "all_iteration_times_ms": [3.762, 3.66559, 3.64162, 3.31953, 3.43353, 3.24941, 3.19286, 3.26971, 2.72031, 2.51892],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 3.39255,
+    "FLOPs": 19317326,
+    "GFLOPS": 5.69404,
+    "Bandwidth_GBps": 61.8857,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.1756,
+  "all_iteration_times_ms": [3.39255, 3.48411, 3.24902, 3.04841, 3.20551, 3.09473, 2.6223, 3.13433, 2.34526, 2.50999],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 3.69478,
+    "FLOPs": 19317326,
+    "GFLOPS": 5.22827,
+    "Bandwidth_GBps": 56.8235,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.15293,
+  "all_iteration_times_ms": [3.69846, 3.69478, 3.32118, 3.2685, 3.10529, 3.48178, 2.89567, 3.26279, 2.96478, 2.41144],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.07304,
+    "FLOPs": 19317326,
+    "GFLOPS": 9.31834,
+    "Bandwidth_GBps": 101.276,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.90388,
+  "all_iteration_times_ms": [2.58015, 2.07304, 1.95256, 1.09729, 1.5596, 1.60793, 0.95343, 1.52476, 0.93342, 0.874037],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 9.51559,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.03007,
+    "Bandwidth_GBps": 22.0639,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 13.3276,
+  "all_iteration_times_ms": [9.2173, 8.9912, 8.78593, 4.05003, 9.51559, 9.87856, 3.97314, 9.12543, 3.92289, 3.442],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 4.06303,
+    "FLOPs": 19317326,
+    "GFLOPS": 4.75441,
+    "Bandwidth_GBps": 51.6733,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 6.28444,
+  "all_iteration_times_ms": [3.91249, 3.69717, 3.77815, 2.44185, 4.06303, 3.86727, 2.48178, 4.4175, 2.50007, 2.00639],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 192.367,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.100419,
+    "Bandwidth_GBps": 1.09141,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 185.468,
+  "all_iteration_times_ms": [182.602, 180.608, 179.521, 174.606, 181.477, 182.967, 192.67, 192.367, 180.91, 183.749],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 11.7202,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.64821,
+    "Bandwidth_GBps": 17.9136,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 14.116,
+  "all_iteration_times_ms": [11.7295, 11.4901, 11.5233, 4.44664, 11.7202, 11.4605, 4.43748, 11.189, 4.38983, 3.91089],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 5.79508,
+    "FLOPs": 19317326,
+    "GFLOPS": 3.3334,
+    "Bandwidth_GBps": 36.2291,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 7.91426,
+  "all_iteration_times_ms": [5.79508, 5.52726, 5.25271, 4.26054, 5.84276, 5.30771, 3.70296, 5.65622, 3.55701, 2.92792],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 4.55844,
+    "FLOPs": 19317326,
+    "GFLOPS": 4.23771,
+    "Bandwidth_GBps": 46.0576,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 5.07896,
+  "all_iteration_times_ms": [4.62357, 4.55844, 3.77987, 3.4129, 3.53295, 3.33798, 2.94706, 3.33789, 2.91689, 2.13826],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 4.66415,
+    "FLOPs": 19317326,
+    "GFLOPS": 4.14166,
+    "Bandwidth_GBps": 45.0137,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 5.09835,
+  "all_iteration_times_ms": [4.66415, 3.78619, 5.07517, 3.36691, 3.73629, 3.07769, 2.53431, 3.29047, 2.74251, 2.13538],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 3.67882,
+    "FLOPs": 19317326,
+    "GFLOPS": 5.25096,
+    "Bandwidth_GBps": 57.0701,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 5.21266,
+  "all_iteration_times_ms": [3.64947, 4.9221, 3.67882, 3.33028, 3.22442, 3.01798, 2.7152, 3.09344, 2.35732, 2.12366],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.87397,
+    "FLOPs": 4407898,
+    "GFLOPS": 2.35217,
+    "Bandwidth_GBps": 23.6464,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 2.117,
+  "all_iteration_times_ms": [1.87397, 1.81867, 1.74331, 1.75212, 1.74535, 1.8188, 1.87962, 1.82725, 1.81784, 1.78517],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 1.48501,
+    "FLOPs": 4407898,
+    "GFLOPS": 2.96826,
+    "Bandwidth_GBps": 29.84,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.74747,
+  "all_iteration_times_ms": [1.54594, 1.48501, 1.41338, 1.37681, 1.37466, 1.35113, 1.33427, 1.34334, 1.34491, 1.36422],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 1.41792,
+    "FLOPs": 4407898,
+    "GFLOPS": 3.10871,
+    "Bandwidth_GBps": 31.2519,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.73741,
+  "all_iteration_times_ms": [1.49968, 1.41792, 1.35003, 1.34916, 1.35403, 1.34424, 1.34418, 1.35033, 1.34661, 1.34551],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 3.00806,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.46536,
+    "Bandwidth_GBps": 14.7313,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 3.50425,
+  "all_iteration_times_ms": [3.11588, 2.98032, 3.00796, 3.00806, 2.99524, 2.99941, 2.98599, 2.98665, 2.98323, 2.98124],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 1.43036,
+    "FLOPs": 4407898,
+    "GFLOPS": 3.08168,
+    "Bandwidth_GBps": 30.9802,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.74084,
+  "all_iteration_times_ms": [1.49673, 1.43036, 1.31567, 1.3195, 1.3178, 1.31686, 1.31086, 1.31362, 1.30798, 1.30536],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 1.43471,
+    "FLOPs": 4407898,
+    "GFLOPS": 3.07233,
+    "Bandwidth_GBps": 30.8862,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.72582,
+  "all_iteration_times_ms": [1.47088, 1.43471, 1.32228, 1.32491, 1.32115, 1.31943, 1.31628, 1.32526, 1.32087, 1.32176],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.41039,
+    "FLOPs": 4407898,
+    "GFLOPS": 3.1253,
+    "Bandwidth_GBps": 31.4187,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.68087,
+  "all_iteration_times_ms": [1.44864, 1.41039, 1.3003, 1.29678, 1.27706, 1.26942, 1.26965, 1.27521, 1.26686, 1.26944],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 1.41559,
+    "FLOPs": 4407898,
+    "GFLOPS": 3.11382,
+    "Bandwidth_GBps": 31.3033,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.67147,
+  "all_iteration_times_ms": [1.45005, 1.41559, 1.32351, 1.29811, 1.29277, 1.29293, 1.30305, 1.28908, 1.29046, 1.30202],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 1.3468,
+    "FLOPs": 4407898,
+    "GFLOPS": 3.27288,
+    "Bandwidth_GBps": 32.9023,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.69799,
+  "all_iteration_times_ms": [1.45759, 1.3468, 1.28344, 1.27965, 1.29002, 1.27942, 1.28265, 1.28219, 1.28067, 1.28085],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.87657,
+    "FLOPs": 4407898,
+    "GFLOPS": 2.34892,
+    "Bandwidth_GBps": 23.6137,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 2.66133,
+  "all_iteration_times_ms": [2.60708, 1.87657, 1.75092, 1.69421, 1.72183, 1.73231, 1.68828, 1.73229, 1.68541, 1.69455],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.757447,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.81942,
+    "Bandwidth_GBps": 58.5027,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.0605,
+  "all_iteration_times_ms": [0.804568, 0.757447, 0.745419, 0.647362, 0.693871, 0.735058, 0.643507, 0.695119, 0.665216, 0.658868],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.798337,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.52135,
+    "Bandwidth_GBps": 55.5062,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.0551,
+  "all_iteration_times_ms": [0.820424, 0.798337, 0.770411, 0.715654, 0.719635, 0.743594, 0.706285, 0.728127, 0.698216, 0.705507],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.0789,
+    "FLOPs": 4407898,
+    "GFLOPS": 2.1203,
+    "Bandwidth_GBps": 21.3154,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 2.57446,
+  "all_iteration_times_ms": [2.19613, 2.05822, 1.99912, 2.02747, 2.0789, 2.02294, 1.94444, 1.96149, 1.97833, 1.96494],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.781957,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.63701,
+    "Bandwidth_GBps": 56.669,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.06024,
+  "all_iteration_times_ms": [0.810837, 0.781957, 0.763541, 0.677651, 0.71511, 0.752727, 0.654226, 0.702985, 0.659481, 0.649557],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.833811,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.28645,
+    "Bandwidth_GBps": 53.1448,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.08618,
+  "all_iteration_times_ms": [0.836251, 0.833811, 0.823719, 0.785179, 0.821725, 0.827724, 0.774965, 0.792552, 0.748334, 0.768689],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.881318,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.00148,
+    "Bandwidth_GBps": 50.28,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.18124,
+  "all_iteration_times_ms": [0.925982, 0.881318, 0.855114, 0.753839, 0.763007, 0.774495, 0.752166, 0.745626, 0.750083, 0.742296],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.893848,
+    "FLOPs": 4407898,
+    "GFLOPS": 4.93137,
+    "Bandwidth_GBps": 49.5752,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.16135,
+  "all_iteration_times_ms": [0.942178, 0.893848, 0.876309, 0.830188, 0.82941, 0.844719, 0.81226, 0.811147, 0.827247, 0.838095],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.837127,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.26551,
+    "Bandwidth_GBps": 52.9343,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.12485,
+  "all_iteration_times_ms": [0.877241, 0.837127, 0.810474, 0.774324, 0.773733, 0.795282, 0.761937, 0.759035, 0.75621, 0.755982],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.13257,
+    "FLOPs": 4407898,
+    "GFLOPS": 3.89196,
+    "Bandwidth_GBps": 39.1259,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.95627,
+  "all_iteration_times_ms": [1.54044, 1.13257, 0.949273, 0.904495, 0.925068, 0.930516, 0.898497, 0.930641, 0.894846, 0.90275],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.621146,
+    "FLOPs": 4407898,
+    "GFLOPS": 7.0964,
+    "Bandwidth_GBps": 71.3403,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.02748,
+  "all_iteration_times_ms": [0.663517, 0.621146, 0.604019, 0.343557, 0.412233, 0.605578, 0.336254, 0.433393, 0.337809, 0.337204],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.423096,
+    "FLOPs": 4407898,
+    "GFLOPS": 10.4182,
+    "Bandwidth_GBps": 104.734,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.07005,
+  "all_iteration_times_ms": [0.45399, 0.423096, 0.404557, 0.378739, 0.388509, 0.411799, 0.386585, 0.38828, 0.383498, 0.376081],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 3.00389,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.4674,
+    "Bandwidth_GBps": 14.7518,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 3.6464,
+  "all_iteration_times_ms": [3.16025, 3.00389, 2.95258, 2.82962, 2.85732, 2.84563, 2.76757, 2.81909, 2.73601, 2.75647],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.794159,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.5504,
+    "Bandwidth_GBps": 55.7982,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.13324,
+  "all_iteration_times_ms": [0.844048, 0.794159, 0.685837, 0.421116, 0.513319, 0.641406, 0.377351, 0.468651, 0.382949, 0.364712],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.760151,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.79871,
+    "Bandwidth_GBps": 58.2946,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.04669,
+  "all_iteration_times_ms": [0.875421, 0.760151, 0.667537, 0.483396, 0.445275, 0.442468, 0.386236, 0.523705, 0.409789, 0.375886],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.838241,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.25851,
+    "Bandwidth_GBps": 52.8639,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 0.929438,
+  "all_iteration_times_ms": [0.653991, 0.838241, 0.85561, 0.641679, 0.664905, 0.623671, 0.612726, 0.60215, 0.407057, 0.532396],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.839807,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.2487,
+    "Bandwidth_GBps": 52.7653,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 0.994975,
+  "all_iteration_times_ms": [0.896845, 0.813708, 0.839807, 0.658203, 0.606377, 0.579543, 0.568623, 0.491416, 0.5251, 0.495464],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.733523,
+    "FLOPs": 4407898,
+    "GFLOPS": 6.00922,
+    "Bandwidth_GBps": 60.4108,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.00137,
+  "all_iteration_times_ms": [0.676135, 0.733523, 0.843428, 0.553276, 0.476768, 0.414943, 0.363944, 0.473259, 0.365989, 0.364207],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.550637,
+    "FLOPs": 4407898,
+    "GFLOPS": 8.00509,
+    "Bandwidth_GBps": 80.4753,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.35153,
+  "all_iteration_times_ms": [0.84856, 0.550637, 0.488063, 0.467481, 0.493957, 0.478366, 0.478914, 0.484884, 0.495741, 0.484055],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.599483,
+    "FLOPs": 4407898,
+    "GFLOPS": 7.35283,
+    "Bandwidth_GBps": 73.9182,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.39417,
+  "all_iteration_times_ms": [0.599483, 0.518879, 0.587389, 0.181593, 0.276215, 0.61875, 0.182813, 0.261931, 0.194449, 0.191897],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.266979,
+    "FLOPs": 4407898,
+    "GFLOPS": 16.5103,
+    "Bandwidth_GBps": 165.978,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.1325,
+  "all_iteration_times_ms": [0.383867, 0.244718, 0.266979, 0.202287, 0.233326, 0.264592, 0.211062, 0.226952, 0.201268, 0.201564],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.70603,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.62892,
+    "Bandwidth_GBps": 16.3756,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 3.38458,
+  "all_iteration_times_ms": [2.70603, 2.71572, 2.61801, 2.47917, 2.51603, 2.56061, 2.42573, 2.4424, 2.40771, 2.4188],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.809325,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.44639,
+    "Bandwidth_GBps": 54.7527,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.37987,
+  "all_iteration_times_ms": [0.82317, 0.809325, 0.748739, 0.369048, 0.428973, 0.66172, 0.239607, 0.393843, 0.236694, 0.225149],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.518804,
+    "FLOPs": 4407898,
+    "GFLOPS": 8.49626,
+    "Bandwidth_GBps": 85.4131,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.14626,
+  "all_iteration_times_ms": [0.651905, 0.518804, 0.408834, 0.284294, 0.424655, 0.328466, 0.338536, 0.264429, 0.218816, 0.229536],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.506535,
+    "FLOPs": 4407898,
+    "GFLOPS": 8.70206,
+    "Bandwidth_GBps": 87.482,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.12505,
+  "all_iteration_times_ms": [0.61181, 0.506535, 0.385359, 0.408439, 0.496736, 0.342382, 0.267686, 0.268878, 0.240536, 0.2671],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.657102,
+    "FLOPs": 4407898,
+    "GFLOPS": 6.70809,
+    "Bandwidth_GBps": 67.4365,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.05805,
+  "all_iteration_times_ms": [0.699507, 0.657102, 0.396838, 0.281371, 0.305688, 0.249788, 0.241533, 0.240156, 0.238869, 0.209879],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.582628,
+    "FLOPs": 4407898,
+    "GFLOPS": 7.56555,
+    "Bandwidth_GBps": 76.0566,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.12184,
+  "all_iteration_times_ms": [0.682892, 0.428682, 0.582628, 0.284627, 0.361446, 0.344755, 0.30693, 0.348302, 0.257641, 0.256991],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.312159,
+    "FLOPs": 4407898,
+    "GFLOPS": 14.1207,
+    "Bandwidth_GBps": 141.956,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.69292,
+  "all_iteration_times_ms": [0.484509, 0.312159, 0.303496, 0.265408, 0.293473, 0.295179, 0.263676, 0.301652, 0.262028, 0.263812],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.638867,
+    "FLOPs": 4407898,
+    "GFLOPS": 6.89956,
+    "Bandwidth_GBps": 69.3614,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 2.28797,
+  "all_iteration_times_ms": [0.641178, 0.638867, 0.632429, 0.113787, 0.288036, 0.629682, 0.112213, 0.292663, 0.131311, 0.112334],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.260381,
+    "FLOPs": 4407898,
+    "GFLOPS": 16.9286,
+    "Bandwidth_GBps": 170.184,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.84343,
+  "all_iteration_times_ms": [0.251533, 0.255505, 0.260381, 0.231359, 0.233211, 0.261175, 0.235273, 0.238299, 0.215527, 0.219053],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.34004,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.88369,
+    "Bandwidth_GBps": 18.9367,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 3.48176,
+  "all_iteration_times_ms": [2.4305, 2.34004, 2.24036, 2.09156, 2.12952, 2.23522, 2.03729, 2.1047, 2.12773, 2.05874],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.902846,
+    "FLOPs": 4407898,
+    "GFLOPS": 4.88222,
+    "Bandwidth_GBps": 49.0811,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.79792,
+  "all_iteration_times_ms": [0.902846, 1.06902, 0.700872, 0.275411, 0.406127, 0.654519, 0.19313, 0.354687, 0.161914, 0.138041],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "dynamic",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.561001,
+    "FLOPs": 4407898,
+    "GFLOPS": 7.8572,
+    "Bandwidth_GBps": 78.9886,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.64736,
+  "all_iteration_times_ms": [0.708271, 0.561001, 0.382761, 0.471076, 0.291811, 0.305202, 0.20469, 0.209758, 0.207283, 0.170039],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.574235,
+    "FLOPs": 4407898,
+    "GFLOPS": 7.67612,
+    "Bandwidth_GBps": 77.1682,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.56206,
+  "all_iteration_times_ms": [0.574235, 0.522168, 0.742804, 0.293875, 0.232026, 0.241814, 0.23476, 0.218334, 0.260908, 0.152303],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.547368,
+    "FLOPs": 4407898,
+    "GFLOPS": 8.0529,
+    "Bandwidth_GBps": 80.9559,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.42642,
+  "all_iteration_times_ms": [0.547368, 0.579011, 0.425493, 0.274181, 0.35038, 0.252936, 0.172187, 0.220863, 0.208713, 0.193931],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.508294,
+    "FLOPs": 4407898,
+    "GFLOPS": 8.67195,
+    "Bandwidth_GBps": 87.1793,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.49657,
+  "all_iteration_times_ms": [0.51784, 0.434747, 0.411211, 0.30309, 0.37072, 0.30013, 0.255851, 0.231383, 0.247329, 0.508294],
+  "errors": []
+}
+  ]
+}

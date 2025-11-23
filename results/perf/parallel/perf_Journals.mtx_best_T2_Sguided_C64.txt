@@ -1,0 +1,14 @@
+# started on Sun Nov 23 13:20:05 2025
+
+
+ Performance counter stats for './bin/spmvParallel ./matrices/Journals.mtx -T=2 -S=guided -C=64 -I=1' (3 runs):
+
+         4,703,456      L1-dcache-loads:u                                             ( +-  0.03% )
+            61,596      L1-dcache-load-misses:u   #    1.31% of all L1-dcache hits    ( +-  0.46% )
+             7,944      LLC-loads:u                                                   ( +-  0.22% )
+             1,486      LLC-load-misses:u         #   18.70% of all LL-cache hits     ( +- 98.05% )
+            29,508      cache-references:u                                            ( +-  1.11% )
+             4,076      cache-misses:u            #   13.813 % of all cache refs      ( +- 93.83% )
+
+          0.006558 +- 0.000771 seconds time elapsed  ( +- 11.76% )
+

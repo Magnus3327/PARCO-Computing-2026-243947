@@ -34,14 +34,6 @@ numpy
 
 ---
 
-## Download & Set
-```
-git clone https://github.com/Magnus3327/PARCO-Computing-2026-243947
-cd PARCO-Computing-2026-243947
-```
-
----
-
 ## Repository Structure
 ```
 repo/
@@ -55,6 +47,21 @@ repo/
     bin/
     obj/
 ```
+
+---
+
+## Assignment Requirements
+✅ Read a matrix in Matrix Market (.mtx) format and convert it to CSR  
+✅ Implement sequential SpMV  
+✅ Implement parallel SpMV (OpenMP)  
+✅ Benchmark:
+
+- At least 10 timed runs, reporting the **90th percentile**
+- At least 5 matrices with different sparsity levels
+- Compare sequential vs parallel performance
+- Vary number of threads
+- Evaluate scheduling strategies
+- Identify bottlenecks
 
 ---
 
@@ -75,21 +82,6 @@ repo/
 - Arithmetic Intensity (FLOPs/Byte)
 
 8. Export results as JSON
-
----
-
-## Assignment Requirements
-✅ Read a matrix in Matrix Market (.mtx) format and convert it to CSR  
-✅ Implement sequential SpMV  
-✅ Implement parallel SpMV (OpenMP)  
-✅ Benchmark:
-
-- At least 10 timed runs, reporting the **90th percentile**
-- At least 5 matrices with different sparsity levels
-- Compare sequential vs parallel performance
-- Vary number of threads
-- Evaluate scheduling strategies
-- Identify bottlenecks
 
 ---
 
@@ -156,6 +148,15 @@ Main executables:
 > The **sequential version** does not include OpenMP scenario information.
 
 ---
+
+## Download & Set
+```
+git clone https://github.com/Magnus3327/PARCO-Computing-2026-243947
+cd PARCO-Computing-2026-243947
+```
+
+---
+
 
 ## Compilation
 Using Makefile:
@@ -270,6 +271,47 @@ Ensure required Python libraries are installed:
 matplotlib
 numpy
 ```
+
+Plots available:
+
+-SpeedUp
+argoments: <sequential.json> <parallel.json> <output_folder>
+```
+python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
+```
+
+-Strong Scalability
+argoments: <sequential.json> <parallel.json> <output_folder>
+```
+python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
+```
+
+-Scheduling and Chunk evaluation for single matrix
+argoments: <matrix_name> <sequential.json> <parallel.json> <output_folder>
+```
+python scripts/plots/schedChunck.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
+```
+
+-Roofline model
+argoments: <parallel.json> <output_folder> <MEM_BW_GBps> <PEAK_FLOPS_GFLOPS>
+Need to seek the actual limit of hardware, i use for manufactor data. 
+They are theorical, an future implementation will be a test to seek the peak of the hardware
+```
+python scripts/plots/rooflineModel.py results/parallel.json results/plots 140.7 1382.4
+```
+
+-Parallel Efficency
+argoments: <sequential.json> <parallel.json> <output_folder>
+```
+python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
+```
+
+-Memory misses
+argoments: <perf_folder> <output_folder>
+```
+python scripts/plots/memoryMisses.py results/perf results/plots
+```
+
 
 On macOS, a virtual environment is recommended.
 
