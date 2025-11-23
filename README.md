@@ -99,7 +99,7 @@ The following matrices are used in benchmarking, spanning a range of sizes and s
 | TSOPF_FS_b300.mtx      | 29,214   | 29,214   | 2,203,949   | 0.9974         |
 | rgg_n_2_21_s0.mtx      | 2,097,152| 2,097,152| 14,487,995  | 0.999997       |
 
-*Sparsity is defined as* \( 1 - \frac{nnz}{rows \times cols} \).
+*Sparsity degree is defined as* ( 1 - (nnz/(rows * cols)) ).
 
 These matrices were selected to illustrate the effect of sparsity and size on SpMV parallel performance and scalability. The largest matrix (rgg_n_2_21_s0.mtx) is automatically downloaded as part of the PBS HPC job.
 
