@@ -296,7 +296,7 @@ On macOS, a virtual environment is recommended.
 
 ---
 
- A set of benchmark results (JSON + perf profiling) is included in the `results/` directory for quick verification and comparison.
+ A set of benchmark results (JSON - perf profiling - plots) are included in the `results/` directory for quick verification and comparison.
 
 ## Notes
 Some `.DS_Store` metadata files may appear due to macOS filesystem behavior.
