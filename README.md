@@ -255,63 +255,32 @@ results/
 ---
 
 ## Plotting
-After job completion:
 
-Locally or on cluster (depending on environment)
+After job completion, the following plots can be generated. Ensure required Python libraries are installed:
 
-```
-python scripts/plots/<plot_script>.py
-```
-
-The plotting scripts allow selecting output folders dynamically.
-
-Ensure required Python libraries are installed:
-
-```
 matplotlib
 numpy
-```
 
-Plots available:
+Plot	Arguments	
+Speedup	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
+Strong Scalability	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
+Scheduling & Chunk evaluation	<matrix_name> <sequential.json> <parallel.json> <output_folder>	python scripts/plots/schedChunck.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
+Roofline model	<parallel.json> <output_folder> <MEM_BW_GBps> <PEAK_FLOPS_GFLOPS>	python scripts/plots/rooflineModel.py results/parallel.json results/plots 140.7 1382.4
+Parallel Efficiency	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
+Memory Misses	<perf_folder> <output_folder>	python scripts/plots/memoryMisses.py results/perf results/plots
 
--SpeedUp
-argoments: <sequential.json> <parallel.json> <output_folder>
+Note for Roofline model:
+The MEM_BW_GBps and PEAK_FLOPS_GFLOPS values should reflect the theoretical peak of the hardware. Future implementations may include a test to measure actual peak performance.
+
+Run scritps
 ```
 python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
-```
-
--Strong Scalability
-argoments: <sequential.json> <parallel.json> <output_folder>
-```
 python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
-```
-
--Scheduling and Chunk evaluation for single matrix
-argoments: <matrix_name> <sequential.json> <parallel.json> <output_folder>
-```
 python scripts/plots/schedChunck.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
-```
-
--Roofline model
-argoments: <parallel.json> <output_folder> <MEM_BW_GBps> <PEAK_FLOPS_GFLOPS>
-Need to seek the actual limit of hardware, i use for manufactor data. 
-They are theorical, an future implementation will be a test to seek the peak of the hardware
-```
 python scripts/plots/rooflineModel.py results/parallel.json results/plots 140.7 1382.4
-```
-
--Parallel Efficency
-argoments: <sequential.json> <parallel.json> <output_folder>
-```
 python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
-```
-
--Memory misses
-argoments: <perf_folder> <output_folder>
-```
 python scripts/plots/memoryMisses.py results/perf results/plots
 ```
-
 
 On macOS, a virtual environment is recommended.
 
