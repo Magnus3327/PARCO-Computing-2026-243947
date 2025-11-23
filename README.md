@@ -87,32 +87,14 @@ numpy
 The project is organized into modular components to improve readability, maintainability and testing.
 
 Core modules:
-- **CSR/** — CSR data structure and SpMV kernel
+- **CSR/** — CSR data structure and build
 - **MTX/** — Matrix Market (.mtx) loader and validation
 - **ResultsManager/** — JSON output, metadata aggregation, percentile computation
-- **Utils/** — helpers for timing, random vector generation, input validation
+- **Utils/** — helpers random vector generation
 
 Main executables:
 - `spmvSequential.cpp` — sequential baseline implementation
 - `spmvParallel.cpp` — OpenMP parallel implementation
-
-## Command Line Arguments
-```
-matrix_path          (required) Path to .mtx file
--T=<int>             OpenMP threads
--S=<string>          Scheduling: static | dynamic | guided
--C=<int>             Chunk size
--I=<int>             Timed iterations
-```
-
-Automatic handling:
-
-- Input validation
-- Thread count capped to system maximum
-- Runtime OpenMP scheduling configuration
-- Memory management via `unique_ptr`
-
----
 
 ## Output Format (JSON)
 ```json
@@ -168,6 +150,32 @@ Compiler flags:
 ```
 
 ---
+
+## Command Line Arguments
+Parallel execution
+```
+matrix_path          (required) Path to .mtx file
+-T=<int>             OpenMP threads
+-S=<string>          Scheduling: static | dynamic | guided
+-C=<int>             Chunk size
+-I=<int>             Timed iterations
+```
+
+Sequential have only
+```
+matrix_path          (required) Path to .mtx file
+-I=<int>             Timed iterations
+```
+
+Automatic handling:
+
+- Input validation
+- Thread count capped to system maximum
+- Runtime OpenMP scheduling configuration
+- Memory management via `unique_ptr`
+
+---
+
 
 ## Running Locally
 Single run Sequential: 
