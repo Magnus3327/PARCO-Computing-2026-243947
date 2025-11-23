@@ -256,8 +256,9 @@ results/
 
 ## Plotting
 
-After job completion, the following plots can be generated. Ensure required Python libraries are installed:
+After job completion, the following plots can be generated. 
 
+Ensure required Python libraries are installed:
 matplotlib
 numpy
 
