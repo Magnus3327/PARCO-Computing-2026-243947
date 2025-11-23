@@ -155,6 +155,11 @@ git clone https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
 ```
 
+before run in cluster and get new result, delete my results:
+```
+rm -r results/
+```
+
 ---
 
 
@@ -262,13 +267,13 @@ Ensure required Python libraries are installed:
 matplotlib
 numpy
 
-Plot	Arguments	
-Speedup	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
-Strong Scalability	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
-Scheduling & Chunk evaluation	<matrix_name> <sequential.json> <parallel.json> <output_folder>	python scripts/plots/schedChunck.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
-Roofline model	<parallel.json> <output_folder> <MEM_BW_GBps> <PEAK_FLOPS_GFLOPS>	python scripts/plots/rooflineModel.py results/parallel.json results/plots 140.7 1382.4
-Parallel Efficiency	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
-Memory Misses	<perf_folder> <output_folder>	python scripts/plots/memoryMisses.py results/perf results/plots
+Plot	Arguments:
+-Speedup	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
+-Strong Scalability	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
+-Scheduling & Chunk evaluation	<matrix_name> <sequential.json> <parallel.json> <output_folder>	python scripts/plots/schedChunk.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
+-Roofline model	<parallel.json> <output_folder> <MEM_BW_GBps> <PEAK_FLOPS_GFLOPS>	python scripts/plots/rooflineModel.py results/parallel.json results/plots 140.7 1382.4
+-Parallel Efficiency	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
+-Memory Misses	<perf_folder> <output_folder>	python scripts/plots/memoryMisses.py results/perf results/plots
 
 Note for Roofline model:
 The MEM_BW_GBps and PEAK_FLOPS_GFLOPS values should reflect the theoretical peak of the hardware. Future implementations may include a test to measure actual peak performance.
@@ -277,7 +282,7 @@ Run scritps
 ```
 python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
 python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
-python scripts/plots/schedChunck.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
+python scripts/plots/schedChunk.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
 python scripts/plots/rooflineModel.py results/parallel.json results/plots 140.7 1382.4
 python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
 python scripts/plots/memoryMisses.py results/perf results/plots
