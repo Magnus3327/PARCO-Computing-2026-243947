@@ -1,0 +1,15 @@
+dendrimer.mtx best 8 static 0
+dendrimer.mtx worst 8 dynamic 0
+dendrimer.mtx median 8 static 512
+heart1.mtx best 32 static 0
+heart1.mtx worst 2 dynamic 0
+heart1.mtx median 8 guided 512
+Journals.mtx best 2 guided 64
+Journals.mtx worst 32 guided 0
+Journals.mtx median 8 guided 512
+rgg_n_2_21_s0.mtx best 32 static 0
+rgg_n_2_21_s0.mtx worst 4 dynamic 0
+rgg_n_2_21_s0.mtx median 32 static 64
+TSOPF_FS_b300.mtx best 32 static 512
+TSOPF_FS_b300.mtx worst 2 dynamic 0
+TSOPF_FS_b300.mtx median 16 dynamic 64

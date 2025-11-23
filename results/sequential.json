@@ -1,0 +1,113 @@
+{
+  "hardware": {
+    "architecture": "x86_64",
+    "cpu_model": "Intel(R) Xeon(R) Gold 6252N CPU @ 2.30GHz",
+    "cpu_mhz": 2300,
+    "sockets": 4,
+    "cores_per_socket": 24,
+    "threads_per_core": 1,
+    "total_cores": 96,
+    "l1d_cache": "32K",
+    "l1i_cache": "32K",
+    "l2_cache": "1024K",
+    "l3_cache": "36608K",
+    "byte_order": "Little Endian",
+    "date": "2025-11-23T12:14:38Z"
+  },
+  "results": [
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "statistics90": {
+    "duration_ms": 0.032242,
+    "FLOPs": 63754,
+    "GFLOPS": 1.97736,
+    "Bandwidth_GBps": 19.9547,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.054813,
+  "all_iteration_times_ms": [0.032279, 0.032242, 0.032122, 0.032089, 0.032064, 0.032054, 0.032056, 0.032024, 0.032032, 0.032022],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "statistics90": {
+    "duration_ms": 1.67164,
+    "FLOPs": 2775546,
+    "GFLOPS": 1.66037,
+    "Bandwidth_GBps": 16.6207,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 2.48295,
+  "all_iteration_times_ms": [1.70501, 1.67164, 1.65192, 1.65532, 1.65713, 1.65022, 1.65661, 1.65569, 1.64737, 1.65317],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "statistics90": {
+    "duration_ms": 0.006419,
+    "FLOPs": 12192,
+    "GFLOPS": 1.89936,
+    "Bandwidth_GBps": 19.1482,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.010381,
+  "all_iteration_times_ms": [0.006438, 0.006419, 0.006369, 0.006289, 0.006251, 0.006243, 0.00623, 0.00623, 0.006222, 0.006229],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "statistics90": {
+    "duration_ms": 30.1552,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.640597,
+    "Bandwidth_GBps": 6.96234,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 30.1799,
+  "all_iteration_times_ms": [28.7211, 30.0694, 30.166, 26.2228, 29.4873, 30.1552, 26.5336, 29.4467, 26.0743, 26.1478],
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "statistics90": {
+    "duration_ms": 2.80627,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.57073,
+    "Bandwidth_GBps": 15.7906,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 4.16199,
+  "all_iteration_times_ms": [2.9082, 2.80627, 2.78014, 2.63989, 2.69936, 2.74184, 2.65525, 2.69507, 2.63192, 2.62594],
+  "errors": []
+}
+  ]
+}

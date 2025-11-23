@@ -1,0 +1,1566 @@
+g++-9.1.0 -std=c++11 -O3 -I./src -c src/CSR/CSRMatrix.cpp -o obj/CSR/CSRMatrix.o
+g++-9.1.0 -std=c++11 -O3 -I./src -c src/MTX/MTXReader.cpp -o obj/MTX/MTXReader.o
+g++-9.1.0 -std=c++11 -O3 -I./src -c src/Utils/Utils.cpp -o obj/Utils/Utils.o
+g++-9.1.0 -std=c++11 -O3 -I./src -c src/ResultsManager/ResultsManager.cpp -o obj/ResultsManager/ResultsManager.o
+g++-9.1.0 -std=c++11 -O3 -I./src obj/CSR/CSRMatrix.o obj/MTX/MTXReader.o obj/Utils/Utils.o obj/ResultsManager/ResultsManager.o src/spmvParallel.cpp -fopenmp -o bin/spmvParallel
+g++-9.1.0 -std=c++11 -O3 -I./src obj/CSR/CSRMatrix.o obj/MTX/MTXReader.o obj/Utils/Utils.o obj/ResultsManager/ResultsManager.o src/spmvSequential.cpp -o bin/spmvSequential
+Processing parallel dendrimer...
+ -> M=dendrimer T=2 S=static C=0
+ -> M=dendrimer T=2 S=static C=64
+ -> M=dendrimer T=2 S=static C=512
+ -> M=dendrimer T=2 S=dynamic C=0
+ -> M=dendrimer T=2 S=dynamic C=64
+ -> M=dendrimer T=2 S=dynamic C=512
+ -> M=dendrimer T=2 S=guided C=0
+ -> M=dendrimer T=2 S=guided C=64
+ -> M=dendrimer T=2 S=guided C=512
+ -> M=dendrimer T=4 S=static C=0
+ -> M=dendrimer T=4 S=static C=64
+ -> M=dendrimer T=4 S=static C=512
+ -> M=dendrimer T=4 S=dynamic C=0
+ -> M=dendrimer T=4 S=dynamic C=64
+ -> M=dendrimer T=4 S=dynamic C=512
+ -> M=dendrimer T=4 S=guided C=0
+ -> M=dendrimer T=4 S=guided C=64
+ -> M=dendrimer T=4 S=guided C=512
+ -> M=dendrimer T=8 S=static C=0
+ -> M=dendrimer T=8 S=static C=64
+ -> M=dendrimer T=8 S=static C=512
+ -> M=dendrimer T=8 S=dynamic C=0
+ -> M=dendrimer T=8 S=dynamic C=64
+ -> M=dendrimer T=8 S=dynamic C=512
+ -> M=dendrimer T=8 S=guided C=0
+ -> M=dendrimer T=8 S=guided C=64
+ -> M=dendrimer T=8 S=guided C=512
+ -> M=dendrimer T=16 S=static C=0
+ -> M=dendrimer T=16 S=static C=64
+ -> M=dendrimer T=16 S=static C=512
+ -> M=dendrimer T=16 S=dynamic C=0
+ -> M=dendrimer T=16 S=dynamic C=64
+ -> M=dendrimer T=16 S=dynamic C=512
+ -> M=dendrimer T=16 S=guided C=0
+ -> M=dendrimer T=16 S=guided C=64
+ -> M=dendrimer T=16 S=guided C=512
+ -> M=dendrimer T=32 S=static C=0
+ -> M=dendrimer T=32 S=static C=64
+ -> M=dendrimer T=32 S=static C=512
+ -> M=dendrimer T=32 S=dynamic C=0
+ -> M=dendrimer T=32 S=dynamic C=64
+ -> M=dendrimer T=32 S=dynamic C=512
+ -> M=dendrimer T=32 S=guided C=0
+ -> M=dendrimer T=32 S=guided C=64
+ -> M=dendrimer T=32 S=guided C=512
+Processing parallel heart1...
+ -> M=heart1 T=2 S=static C=0
+ -> M=heart1 T=2 S=static C=64
+ -> M=heart1 T=2 S=static C=512
+ -> M=heart1 T=2 S=dynamic C=0
+ -> M=heart1 T=2 S=dynamic C=64
+ -> M=heart1 T=2 S=dynamic C=512
+ -> M=heart1 T=2 S=guided C=0
+ -> M=heart1 T=2 S=guided C=64
+ -> M=heart1 T=2 S=guided C=512
+ -> M=heart1 T=4 S=static C=0
+ -> M=heart1 T=4 S=static C=64
+ -> M=heart1 T=4 S=static C=512
+ -> M=heart1 T=4 S=dynamic C=0
+ -> M=heart1 T=4 S=dynamic C=64
+ -> M=heart1 T=4 S=dynamic C=512
+ -> M=heart1 T=4 S=guided C=0
+ -> M=heart1 T=4 S=guided C=64
+ -> M=heart1 T=4 S=guided C=512
+ -> M=heart1 T=8 S=static C=0
+ -> M=heart1 T=8 S=static C=64
+ -> M=heart1 T=8 S=static C=512
+ -> M=heart1 T=8 S=dynamic C=0
+ -> M=heart1 T=8 S=dynamic C=64
+ -> M=heart1 T=8 S=dynamic C=512
+ -> M=heart1 T=8 S=guided C=0
+ -> M=heart1 T=8 S=guided C=64
+ -> M=heart1 T=8 S=guided C=512
+ -> M=heart1 T=16 S=static C=0
+ -> M=heart1 T=16 S=static C=64
+ -> M=heart1 T=16 S=static C=512
+ -> M=heart1 T=16 S=dynamic C=0
+ -> M=heart1 T=16 S=dynamic C=64
+ -> M=heart1 T=16 S=dynamic C=512
+ -> M=heart1 T=16 S=guided C=0
+ -> M=heart1 T=16 S=guided C=64
+ -> M=heart1 T=16 S=guided C=512
+ -> M=heart1 T=32 S=static C=0
+ -> M=heart1 T=32 S=static C=64
+ -> M=heart1 T=32 S=static C=512
+ -> M=heart1 T=32 S=dynamic C=0
+ -> M=heart1 T=32 S=dynamic C=64
+ -> M=heart1 T=32 S=dynamic C=512
+ -> M=heart1 T=32 S=guided C=0
+ -> M=heart1 T=32 S=guided C=64
+ -> M=heart1 T=32 S=guided C=512
+Processing parallel Journals...
+ -> M=Journals T=2 S=static C=0
+ -> M=Journals T=2 S=static C=64
+ -> M=Journals T=2 S=static C=512
+ -> M=Journals T=2 S=dynamic C=0
+ -> M=Journals T=2 S=dynamic C=64
+ -> M=Journals T=2 S=dynamic C=512
+ -> M=Journals T=2 S=guided C=0
+ -> M=Journals T=2 S=guided C=64
+ -> M=Journals T=2 S=guided C=512
+ -> M=Journals T=4 S=static C=0
+ -> M=Journals T=4 S=static C=64
+ -> M=Journals T=4 S=static C=512
+ -> M=Journals T=4 S=dynamic C=0
+ -> M=Journals T=4 S=dynamic C=64
+ -> M=Journals T=4 S=dynamic C=512
+ -> M=Journals T=4 S=guided C=0
+ -> M=Journals T=4 S=guided C=64
+ -> M=Journals T=4 S=guided C=512
+ -> M=Journals T=8 S=static C=0
+ -> M=Journals T=8 S=static C=64
+ -> M=Journals T=8 S=static C=512
+ -> M=Journals T=8 S=dynamic C=0
+ -> M=Journals T=8 S=dynamic C=64
+ -> M=Journals T=8 S=dynamic C=512
+ -> M=Journals T=8 S=guided C=0
+ -> M=Journals T=8 S=guided C=64
+ -> M=Journals T=8 S=guided C=512
+ -> M=Journals T=16 S=static C=0
+ -> M=Journals T=16 S=static C=64
+ -> M=Journals T=16 S=static C=512
+ -> M=Journals T=16 S=dynamic C=0
+ -> M=Journals T=16 S=dynamic C=64
+ -> M=Journals T=16 S=dynamic C=512
+ -> M=Journals T=16 S=guided C=0
+ -> M=Journals T=16 S=guided C=64
+ -> M=Journals T=16 S=guided C=512
+ -> M=Journals T=32 S=static C=0
+ -> M=Journals T=32 S=static C=64
+ -> M=Journals T=32 S=static C=512
+ -> M=Journals T=32 S=dynamic C=0
+ -> M=Journals T=32 S=dynamic C=64
+ -> M=Journals T=32 S=dynamic C=512
+ -> M=Journals T=32 S=guided C=0
+ -> M=Journals T=32 S=guided C=64
+ -> M=Journals T=32 S=guided C=512
+Processing parallel rgg_n_2_21_s0...
+ -> M=rgg_n_2_21_s0 T=2 S=static C=0
+ -> M=rgg_n_2_21_s0 T=2 S=static C=64
+ -> M=rgg_n_2_21_s0 T=2 S=static C=512
+ -> M=rgg_n_2_21_s0 T=2 S=dynamic C=0
+ -> M=rgg_n_2_21_s0 T=2 S=dynamic C=64
+ -> M=rgg_n_2_21_s0 T=2 S=dynamic C=512
+ -> M=rgg_n_2_21_s0 T=2 S=guided C=0
+ -> M=rgg_n_2_21_s0 T=2 S=guided C=64
+ -> M=rgg_n_2_21_s0 T=2 S=guided C=512
+ -> M=rgg_n_2_21_s0 T=4 S=static C=0
+ -> M=rgg_n_2_21_s0 T=4 S=static C=64
+ -> M=rgg_n_2_21_s0 T=4 S=static C=512
+ -> M=rgg_n_2_21_s0 T=4 S=dynamic C=0
+ -> M=rgg_n_2_21_s0 T=4 S=dynamic C=64
+ -> M=rgg_n_2_21_s0 T=4 S=dynamic C=512
+ -> M=rgg_n_2_21_s0 T=4 S=guided C=0
+ -> M=rgg_n_2_21_s0 T=4 S=guided C=64
+ -> M=rgg_n_2_21_s0 T=4 S=guided C=512
+ -> M=rgg_n_2_21_s0 T=8 S=static C=0
+ -> M=rgg_n_2_21_s0 T=8 S=static C=64
+ -> M=rgg_n_2_21_s0 T=8 S=static C=512
+ -> M=rgg_n_2_21_s0 T=8 S=dynamic C=0
+ -> M=rgg_n_2_21_s0 T=8 S=dynamic C=64
+ -> M=rgg_n_2_21_s0 T=8 S=dynamic C=512
+ -> M=rgg_n_2_21_s0 T=8 S=guided C=0
+ -> M=rgg_n_2_21_s0 T=8 S=guided C=64
+ -> M=rgg_n_2_21_s0 T=8 S=guided C=512
+ -> M=rgg_n_2_21_s0 T=16 S=static C=0
+ -> M=rgg_n_2_21_s0 T=16 S=static C=64
+ -> M=rgg_n_2_21_s0 T=16 S=static C=512
+ -> M=rgg_n_2_21_s0 T=16 S=dynamic C=0
+ -> M=rgg_n_2_21_s0 T=16 S=dynamic C=64
+ -> M=rgg_n_2_21_s0 T=16 S=dynamic C=512
+ -> M=rgg_n_2_21_s0 T=16 S=guided C=0
+ -> M=rgg_n_2_21_s0 T=16 S=guided C=64
+ -> M=rgg_n_2_21_s0 T=16 S=guided C=512
+ -> M=rgg_n_2_21_s0 T=32 S=static C=0
+ -> M=rgg_n_2_21_s0 T=32 S=static C=64
+ -> M=rgg_n_2_21_s0 T=32 S=static C=512
+ -> M=rgg_n_2_21_s0 T=32 S=dynamic C=0
+ -> M=rgg_n_2_21_s0 T=32 S=dynamic C=64
+ -> M=rgg_n_2_21_s0 T=32 S=dynamic C=512
+ -> M=rgg_n_2_21_s0 T=32 S=guided C=0
+ -> M=rgg_n_2_21_s0 T=32 S=guided C=64
+ -> M=rgg_n_2_21_s0 T=32 S=guided C=512
+Processing parallel TSOPF_FS_b300...
+ -> M=TSOPF_FS_b300 T=2 S=static C=0
+ -> M=TSOPF_FS_b300 T=2 S=static C=64
+ -> M=TSOPF_FS_b300 T=2 S=static C=512
+ -> M=TSOPF_FS_b300 T=2 S=dynamic C=0
+ -> M=TSOPF_FS_b300 T=2 S=dynamic C=64
+ -> M=TSOPF_FS_b300 T=2 S=dynamic C=512
+ -> M=TSOPF_FS_b300 T=2 S=guided C=0
+ -> M=TSOPF_FS_b300 T=2 S=guided C=64
+ -> M=TSOPF_FS_b300 T=2 S=guided C=512
+ -> M=TSOPF_FS_b300 T=4 S=static C=0
+ -> M=TSOPF_FS_b300 T=4 S=static C=64
+ -> M=TSOPF_FS_b300 T=4 S=static C=512
+ -> M=TSOPF_FS_b300 T=4 S=dynamic C=0
+ -> M=TSOPF_FS_b300 T=4 S=dynamic C=64
+ -> M=TSOPF_FS_b300 T=4 S=dynamic C=512
+ -> M=TSOPF_FS_b300 T=4 S=guided C=0
+ -> M=TSOPF_FS_b300 T=4 S=guided C=64
+ -> M=TSOPF_FS_b300 T=4 S=guided C=512
+ -> M=TSOPF_FS_b300 T=8 S=static C=0
+ -> M=TSOPF_FS_b300 T=8 S=static C=64
+ -> M=TSOPF_FS_b300 T=8 S=static C=512
+ -> M=TSOPF_FS_b300 T=8 S=dynamic C=0
+ -> M=TSOPF_FS_b300 T=8 S=dynamic C=64
+ -> M=TSOPF_FS_b300 T=8 S=dynamic C=512
+ -> M=TSOPF_FS_b300 T=8 S=guided C=0
+ -> M=TSOPF_FS_b300 T=8 S=guided C=64
+ -> M=TSOPF_FS_b300 T=8 S=guided C=512
+ -> M=TSOPF_FS_b300 T=16 S=static C=0
+ -> M=TSOPF_FS_b300 T=16 S=static C=64
+ -> M=TSOPF_FS_b300 T=16 S=static C=512
+ -> M=TSOPF_FS_b300 T=16 S=dynamic C=0
+ -> M=TSOPF_FS_b300 T=16 S=dynamic C=64
+ -> M=TSOPF_FS_b300 T=16 S=dynamic C=512
+ -> M=TSOPF_FS_b300 T=16 S=guided C=0
+ -> M=TSOPF_FS_b300 T=16 S=guided C=64
+ -> M=TSOPF_FS_b300 T=16 S=guided C=512
+ -> M=TSOPF_FS_b300 T=32 S=static C=0
+ -> M=TSOPF_FS_b300 T=32 S=static C=64
+ -> M=TSOPF_FS_b300 T=32 S=static C=512
+ -> M=TSOPF_FS_b300 T=32 S=dynamic C=0
+ -> M=TSOPF_FS_b300 T=32 S=dynamic C=64
+ -> M=TSOPF_FS_b300 T=32 S=dynamic C=512
+ -> M=TSOPF_FS_b300 T=32 S=guided C=0
+ -> M=TSOPF_FS_b300 T=32 S=guided C=64
+ -> M=TSOPF_FS_b300 T=32 S=guided C=512
+Profiling parallel dendrimer.mtx (best): threads=8 sched=static chunk=0
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0130292,
+    "FLOPs": 63754,
+    "GFLOPS": 4.89316,
+    "Bandwidth_GBps": 49.3798,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.347236,
+  "all_iteration_times_ms": [0.0130292],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0101514,
+    "FLOPs": 63754,
+    "GFLOPS": 6.28031,
+    "Bandwidth_GBps": 63.3783,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.396052,
+  "all_iteration_times_ms": [0.0101514],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0139438,
+    "FLOPs": 63754,
+    "GFLOPS": 4.57222,
+    "Bandwidth_GBps": 46.1411,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.418456,
+  "all_iteration_times_ms": [0.0139438],
+  "errors": []
+}
+Profiling parallel dendrimer.mtx (worst): threads=8 sched=dynamic chunk=0
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.112763,
+    "FLOPs": 63754,
+    "GFLOPS": 0.565382,
+    "Bandwidth_GBps": 5.70561,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.437902,
+  "all_iteration_times_ms": [0.112763],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0876002,
+    "FLOPs": 63754,
+    "GFLOPS": 0.727784,
+    "Bandwidth_GBps": 7.3445,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.448098,
+  "all_iteration_times_ms": [0.0876002],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0944361,
+    "FLOPs": 63754,
+    "GFLOPS": 0.675102,
+    "Bandwidth_GBps": 6.81286,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.410279,
+  "all_iteration_times_ms": [0.0944361],
+  "errors": []
+}
+Profiling parallel dendrimer.mtx (median): threads=8 sched=static chunk=512
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.028694,
+    "FLOPs": 63754,
+    "GFLOPS": 2.22185,
+    "Bandwidth_GBps": 22.4221,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.350296,
+  "all_iteration_times_ms": [0.028694],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0300631,
+    "FLOPs": 63754,
+    "GFLOPS": 2.12067,
+    "Bandwidth_GBps": 21.401,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.334311,
+  "all_iteration_times_ms": [0.0300631],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0272859,
+    "FLOPs": 63754,
+    "GFLOPS": 2.33652,
+    "Bandwidth_GBps": 23.5792,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.33927,
+  "all_iteration_times_ms": [0.0272859],
+  "errors": []
+}
+Profiling parallel heart1.mtx (best): threads=32 sched=static chunk=0
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.177018,
+    "FLOPs": 2775546,
+    "GFLOPS": 15.6794,
+    "Bandwidth_GBps": 156.955,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.45242,
+  "all_iteration_times_ms": [0.177018],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.115482,
+    "FLOPs": 2775546,
+    "GFLOPS": 24.0344,
+    "Bandwidth_GBps": 240.591,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 2.00107,
+  "all_iteration_times_ms": [0.115482],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0962429,
+    "FLOPs": 2775546,
+    "GFLOPS": 28.839,
+    "Bandwidth_GBps": 288.685,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.57198,
+  "all_iteration_times_ms": [0.0962429],
+  "errors": []
+}
+Profiling parallel heart1.mtx (worst): threads=2 sched=dynamic chunk=0
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.11179,
+    "FLOPs": 2775546,
+    "GFLOPS": 2.49647,
+    "Bandwidth_GBps": 24.9903,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.40109,
+  "all_iteration_times_ms": [1.11179],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.09875,
+    "FLOPs": 2775546,
+    "GFLOPS": 2.5261,
+    "Bandwidth_GBps": 25.2869,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.37704,
+  "all_iteration_times_ms": [1.09875],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 1.08787,
+    "FLOPs": 2775546,
+    "GFLOPS": 2.55136,
+    "Bandwidth_GBps": 25.5398,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 1.43442,
+  "all_iteration_times_ms": [1.08787],
+  "errors": []
+}
+Profiling parallel heart1.mtx (median): threads=8 sched=guided chunk=512
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.462845,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.99671,
+    "Bandwidth_GBps": 60.0286,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.859477,
+  "all_iteration_times_ms": [0.462845],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.493657,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.62242,
+    "Bandwidth_GBps": 56.2818,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.8674,
+  "all_iteration_times_ms": [0.493657],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.523798,
+    "FLOPs": 2775546,
+    "GFLOPS": 5.29888,
+    "Bandwidth_GBps": 53.0432,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 0.844808,
+  "all_iteration_times_ms": [0.523798],
+  "errors": []
+}
+Profiling parallel Journals.mtx (best): threads=2 sched=guided chunk=64
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.00688434,
+    "FLOPs": 12192,
+    "GFLOPS": 1.77098,
+    "Bandwidth_GBps": 17.8539,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.134051,
+  "all_iteration_times_ms": [0.00688434],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.00759587,
+    "FLOPs": 12192,
+    "GFLOPS": 1.60508,
+    "Bandwidth_GBps": 16.1814,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.0647344,
+  "all_iteration_times_ms": [0.00759587],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "guided",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.00669993,
+    "FLOPs": 12192,
+    "GFLOPS": 1.81972,
+    "Bandwidth_GBps": 18.3453,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.0636503,
+  "all_iteration_times_ms": [0.00669993],
+  "errors": []
+}
+Profiling parallel Journals.mtx (worst): threads=32 sched=guided chunk=0
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0366941,
+    "FLOPs": 12192,
+    "GFLOPS": 0.33226,
+    "Bandwidth_GBps": 3.34964,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 1.00931,
+  "all_iteration_times_ms": [0.0366941],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0407491,
+    "FLOPs": 12192,
+    "GFLOPS": 0.299197,
+    "Bandwidth_GBps": 3.01631,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 1.03265,
+  "all_iteration_times_ms": [0.0407491],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "guided",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 0.0396613,
+    "FLOPs": 12192,
+    "GFLOPS": 0.307403,
+    "Bandwidth_GBps": 3.09904,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 1.14244,
+  "all_iteration_times_ms": [0.0396613],
+  "errors": []
+}
+Profiling parallel Journals.mtx (median): threads=8 sched=guided chunk=512
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0131428,
+    "FLOPs": 12192,
+    "GFLOPS": 0.927655,
+    "Bandwidth_GBps": 9.35202,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.326611,
+  "all_iteration_times_ms": [0.0131428],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.0120867,
+    "FLOPs": 12192,
+    "GFLOPS": 1.00871,
+    "Bandwidth_GBps": 10.1692,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.392556,
+  "all_iteration_times_ms": [0.0120867],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "scenario": {
+    "threads": 8,
+    "scheduling_type": "guided",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.038445,
+    "FLOPs": 12192,
+    "GFLOPS": 0.317128,
+    "Bandwidth_GBps": 3.19709,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.279829,
+  "all_iteration_times_ms": [0.038445],
+  "errors": []
+}
+Profiling parallel rgg_n_2_21_s0.mtx (best): threads=32 sched=static chunk=0
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.72915,
+    "FLOPs": 19317326,
+    "GFLOPS": 7.07815,
+    "Bandwidth_GBps": 76.9289,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.95096,
+  "all_iteration_times_ms": [2.72915],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.65053,
+    "FLOPs": 19317326,
+    "GFLOPS": 7.2881,
+    "Bandwidth_GBps": 79.2107,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.96986,
+  "all_iteration_times_ms": [2.65053],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 2.48427,
+    "FLOPs": 19317326,
+    "GFLOPS": 7.77587,
+    "Bandwidth_GBps": 84.5121,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 4.55841,
+  "all_iteration_times_ms": [2.48427],
+  "errors": []
+}
+Profiling parallel rgg_n_2_21_s0.mtx (worst): threads=4 sched=dynamic chunk=0
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 233.603,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.0826928,
+    "Bandwidth_GBps": 0.898747,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 236.661,
+  "all_iteration_times_ms": [233.603],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 252.734,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.0764334,
+    "Bandwidth_GBps": 0.830717,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 250.553,
+  "all_iteration_times_ms": [252.734],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 4,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 226.002,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.085474,
+    "Bandwidth_GBps": 0.928975,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 234.009,
+  "all_iteration_times_ms": [226.002],
+  "errors": []
+}
+Profiling parallel rgg_n_2_21_s0.mtx (median): threads=32 sched=static chunk=64
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 10.3405,
+    "FLOPs": 19317326,
+    "GFLOPS": 1.86813,
+    "Bandwidth_GBps": 20.3038,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 10.8231,
+  "all_iteration_times_ms": [10.3405],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 9.40631,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.05366,
+    "Bandwidth_GBps": 22.3202,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 13.2877,
+  "all_iteration_times_ms": [9.40631],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 8.21857,
+    "FLOPs": 19317326,
+    "GFLOPS": 2.35045,
+    "Bandwidth_GBps": 25.5459,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 12.3833,
+  "all_iteration_times_ms": [8.21857],
+  "errors": []
+}
+Profiling parallel TSOPF_FS_b300.mtx (best): threads=32 sched=static chunk=512
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.462154,
+    "FLOPs": 4407898,
+    "GFLOPS": 9.53773,
+    "Bandwidth_GBps": 95.883,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.88086,
+  "all_iteration_times_ms": [0.462154],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.335358,
+    "FLOPs": 4407898,
+    "GFLOPS": 13.1439,
+    "Bandwidth_GBps": 132.135,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.91512,
+  "all_iteration_times_ms": [0.335358],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 32,
+    "scheduling_type": "static",
+    "chunk_size": 512
+  },
+  "statistics90": {
+    "duration_ms": 0.353109,
+    "FLOPs": 4407898,
+    "GFLOPS": 12.4831,
+    "Bandwidth_GBps": 125.493,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.82026,
+  "all_iteration_times_ms": [0.353109],
+  "errors": []
+}
+Profiling parallel TSOPF_FS_b300.mtx (worst): threads=2 sched=dynamic chunk=0
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 3.387,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.30142,
+    "Bandwidth_GBps": 13.0832,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 3.6536,
+  "all_iteration_times_ms": [3.387],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 3.44912,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.27798,
+    "Bandwidth_GBps": 12.8475,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 3.73959,
+  "all_iteration_times_ms": [3.44912],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 2,
+    "scheduling_type": "dynamic",
+    "chunk_size": 0
+  },
+  "statistics90": {
+    "duration_ms": 3.45152,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.27709,
+    "Bandwidth_GBps": 12.8386,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 3.71162,
+  "all_iteration_times_ms": [3.45152],
+  "errors": []
+}
+Profiling parallel TSOPF_FS_b300.mtx (median): threads=16 sched=dynamic chunk=64
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.948386,
+    "FLOPs": 4407898,
+    "GFLOPS": 4.64779,
+    "Bandwidth_GBps": 46.7243,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.48701,
+  "all_iteration_times_ms": [0.948386],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 0.849359,
+    "FLOPs": 4407898,
+    "GFLOPS": 5.18968,
+    "Bandwidth_GBps": 52.1719,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.52878,
+  "all_iteration_times_ms": [0.849359],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "scenario": {
+    "threads": 16,
+    "scheduling_type": "dynamic",
+    "chunk_size": 64
+  },
+  "statistics90": {
+    "duration_ms": 1.00576,
+    "FLOPs": 4407898,
+    "GFLOPS": 4.38265,
+    "Bandwidth_GBps": 44.0589,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 1.64564,
+  "all_iteration_times_ms": [1.00576],
+  "errors": []
+}
+Processing sequential dendrimer...
+Processing sequential heart1...
+Processing sequential Journals...
+Processing sequential rgg_n_2_21_s0...
+Processing sequential TSOPF_FS_b300...
+Profiling sequential ./matrices/dendrimer.mtx
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "statistics90": {
+    "duration_ms": 0.032262,
+    "FLOPs": 63754,
+    "GFLOPS": 1.97613,
+    "Bandwidth_GBps": 19.9423,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.053661,
+  "all_iteration_times_ms": [0.032262],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "statistics90": {
+    "duration_ms": 0.032275,
+    "FLOPs": 63754,
+    "GFLOPS": 1.97534,
+    "Bandwidth_GBps": 19.9343,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.0532,
+  "all_iteration_times_ms": [0.032275],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "dendrimer.mtx",
+    "rows": 730,
+    "cols": 730,
+    "nnz": 31877
+  },
+  "statistics90": {
+    "duration_ms": 0.032289,
+    "FLOPs": 63754,
+    "GFLOPS": 1.97448,
+    "Bandwidth_GBps": 19.9257,
+    "Arithmetic_intensity": 0.0990923
+  },
+  "warmUp_time_ms": 0.05328,
+  "all_iteration_times_ms": [0.032289],
+  "errors": []
+}
+Profiling sequential ./matrices/heart1.mtx
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "statistics90": {
+    "duration_ms": 1.73595,
+    "FLOPs": 2775546,
+    "GFLOPS": 1.59886,
+    "Bandwidth_GBps": 16.005,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 2.50364,
+  "all_iteration_times_ms": [1.73595],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "statistics90": {
+    "duration_ms": 1.72022,
+    "FLOPs": 2775546,
+    "GFLOPS": 1.61348,
+    "Bandwidth_GBps": 16.1514,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 2.48727,
+  "all_iteration_times_ms": [1.72022],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "heart1.mtx",
+    "rows": 3557,
+    "cols": 3557,
+    "nnz": 1387773
+  },
+  "statistics90": {
+    "duration_ms": 1.72141,
+    "FLOPs": 2775546,
+    "GFLOPS": 1.61237,
+    "Bandwidth_GBps": 16.1402,
+    "Arithmetic_intensity": 0.0998976
+  },
+  "warmUp_time_ms": 2.52132,
+  "all_iteration_times_ms": [1.72141],
+  "errors": []
+}
+Profiling sequential ./matrices/Journals.mtx
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "statistics90": {
+    "duration_ms": 0.00644,
+    "FLOPs": 12192,
+    "GFLOPS": 1.89317,
+    "Bandwidth_GBps": 19.0857,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.010292,
+  "all_iteration_times_ms": [0.00644],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "statistics90": {
+    "duration_ms": 0.006497,
+    "FLOPs": 12192,
+    "GFLOPS": 1.87656,
+    "Bandwidth_GBps": 18.9183,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.010274,
+  "all_iteration_times_ms": [0.006497],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "Journals.mtx",
+    "rows": 124,
+    "cols": 124,
+    "nnz": 6096
+  },
+  "statistics90": {
+    "duration_ms": 0.006448,
+    "FLOPs": 12192,
+    "GFLOPS": 1.89082,
+    "Bandwidth_GBps": 19.062,
+    "Arithmetic_intensity": 0.0991929
+  },
+  "warmUp_time_ms": 0.010302,
+  "all_iteration_times_ms": [0.006448],
+  "errors": []
+}
+Profiling sequential ./matrices/rgg_n_2_21_s0.mtx
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "statistics90": {
+    "duration_ms": 28.8871,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.668717,
+    "Bandwidth_GBps": 7.26795,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 30.1424,
+  "all_iteration_times_ms": [28.8871],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "statistics90": {
+    "duration_ms": 28.8964,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.668503,
+    "Bandwidth_GBps": 7.26563,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 29.8962,
+  "all_iteration_times_ms": [28.8964],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "rgg_n_2_21_s0.mtx",
+    "rows": 2097152,
+    "cols": 2097152,
+    "nnz": 9658663
+  },
+  "statistics90": {
+    "duration_ms": 28.5131,
+    "FLOPs": 19317326,
+    "GFLOPS": 0.67749,
+    "Bandwidth_GBps": 7.3633,
+    "Arithmetic_intensity": 0.092009
+  },
+  "warmUp_time_ms": 29.8559,
+  "all_iteration_times_ms": [28.5131],
+  "errors": []
+}
+Profiling sequential ./matrices/TSOPF_FS_b300.mtx
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "statistics90": {
+    "duration_ms": 2.85872,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.54191,
+    "Bandwidth_GBps": 15.5009,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 4.15471,
+  "all_iteration_times_ms": [2.85872],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "statistics90": {
+    "duration_ms": 2.83049,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.55729,
+    "Bandwidth_GBps": 15.6555,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 4.11926,
+  "all_iteration_times_ms": [2.83049],
+  "errors": []
+}
+{
+  "matrix": {
+    "name": "TSOPF_FS_b300.mtx",
+    "rows": 29214,
+    "cols": 14676,
+    "nnz": 2203949
+  },
+  "statistics90": {
+    "duration_ms": 2.86993,
+    "FLOPs": 4407898,
+    "GFLOPS": 1.53589,
+    "Bandwidth_GBps": 15.4403,
+    "Arithmetic_intensity": 0.0994726
+  },
+  "warmUp_time_ms": 4.13844,
+  "all_iteration_times_ms": [2.86993],
+  "errors": []
+}

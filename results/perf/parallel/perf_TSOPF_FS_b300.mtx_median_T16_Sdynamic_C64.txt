@@ -1,0 +1,14 @@
+# started on Sun Nov 23 13:20:57 2025
+
+
+ Performance counter stats for './bin/spmvParallel ./matrices/TSOPF_FS_b300.mtx -T=16 -S=dynamic -C=64 -I=1' (3 runs):
+
+     2,736,894,516      L1-dcache-loads:u                                             ( +-  0.00% )
+        12,852,622      L1-dcache-load-misses:u   #    0.47% of all L1-dcache hits    ( +-  0.08% )
+           653,360      LLC-loads:u                                                   ( +-  0.71% )
+            83,794      LLC-load-misses:u         #   12.83% of all LL-cache hits     ( +- 44.36% )
+        12,542,139      cache-references:u                                            ( +-  0.33% )
+         2,527,920      cache-misses:u            #   20.155 % of all cache refs      ( +- 36.74% )
+
+           1.40929 +- 0.00561 seconds time elapsed  ( +-  0.40% )
+

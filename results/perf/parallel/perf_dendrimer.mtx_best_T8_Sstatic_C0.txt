@@ -1,0 +1,14 @@
+# started on Sun Nov 23 13:19:52 2025
+
+
+ Performance counter stats for './bin/spmvParallel ./matrices/dendrimer.mtx -T=8 -S=static -C=0 -I=1' (3 runs):
+
+        28,790,820      L1-dcache-loads:u                                             ( +-  0.03% )
+           157,110      L1-dcache-load-misses:u   #    0.55% of all L1-dcache hits    ( +-  0.18% )
+            11,918      LLC-loads:u                                                   ( +-  2.89% )
+             6,674      LLC-load-misses:u         #   56.00% of all LL-cache hits     ( +-  7.68% )
+            58,415      cache-references:u                                            ( +-  4.16% )
+            24,118      cache-misses:u            #   41.287 % of all cache refs      ( +- 10.20% )
+
+          0.019728 +- 0.000165 seconds time elapsed  ( +-  0.84% )
+
