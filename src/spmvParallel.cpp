@@ -10,7 +10,7 @@
     1. Reads a sparse matrix from a Matrix Market (.mtx) file.
     2. Converts it into CSR (Compressed Sparse Row) format.
     3. Generates a random input vector.
-    4. Executes a warm-up SpMV iteration (not timed).
+    4. Executes a warm-up SpMV iteration (not timed) counting bytes moved and FLOPs.
     5. Executes N timed SpMV iterations (N = -I=iterations).
     6. Stores timings and metadata in ResultsManager.
     7. Computes:
@@ -27,7 +27,7 @@
         * List of all iteration durations
         * Any warnings or errors collected
 
-    CLI ARGUMENTS (order does not matter)
+    CLI ARGUMENTS (order does not matter for the optional)
     -------------
       matrix_path         Path to the input .mtx matrix (REQUIRED)
       -T=<int>            Number of OpenMP threads
