@@ -181,13 +181,13 @@ Automatic handling:
 Single run Sequential: 
 
 ```
-bin/spmvSequential matrices/<matrix>.mtx -I=20
+bin/spmvSequential matrices/<matrix>.mtx -I=10
 ```
 
 Redirect output to JSON file:
 
 ```
-bin/spmvSequential matrices/<matrix>.mtx -I=20 > output.json
+bin/spmvSequential matrices/<matrix>.mtx -I=10 > output.json
 ```
 
 Single run parallel:
@@ -211,9 +211,19 @@ All runtime configuration is controlled via CLI arguments.
 The repository contains several pre-installed matrices (<100 MB due to GitHub limits).  
 Additional `.mtx` files may be downloaded and placed in:
 
-```
-matrices/
-```
+The following matrices are used in benchmarking, spanning a range of sizes and sparsity:
+
+| Matrix name            | Rows     | Cols     | NNZ         | Sparsity degree |
+|----------------------- |--------- |--------- |------------ |----------------|
+| Journals.mtx           | 124      | 124      | 6,096       | 0.6037         |
+| dendrimer.mtx          | 730      | 730      | 31,877      | 0.9403         |
+| heart1.mtx             | 3,557    | 3,557    | 1,387,773   | 0.8904         |
+| TSOPF_FS_b300.mtx      | 29,214   | 29,214   | 2,203,949   | 0.9974         |
+| rgg_n_2_21_s0.mtx      | 2,097,152| 2,097,152| 14,487,995  | 0.999997       |
+
+*Sparsity is defined as* \( 1 - \frac{nnz}{rows \times cols} \).
+
+These matrices were selected to illustrate the effect of sparsity and size on SpMV parallel performance and scalability. The largest matrix (rgg_n_2_21_s0.mtx) is automatically downloaded as part of the PBS HPC job.
 
 ---
 
