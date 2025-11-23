@@ -99,7 +99,6 @@ def plot_sched_chunk_matrix(matrix_name, seq_file, par_file, output_folder):
     plt.legend()
     plt.tight_layout()
     plt.savefig(output_file)
-    plt.show()
 
 # --- Accept output folder as third argument
 if __name__ == "__main__":

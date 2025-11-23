@@ -94,8 +94,7 @@ def plot_speedup_annotate_right(sequential_file, parallel_file, output_folder):
     plt.tight_layout()
     os.makedirs(output_folder, exist_ok=True)
     plt.savefig(os.path.join(output_folder, 'spmv_speedup.png'))
-    plt.show()
-
+    
 if __name__ == "__main__":
     if len(sys.argv) != 4:
         print("Usage: python plot_speedup.py <sequential.json> <parallel.json> <output_folder>")

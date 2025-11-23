@@ -82,7 +82,6 @@ def plot_roofline_clean(parallel_file, output_folder, mem_bw, peak_flops):
     plt.tight_layout()
     os.makedirs(output_folder, exist_ok=True)
     plt.savefig(os.path.join(output_folder, "roofline_spmv_bestpoints_config.png"))
-    plt.show()
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:

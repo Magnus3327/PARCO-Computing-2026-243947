@@ -88,7 +88,6 @@ def plot_strong_scalability_with_single_theory(sequential_file, parallel_file, o
 
     os.makedirs(output_folder, exist_ok=True)
     plt.savefig(os.path.join(output_folder, "spmv_strong_scalability.png"))
-    plt.show()
 
 if __name__ == "__main__":
     # Usage: python plot_scalability.py sequential.json parallel.json output_folder
