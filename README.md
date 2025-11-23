@@ -267,13 +267,17 @@ Ensure required Python libraries are installed:
 matplotlib
 numpy
 
-Plot	Arguments:
--Speedup	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/speedUp.py results/sequential.json results/parallel.json results/plots
--Strong Scalability	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/strongScalability.py results/sequential.json results/parallel.json results/plots
--Scheduling & Chunk evaluation	<matrix_name> <sequential.json> <parallel.json> <output_folder>	python scripts/plots/schedChunk.py matrices/heart1.mtx results/sequential.json results/parallel.json results/plots
--Roofline model	<parallel.json> <output_folder> <MEM_BW_GBps> <PEAK_FLOPS_GFLOPS>	python scripts/plots/rooflineModel.py results/parallel.json results/plots 140.7 1382.4
--Parallel Efficiency	<sequential.json> <parallel.json> <output_folder>	python scripts/plots/parallelEfficency.py results/sequential.json results/parallel.json results/plots
--Memory Misses	<perf_folder> <output_folder>	python scripts/plots/memoryMisses.py results/perf results/plots
+Plotting Scripts
+
+| Plot                       | Arguments                                                         |
+|----------------------------|-------------------------------------------------------------------|
+| SpeedUp                    | `<sequential.json> <parallel.json> <output_folder>`               
+| Strong Scalability         | `<sequential.json> <parallel.json> <output_folder>`               
+| Scheduling & Chunk Eval.   | `<matrix_name> <sequential.json> <parallel.json> <output_folder>` 
+| Roofline Model             | `<parallel.json> <output_folder> <MEM_BW_GBps> <PEAK_FLOPS_GFLOPS>` 
+| Parallel Efficiency        | `<sequential.json> <parallel.json> <output_folder>`               
+| Memory Misses              | `<perf_folder> <output_folder>`                                   
+
 
 Note for Roofline model:
 The MEM_BW_GBps and PEAK_FLOPS_GFLOPS values should reflect the theoretical peak of the hardware. Future implementations may include a test to measure actual peak performance.
