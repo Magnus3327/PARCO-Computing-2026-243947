@@ -9,14 +9,20 @@
 #define UTILS_H
 
 #include <random>
+#include <vector>
+#include "MTX/MTXReader.h"
 
 using namespace std;
+using namespace mtx;
 
 namespace utils {
 
     // Generate a random double vector of given size in [minVal, maxVal]
     // The random engine is initialized only once for consistent randomness
     double* generateRandomVector(int size, double minVal = 0.0, double maxVal = 1.0);
+
+    // Generate SparseMatrix in coo format using MTX::Entry
+    vector<Entry> generateSparseMatrix(int rows, int cols, double density);
 
 } // namespace utils
 

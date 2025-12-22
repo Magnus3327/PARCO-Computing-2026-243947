@@ -33,7 +33,8 @@ using namespace std;
 class ResultsManager {
 private:
     // Matrix metadata
-    string matrixName;
+    string pathmtx = "";
+    string matrixName = "";
     bool isGenerated = false;
     size_t rows = 0;
     size_t cols = 0;
