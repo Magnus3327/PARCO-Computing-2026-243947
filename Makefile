@@ -2,7 +2,7 @@
 
 # Compilatore MPI
 CXX = mpic++
-CXXFLAGS = -std=c++11 -O3 -I./src
+CXXFLAGS = -O3 -I./src
 
 # Directory
 SRC_DIR = src

@@ -35,7 +35,7 @@
 #include <algorithm>
 
 // Project headers
-#include "ResultsManager.h"
+#include "ResultsManager/ResultsManager.h"
 #include "MTX/MTXReader.h"
 #include "CSR/CSRMatrix.h"
 #include "Utils/Utils.h"
@@ -83,44 +83,62 @@ struct CLIOptions {
 CLIOptions parseCLI(int argc, char* argv[]) {
     CLIOptions opts;
     bool matrixSpecified = false;
+    opts.iterations = 1; // Default a 1 se non specificato
 
     if (argc < 2)
-        throw runtime_error("Missing CLI arguments");
+        throw runtime_error("Missing CLI arguments. Usage: ./distributedSpMV -M=<file> OR -VM=r;c;d [-I=<iters>]");
 
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
 
+        // Caso Matrice da File Market
         if (arg.rfind("-M=", 0) == 0) {
-            if (matrixSpecified)
-                throw runtime_error("Matrix source already specified");
-
+            if (matrixSpecified) throw runtime_error("Matrix source already specified");
+            if (arg.length() <= 3) throw runtime_error("Filepath for -M is empty");
+            
             opts.filepath = arg.substr(3);
             opts.generateMatrix = false;
             matrixSpecified = true;
         }
+        // Caso Matrice Generata (Synthetic)
         else if (arg.rfind("-VM=", 0) == 0) {
-            if (matrixSpecified)
-                throw runtime_error("Matrix source already specified");
+            if (matrixSpecified) throw runtime_error("Matrix source already specified");
+            if (arg.length() <= 4) throw runtime_error("-VM parameters are empty");
 
             stringstream ss(arg.substr(4));
             string token;
             vector<string> values;
 
-            while (getline(ss, token, ';'))
-                values.push_back(token);
+            while (getline(ss, token, ';')) {
+                if (!token.empty()) values.push_back(token);
+            }
 
             if (values.size() != 3)
-                throw runtime_error("Invalid -VM format (rows;cols;density)");
+                throw runtime_error("Invalid -VM format. Expected rows;cols;density (e.g., -VM=100;100;0.1)");
 
-            opts.rows = stoi(values[0]);
-            opts.cols = stoi(values[1]);
-            opts.density = stod(values[2]);
+            try {
+                opts.rows = stoi(values[0]);
+                opts.cols = stoi(values[1]);
+                opts.density = stod(values[2]);
+            } catch (...) {
+                throw runtime_error("Invalid numeric values in -VM");
+            }
+
+            // Validazione logica dei dati
+            if (opts.rows <= 0 || opts.cols <= 0) throw runtime_error("Dimensions must be positive");
+            if (opts.density <= 0.0 || opts.density > 1.0) throw runtime_error("Density must be in (0, 1]");
 
             opts.generateMatrix = true;
             matrixSpecified = true;
         }
+        // Caso Iterazioni
         else if (arg.rfind("-I=", 0) == 0) {
-            opts.iterations = stoi(arg.substr(3));
+            try {
+                opts.iterations = stoi(arg.substr(3));
+                if (opts.iterations <= 0) opts.iterations = 1; // Protezione contro valori negativi
+            } catch (...) {
+                throw runtime_error("Invalid iteration count in -I");
+            }
         }
         else {
             throw runtime_error("Unknown argument: " + arg);
@@ -128,10 +146,7 @@ CLIOptions parseCLI(int argc, char* argv[]) {
     }
 
     if (!matrixSpecified)
-        throw runtime_error("Matrix not specified");
-
-    if (opts.iterations <= 0)
-        throw runtime_error("Invalid iteration count");
+        throw runtime_error("Matrix source (-M or -VM) not specified");
 
     return opts;
 }
