@@ -1,22 +1,3 @@
-/*
-    ResultsManager - Deliverable 2 (MPI Edition)
-
-    This class collects and exports performance metrics for distributed 
-    Sparse Matrix-Vector Multiplication (SpMV) using MPI.
-
-    JSON OUTPUT FORMAT:
-    {
-        "matrix": { "name", "is_generated", "rows", "cols", "nnz", "density" },
-        "execution_env": { "mpi_processes", "nodes", "total_memory_gb", "notes" },
-        "benchmarking": { "warmup_time_ms", "iterations", "all_iteration_times_ms" },
-        "statistics": { 
-            "avg_duration_ms", "p90_duration_ms", "total_flops", 
-            "total_gflops", "total_bandwidth_gbps", "mpi_overhead_pct" 
-        },
-        "errors": []
-    }
-*/
-
 #ifndef RESULTSMANAGER_H
 #define RESULTSMANAGER_H
 
@@ -32,8 +13,7 @@ using namespace std;
 
 class ResultsManager {
 private:
-    // Matrix metadata
-    string pathmtx = "";
+    // Metadata Matrice
     string matrixName = "";
     bool isGenerated = false;
     size_t rows = 0;
@@ -41,47 +21,37 @@ private:
     size_t nnz = 0;
     double density = 0.0;
 
-    // MPI Environment
+    // Ambiente MPI
     int mpiProcesses = 1;
-    int nodes = 1;
-    double totalMemoryGB = 0.0;
-    string runNotes;
 
-    // Benchmarking data
-    double warmupDuration = 0.0;
+    // Dati Benchmarking
     vector<double> iterationDurations;
 
-    // Computed Metrics
+    // Metriche Calcolate
     double avgDuration = 0.0;
     double duration90 = 0.0;
     size_t totalFlops = 0;
     size_t totalBytesMoved = 0;
     double gflops = 0.0;
     double bandwidthGBps = 0.0;
-    double mpiOverheadPct = 0.0;
 
     vector<string> errors;
 
 public:
     ResultsManager() = default;
-    ~ResultsManager() { clear(); }
-
-    // Setters for matrix and environment
+    
+    // Setters
     void setMatrixInfo(const string& name, bool generated, size_t r, size_t c, size_t n, double dens);
-    void setMPIInfo(int procs, int nNodes, double mem, const string& notes);
-
-    // Timing and overhead
-    void setWarmupDuration(double duration);
+    void setMPIInfo(int procs);
     void addIterationDuration(double duration);
-    void setMPIOverhead(double commTimeMs); // Total communication time in ms
 
-    // Calculations
+    // Calcoli
     void computeAllMetrics();
 
-    // Utilities
+    // Output
     void addError(const string& msg);
     string toJSON() const;
     void clear();
 };
 
-#endif // RESULTSMANAGER_H
+#endif

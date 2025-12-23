@@ -10,6 +10,7 @@
 
 #include <random>
 #include <vector>
+#include <unordered_set>
 #include "MTX/MTXReader.h"
 
 using namespace std;
@@ -22,7 +23,7 @@ namespace utils {
     double* generateRandomVector(int size, double minVal = 0.0, double maxVal = 1.0);
 
     // Generate SparseMatrix in coo format using MTX::Entry
-    vector<Entry> generateSparseMatrix(int rows, int cols, double density);
+    vector<Entry> generateMatrixEntries(int rows, int cols, double density);
 
 } // namespace utils
 
