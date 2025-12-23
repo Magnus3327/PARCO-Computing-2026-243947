@@ -22,10 +22,10 @@ void ResultsManager::addIterationDuration(double duration) {
 void ResultsManager::computeAllMetrics() {
     if (nnz == 0 || iterationDurations.empty()) return;
 
-    // Operazioni standard SpMV: 1 mul + 1 add per ogni elemento non nullo [cite: 174]
+    // SpMV esegue 1 Moltiplicazione e 1 Somma per ogni NNZ
     totalFlops = 2 * nnz; 
     
-    // Stima traffico dati CSR [cite: 239]
+    // Stima traffico dati (Valori + Indici + RowPtr + Vettori x e y)
     size_t bytesRead = (sizeof(double) + sizeof(int)) * nnz + sizeof(int) * (rows + 1) + sizeof(double) * cols;
     size_t bytesWritten = sizeof(double) * rows;
     totalBytesMoved = bytesRead + bytesWritten;
@@ -38,10 +38,12 @@ void ResultsManager::computeAllMetrics() {
     size_t idx90 = size_t(ceil(0.9 * sortedDur.size())) - 1;
     duration90 = sortedDur[std::min(idx90, sortedDur.size() - 1)];
 
-    // Calcolo GFLOPS e Bandwidth basati sulla media [cite: 301, 303]
+    // Performance basata sulla durata media (ms -> s)
     double seconds = avgDuration / 1000.0;
-    gflops = (totalFlops / seconds) / 1e9;
-    bandwidthGBps = (totalBytesMoved / seconds) / 1e9;
+    if (seconds > 0) {
+        gflops = (totalFlops / seconds) / 1e9;
+        bandwidthGBps = (totalBytesMoved / seconds) / 1e9;
+    }
 }
 
 string ResultsManager::toJSON() const {

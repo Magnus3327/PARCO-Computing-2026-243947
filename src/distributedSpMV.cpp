@@ -273,22 +273,36 @@ int main(int argc, char* argv[]) {
 
     try {
 
-        if (rank == 0) {
+if (rank == 0) {
             opts = parseCLI(argc, argv);
             iterations = opts.iterations;
 
-            if (opts.generateMatrix)
+            if (opts.generateMatrix) {
                 allEntries = generateMatrixEntries(opts.rows, opts.cols, opts.density);
-            else
+            } else {
                 allEntries = readMTX(opts.filepath);
+                // Calcoliamo le dimensioni reali se letta da file
+                opts.rows = 0;
+                opts.cols = 0;
+                for (const auto& e : allEntries) {
+                    if (e.row + 1 > opts.rows) opts.rows = e.row + 1;
+                    if (e.col + 1 > opts.cols) opts.cols = e.col + 1;
+                }
+            }
 
-            globalCols = max_element(
-                allEntries.begin(), allEntries.end(),
-                [](const Entry& a, const Entry& b) {
-                    return a.col < b.col;
-                })->col + 1;
+            globalCols = opts.cols;
+            x = generateRandomVector(x.get(), globalCols, -1.0, 1.0);
 
-            x.reset(generateRandomVector(globalCols, -1000.0, 1000.0));
+            // AGGIUNTA: Popoliamo il ResultsManager con i dati globali
+            rm.setMatrixInfo(
+                opts.filepath.empty() ? "Generated" : opts.filepath,
+                opts.generateMatrix,
+                opts.rows,
+                opts.cols,
+                allEntries.size(),
+                opts.density
+            );
+            rm.setMPIInfo(size); // Passiamo il numero reale di processi MPI
         }
 
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
