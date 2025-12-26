@@ -3,15 +3,15 @@
 
     Distributed Sparse Matrix-Vector Multiplication (SpMV) using MPI.
     Implements 1D cyclic partitioning for matrix distribution.
-    This implementation focuses on benchmarking performance across multiple MPI processes, and not gather or register the final result vector.
-
+    This implementation focuses on performance benchmarking across multiple MPI processes and does not gather or validate the final result vector.
+    
     WORKFLOW
     --------
     1. Parse CLI arguments (rank 0).
     2. Rank 0 loads or generates the sparse matrix and input vector.
     3. Matrix entries are distributed using 1D cyclic partitioning.
     4. Each rank builds its local CSR matrix.
-    5. Warm-up SpMV iteration (not included in statistics).
+    5. Warm-up iteration.
     6. N timed SpMV iterations.
     7. Rank 0 outputs results in JSON format.
 
@@ -23,7 +23,12 @@
 
     COMPILATION
     -----------
-      mpic++ -O3 spmv_mpi.cpp -o spmv_mpi
+      mpic++ -O3 distributedSpMV.cpp -o bin/distributedSpMV
+
+    RUNNING
+    -------
+        mpirun -np <procs> bin/distributedSpMV -M=<filepath> -I=10
+        mpirun -np <procs> bin/distributedSpMV "-VM=<rows>;<cols>;<density>" -I=10
 */
 
 #include <mpi.h>
@@ -166,7 +171,7 @@ void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntri
             int count = static_cast<int>(buckets[p].size());
 
             if (p == 0) {
-                localEntries = move(buckets[0]);
+                localEntries = std::move(buckets[0]);
             } else {
                 MPI_Send(&count, 1, MPI_INT, p, 0, MPI_COMM_WORLD);
                 MPI_Send(buckets[p].data(), count, entryType, p, 1, MPI_COMM_WORLD);
@@ -206,8 +211,6 @@ void SpMV_Distributed(const CSRMatrix& localCSR, const double* x, double* y, dou
 
 // WARM-UP FUNCTION
 void warmUp(const CSRMatrix& localCSR, const double* x, double& duration_ms) {
-    // synchronize all processes to avoid measuring skewed time  
-    MPI_Barrier(MPI_COMM_WORLD);
     double t0 = MPI_Wtime();
 
     for (int i = 0; i < localCSR.getRows(); ++i) {
@@ -307,6 +310,9 @@ int main(int argc, char* argv[]) {
 
         localCSR.buildFromEntries(localEntries);
 
+        // WARM_UP PHASE
+        // Synchronize ranks to ensure consistent kernel timing
+        MPI_Barrier(MPI_COMM_WORLD);
         warmUp(localCSR, x.get(), localTime);
 
         MPI_Reduce(&localTime, &globalTime, 1, MPI_DOUBLE,
@@ -319,7 +325,9 @@ int main(int argc, char* argv[]) {
         y = make_unique<double[]>(localCSR.getRows());
 
         for (int it = 0; it < iterations; it++) {
-
+            // Synchronize ranks to ensure consistent kernel timing
+            MPI_Barrier(MPI_COMM_WORLD);
+            
             SpMV_Distributed(localCSR, x.get(), y.get(), localTime);
 
             MPI_Reduce(&localTime, &globalTime, 1, MPI_DOUBLE,
