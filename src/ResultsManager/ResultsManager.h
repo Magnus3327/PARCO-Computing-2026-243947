@@ -25,6 +25,7 @@ private:
     int mpiProcesses = 1;
 
     // Dati Benchmarking
+    double warmupDuration = 0.0;
     vector<double> iterationDurations;
 
     // Metriche Calcolate
@@ -44,9 +45,10 @@ public:
     void setMatrixInfo(const string& name, bool generated, size_t r, size_t c, size_t n, double dens);
     void setMPIInfo(int procs);
     void addIterationDuration(double duration);
+    void addWarmUpDuration(double duration);
 
     // Calcoli
-    void computeAllMetrics();
+    void computeAllMetrics(size_t mpiProcesses);
 
     // Output
     void addError(const string& msg);

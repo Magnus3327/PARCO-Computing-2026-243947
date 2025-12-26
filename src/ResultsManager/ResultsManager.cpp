@@ -15,11 +15,17 @@ void ResultsManager::setMPIInfo(int procs) {
     mpiProcesses = procs;
 }
 
+void ResultsManager::addWarmUpDuration(double duration) {
+    if (duration < 0.0)
+        throw runtime_error("Warmup duration cannot be negative.");
+    warmupDuration = duration;
+}
+
 void ResultsManager::addIterationDuration(double duration) {
     iterationDurations.push_back(duration);
 }
 
-void ResultsManager::computeAllMetrics() {
+void ResultsManager::computeAllMetrics(size_t mpiProcesses) {
     if (nnz == 0 || iterationDurations.empty()) return;
 
     // 1. FLOPs: 1 Moltiplicazione + 1 Somma per ogni elemento non nullo (NNZ)
@@ -96,6 +102,8 @@ string ResultsManager::toJSON() const {
 }
 
 void ResultsManager::addError(const string& msg) {
+    if (msg.empty())
+        throw runtime_error("Error message cannot be empty.");
     errors.push_back(msg);
 }
 
