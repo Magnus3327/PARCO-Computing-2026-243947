@@ -4,6 +4,12 @@
     Distributed Sparse Matrix-Vector Multiplication (SpMV) using MPI.
     Implements 1D cyclic partitioning for matrix distribution.
     This implementation focuses on performance benchmarking across multiple MPI processes and does not gather or validate the final result vector.
+
+    MPI TAGS
+    ---------
+    0 - Problem info (iterations, rows, cols)
+    1 - Matrix entries
+    2 - Vector x segments
     
     WORKFLOW
     --------
@@ -153,43 +159,99 @@ CLIOptions parseCLI(int argc, char* argv[]) {
     return opts;
 }
 
-// DISTRIBUTE MATRIX USING 1D CYCLIC PARTITIONING
-void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntries, int rank, int size, MPI_Datatype entryType) {
-    if (rank == 0) {
-        vector<vector<Entry>> buckets(size);
-
-        for (const auto& e : allEntries) {
-            int owner = e.row % size;
-
-            Entry local = e;
-            local.row = (e.row - owner) / size; // global → local row index
-
-            buckets[owner].push_back(local);
-        }
-
-        for (int p = 0; p < size; ++p) {
-            int count = static_cast<int>(buckets[p].size());
-
-            if (p == 0) {
-                localEntries = std::move(buckets[0]);
-            } else {
-                MPI_Send(&count, 1, MPI_INT, p, 0, MPI_COMM_WORLD);
-                MPI_Send(buckets[p].data(), count, entryType, p, 1, MPI_COMM_WORLD);
-            }
-        }
-    } else {
-        int count;
-        MPI_Recv(&count, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-        localEntries.resize(count);
-        MPI_Recv(localEntries.data(), count, entryType, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
-
-    // Each rank sorts its local entries by (row, col)
-    sort(localEntries.begin(), localEntries.end(), [](const Entry& a, const Entry& b) {
+// SORT ENTRIES BY ROW AND COLUMN
+void sortEntriesByRowCol(vector<Entry>& entries) {
+    sort(entries.begin(), entries.end(), [](const Entry& a, const Entry& b) {
         if (a.row != b.row) return a.row < b.row;
         return a.col < b.col;
     });
+}
+
+// DISTRIBUTE MATRIX USING 1D CYCLIC PARTITIONING USING NON-BLOCKING COMMUNICATION
+void distributeMatrix(const vector<Entry>& allEntries,vector<Entry>& localEntries, int rank, int size, MPI_Datatype entryType) {
+    if (rank == 0) {
+        // Step 1: create buckets for each rank
+        vector<vector<Entry>> buckets(size);
+        for (const auto& e : allEntries) {
+            int owner = e.row % size;
+            Entry local = e;
+            local.row = (e.row - owner) / size; // convert global row to local row
+            buckets[owner].push_back(local);
+        }
+
+        // Step 2: non-blocking send to all ranks != 0
+        vector<MPI_Request> requests(2 * (size - 1)); // one for count, one for data
+        int reqIndex = 0;
+
+        for (int p = 0; p < size; ++p) {
+            int count = static_cast<int>(buckets[p].size());
+            if (p == 0) {
+                // keep bucket 0 locally
+                localEntries = std::move(buckets[0]);
+            } else {
+                // non-blocking send of count
+                MPI_Isend(&count, 1, MPI_INT, p, 0, MPI_COMM_WORLD, &requests[reqIndex++]);
+                // non-blocking send of data
+                MPI_Isend(buckets[p].data(), count, entryType, p, 1, MPI_COMM_WORLD, &requests[reqIndex++]);
+            }
+        }
+
+        // Wait for all sends to complete
+        if (!requests.empty()) MPI_Waitall(reqIndex, requests.data(), MPI_STATUSES_IGNORE);
+
+    } else {
+        // Step 1: non-blocking receive of count
+        int count;
+        MPI_Request reqCount;
+        MPI_Irecv(&count, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &reqCount);
+        MPI_Wait(&reqCount, MPI_STATUS_IGNORE);
+
+        // Step 2: non-blocking receive of data
+        localEntries.resize(count);
+        MPI_Request reqData;
+        MPI_Irecv(localEntries.data(), count, entryType, 0, 1, MPI_COMM_WORLD, &reqData);
+        MPI_Wait(&reqData, MPI_STATUS_IGNORE);
+    }
+}
+
+// DISTRIBUTE VECTOR X USING 1D CYCLIC PARTITIONING USING NON-BLOCKING COMMUNICATION
+void distributeVector(int rank, int size, int matrixCols, std::unique_ptr<double[]>& xLocal) {
+    int localCols = (matrixCols + size - 1 - rank) / size;
+    xLocal = make_unique<double[]>(localCols);
+
+    MPI_Request* requests = nullptr;
+
+    if (rank == 0) {
+        // Generate full vector x
+        double* xFull = generateRandomVector(matrixCols, -1000, 1000);
+
+        // Handle non-blocking sends
+        requests = new MPI_Request[size - 1];
+
+        int reqIndex = 0;
+        for (int p = 0; p < size; ++p) {
+            int cols = (matrixCols + size - 1 - p) / size;
+            if (p == 0) {
+                // local copy for rank 0
+                for (int j = 0; j < cols; j++) {
+                    xLocal[j] = xFull[p + j * size];
+                }
+            } else {
+                // Non-blocking send to other ranks
+                MPI_Isend(xFull + p, cols, MPI_DOUBLE, p, 2, MPI_COMM_WORLD, &requests[reqIndex++]);
+            }
+        }
+
+        // Wait for all non-blocking sends to complete
+        if (size > 1) MPI_Waitall(size - 1, requests, MPI_STATUSES_IGNORE);
+
+        delete[] requests;
+        delete[] xFull;
+    } else {
+        // Receive local portion of x
+        MPI_Irecv(xLocal.get(), localCols, MPI_DOUBLE, 0, 2, MPI_COMM_WORLD, MPI_REQUEST_NULL);
+        MPI_Wait(MPI_REQUEST_NULL, MPI_STATUS_IGNORE);
+    }
 }
 
 // DISTRIBUTED SpMV FUNCTION
@@ -209,27 +271,6 @@ void SpMV_Distributed(const CSRMatrix& localCSR, const double* x, double* y, dou
     duration_ms = (t1 - t0) * 1e3;
 }
 
-// WARM-UP FUNCTION
-void warmUp(const CSRMatrix& localCSR, const double* x, double& duration_ms) {
-    double t0 = MPI_Wtime();
-
-    for (int i = 0; i < localCSR.getRows(); ++i) {
-        double sum = 0.0;
-        for (int j = localCSR.getIndexPointers(i);
-             j < localCSR.getIndexPointers(i + 1); ++j) {
-            sum += localCSR.getData(j) * x[localCSR.getIndices(j)];
-        }
-        volatile double sink = sum; // to prevent optimization
-        (void)sink;
-    }
-
-    MPI_Barrier(MPI_COMM_WORLD);
-    double t1 = MPI_Wtime();
-
-    duration_ms = (t1 - t0) * 1e3;
-}
-
-
 // Main
 int main(int argc, char* argv[]) {
     MPI_Init(&argc, &argv);
@@ -245,17 +286,18 @@ int main(int argc, char* argv[]) {
     // Local CSR matrix for each rank
     CSRMatrix localCSR;
 
-    int iterations = 0;
-
-    vector<Entry> allEntries;
-    vector<Entry> localEntries;
-
-    // Variable to setup input vector x to be received by all ranks
-    int globalCols = 0;
+    vector<Entry> allEntries = nullptr;
+    vector<Entry> localEntries = nullptr;
 
     // use unique_ptr for automatic memory management
-    unique_ptr<double[]> x;
-    unique_ptr<double[]> y;
+    unique_ptr<double[]> xLocal = nullptr;
+    unique_ptr<double[]> xGhost = nullptr;
+    unique_ptr<double[]> yLocal = nullptr;
+
+    // Global variables needed by all ranks
+    int iterations = 0;
+    int matrixRows = 0;
+    int matrixCols = 0;
 
     // Create MPI Datatype for Entry struct to be used in communication
     MPI_Datatype entryType = createEntryType();
@@ -271,7 +313,8 @@ int main(int argc, char* argv[]) {
                 allEntries = generateMatrixEntries(opts.rows, opts.cols, opts.density);
             } else {
                 allEntries = readMTX(opts.filepath);
-                // Calcolo dimensioni reali
+                
+                // Infer rows and cols
                 opts.rows = 0;
                 opts.cols = 0;
                 for (const auto& e : allEntries) {
@@ -279,10 +322,6 @@ int main(int argc, char* argv[]) {
                     if (e.col + 1 > opts.cols) opts.cols = e.col + 1;
                 }
             }
-
-            globalCols = opts.cols;
-            
-            x.reset(generateRandomVector(globalCols, -1000, 1000));
 
             rm.setMatrixInfo(
                 opts.filepath.empty() ? "Generated" : opts.filepath,
@@ -293,36 +332,43 @@ int main(int argc, char* argv[]) {
                 opts.density
             );
             rm.setMPIInfo(size); 
+
+            iterations = opts.iterations;
+            matrixRows = opts.rows;
+            matrixCols = opts.cols;
         }
 
         // Broadcast necessary info to all ranks
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
-        MPI_Bcast(&globalCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
+        MPI_Bcast(&matrixRows, 1, MPI_INT, 0, MPI_COMM_WORLD);
+        MPI_Bcast(&matrixCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
         
-        if (rank != 0)
-            x = make_unique<double[]>(globalCols);
-
-        // Broadcast input vector x to all ranks
-        MPI_Bcast(x.get(), globalCols, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
         // Distribute matrix entries among ranks
         distributeMatrix(allEntries, localEntries, rank, size, entryType);
+        
+        // Entries should be sorted when are readed or generated  but just in case of communication error, we sort them again here
+        sortEntriesByRowCol(localEntries);
 
         localCSR.buildFromEntries(localEntries);
+        
+        // Allocate local output vector y
+        y = make_unique<double[]>(localCSR.getRows());
+
+        // Distribute vector x among ranks
+        distributeVector(rank, size, matrixCols, xLocal);
+
+        // ghost region handling would go here if needed
 
         // WARM_UP PHASE
         // Synchronize ranks to ensure consistent kernel timing
         MPI_Barrier(MPI_COMM_WORLD);
-        warmUp(localCSR, x.get(), localTime);
+        SpMV_Distributed(localCSR, x.get(), y.get(), localTime);
 
         MPI_Reduce(&localTime, &globalTime, 1, MPI_DOUBLE,
                    MPI_MAX, 0, MPI_COMM_WORLD);
 
         if (rank == 0)
             rm.addWarmUpDuration(globalTime);
-
-        // Allocate local output vector y
-        y = make_unique<double[]>(localCSR.getRows());
 
         for (int it = 0; it < iterations; it++) {
             // Synchronize ranks to ensure consistent kernel timing
