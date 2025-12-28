@@ -56,34 +56,47 @@ void ResultsManager::setNNZStats(size_t minN, size_t avgN, size_t maxN) {
     maxNNZ = maxN;
 }
 
-// -------------------- Metrics computation --------------------
 void ResultsManager::computeMetrics() {
-    if (nnz == 0 || kernelDurations.empty()) return;
+    // Safety checks
+    if (nnz == 0 || kernelDurations.empty() || mpiProcesses == 0) return;
 
-    // FLOPs: 2 per ogni elemento non nullo
-    totalFlops = static_cast<size_t>(2) * nnz;
+    // 1. Total FLOPs: 2 per non-zero element
+    totalFlops = 2 * nnz;
 
-    // Calcolo dei Bytes Mossi
-    size_t csrBytes = nnz * (sizeof(double) + sizeof(int)) + (rows + 1) * sizeof(int);
-    size_t vectorXBytes = nnz * sizeof(double);
-    size_t vectorYBytes = rows * sizeof(double);
-    
-    // Traffico LUT: per ogni ghost entry aggregata, leggiamo un indice int
+    // 2. Calculate bytes moved based on actual data per rank
+    // CSR format (values + indices)
+    size_t csrValAndInd = nnz * (sizeof(double) + sizeof(int));
+    // Row pointers per rank: each rank has rows/mpiProcesses rows
+    size_t rowsPerRank = (rows + mpiProcesses - 1) / mpiProcesses; 
+    size_t csrRowPtr = (rowsPerRank + 1) * mpiProcesses * sizeof(int); 
+
+    // X vector: local reads + ghost reads
+    size_t xLocalBytes = nnz * sizeof(double); // estimate from local values
+    size_t ghostBytes = totalGhostEntries * sizeof(double); // ghost buffer
+    size_t xAccesses = xLocalBytes + ghostBytes;
+
+    // Y vector: local writes
+    size_t yWrites = rowsPerRank * mpiProcesses * sizeof(double);
+
+    // LUT for ghost mapping
     size_t lutExtraBytes = totalGhostEntries * sizeof(int);
 
-    totalBytesMoved = csrBytes + vectorXBytes + vectorYBytes + lutExtraBytes;
-    
-    // Memory footprint medio per rank (quello che vedevi a 0)
+    totalBytesMoved = csrValAndInd + csrRowPtr + xAccesses + yWrites + lutExtraBytes;
+
+    // 3. Average footprint per rank
     memoryFootprintBytes = totalBytesMoved / mpiProcesses;
 
+    // 4. Kernel duration: 90th percentile
     kernelDuration90 = percentile90(kernelDurations);
 
+    // 5. Performance metrics
     double seconds = kernelDuration90 / 1000.0;
     if (seconds > 0.0) {
         gflops = static_cast<double>(totalFlops) / seconds / 1e9;
         bandwidthGBps = static_cast<double>(totalBytesMoved) / seconds / 1e9;
     }
 }
+
 
 // -------------------- JSON output --------------------
 string ResultsManager::toJSON() const {
