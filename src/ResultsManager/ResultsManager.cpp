@@ -45,34 +45,30 @@ void ResultsManager::setCommunicationDuration(double ms) {
 
 // -------------------- Metrics computation --------------------
 void ResultsManager::computeMetrics() {
-    if (nnz == 0 || kernelDurations.size() == 0) return;
+    if (nnz == 0 || kernelDurations.empty()) return;
 
-    // FLOPs totali (globali)
-    totalFlops = static_cast<size_t>(2) * nnz; 
+    // FLOPs: 2 per ogni elemento non nullo
+    totalFlops = static_cast<size_t>(2) * nnz;
 
-    // Bytes mossi (Modello SpMV Distribuito)
-    // 1. Matrice CSR: Valori + Indici (nnz globali) + Row Pointers (rows globali)
+    // Calcolo dei Bytes Mossi
     size_t csrBytes = nnz * (sizeof(double) + sizeof(int)) + (rows + 1) * sizeof(int);
-    
-    // 2. Vettore X: 1 caricamento double per ogni NNZ
     size_t vectorXBytes = nnz * sizeof(double);
-    
-    // 3. Vettore Y: 1 scrittura double per ogni riga
     size_t vectorYBytes = rows * sizeof(double);
-
-    // 4. Overhead Ghosting: Per ogni ghost entry scambiata, leggiamo un indice dalla LUT (int)
-    // Usiamo il totale aggregato dei ghost ricevuto via MPI_Reduce nel main
+    
+    // Traffico LUT: per ogni ghost entry aggregata, leggiamo un indice int
     size_t lutExtraBytes = totalGhostEntries * sizeof(int);
 
     totalBytesMoved = csrBytes + vectorXBytes + vectorYBytes + lutExtraBytes;
     
-    // Calcolo GFLOPS e Bandwidth basato sul P90 (Worst-case stabile)
+    // Memory footprint medio per rank (quello che vedevi a 0)
+    memoryFootprintBytes = totalBytesMoved / mpiProcesses;
+
     kernelDuration90 = percentile90(kernelDurations);
+
     double seconds = kernelDuration90 / 1000.0;
-    
     if (seconds > 0.0) {
-        gflops = (static_cast<double>(totalFlops) / seconds) / 1e9;
-        bandwidthGBps = (static_cast<double>(totalBytesMoved) / seconds) / 1e9;
+        gflops = static_cast<double>(totalFlops) / seconds / 1e9;
+        bandwidthGBps = static_cast<double>(totalBytesMoved) / seconds / 1e9;
     }
 }
 
@@ -92,6 +88,7 @@ string ResultsManager::toJSON() const {
 
     ss << "  \"mpi\": {\n";
     ss << "    \"processes\": " << mpiProcesses << "\n";
+    ss << "    \"total_ghost_entries\": " << totalGhostEntries << "\n"; 
     ss << "  },\n";
 
     ss << "  \"timings_ms\": {\n";
