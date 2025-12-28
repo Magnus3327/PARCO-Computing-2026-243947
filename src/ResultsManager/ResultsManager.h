@@ -24,7 +24,18 @@ private:
 
     // MPI environment 
     int mpiProcesses = 1;
-    size_t totalGhostEntries = 0; // Totale aggregato di tutti i rank
+
+    // Rank metrics
+    // NNZ per rank
+    size_t minNNZ = 0;
+    size_t avgNNZ = 0;
+    size_t maxNNZ = 0;
+
+    // Ghost entries per rank
+    size_t minGhostEntries = 0;
+    size_t avgGhostEntries = 0;
+    size_t maxGhostEntries = 0;
+    size_t totalGhostEntries = 0; // Totale aggregato di tutti i ra
 
     // Timing data (milliseconds) 
     double setupDuration = 0.0;          // matrix + vector distribution
@@ -52,8 +63,7 @@ public:
     ResultsManager() = default;
 
     // Setters
-    void setMatrixInfo(const string& name, bool generated,
-                       size_t rows, size_t cols, size_t nnz, double density);
+    void setMatrixInfo(const string& name, bool generated, size_t rows, size_t cols, size_t nnz, double density);
 
     void setMPIInfo(int procs);
 
@@ -63,7 +73,8 @@ public:
     void addKernelDuration(double ms);
     void setCommunicationDuration(double ms);  
 
-    void setGhostInfo(size_t gEntries) { totalGhostEntries = gEntries; }
+    void setGhostStats(size_t minGhosts, size_t avgGhosts, size_t maxGhosts, size_t sumGhosts);
+    void setNNZStats(size_t minNNZ, size_t avgNNZ, size_t maxNNZ);
 
     // Metrics
     void computeMetrics();

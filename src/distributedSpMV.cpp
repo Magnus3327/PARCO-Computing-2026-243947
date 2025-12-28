@@ -251,8 +251,12 @@ void exchangeGhostValues(int rank, int size, const CSRMatrix& localCSR,
     // 2. Prepare ghost mapping
     int ghostCount = static_cast<int>(ghostIndices.size());
     xGhost = make_unique<double[]>(ghostCount);
-    ghostGlobalToLocal.resize(*max_element(ghostIndices.begin(), ghostIndices.end()) + 1, -1);
-    for (int i = 0; i < ghostCount; i++) ghostGlobalToLocal[ghostIndices[i]] = i;
+
+    if (ghostCount > 0) {
+        ghostGlobalToLocal.resize( *max_element(ghostIndices.begin(), ghostIndices.end()) + 1, -1);
+        for (int i = 0; i < ghostCount; i++)
+            ghostGlobalToLocal[ghostIndices[i]] = i;
+    }
 
     // 3. Build send lists: which ranks need which of our local x values
     for (int i = 0; i < ghostIndices.size(); ++i) {
@@ -374,14 +378,28 @@ int main(int argc, char* argv[]) {
             matrixRows = opts.rows;
             matrixCols = opts.cols;
         }
-        time = MPI_Wtime(); // broadcasting info and distributing A and x among ranks
+        time = MPI_Wtime(); 
 
+        // Broadcast problem info
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixRows, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
         distributeMatrix(allEntries, localEntries, rank, size, entryType);
         localCSR.buildFromEntries(localEntries);
+
+        // Gather NNZ statistics per rank
+        size_t localNNZ = localCSR.getNNZ();
+        size_t minNNZ, maxNNZ, sumNNZ;
+
+        MPI_Reduce(&localNNZ, &minNNZ, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&localNNZ, &maxNNZ, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&localNNZ, &sumNNZ, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+
+        if (rank == 0) {
+            size_t avgNNZ = static_cast<double>(sumNNZ) / size;
+            rm.setNNZStats(minNNZ, avgNNZ, maxNNZ);
+        }
 
         yLocal = make_unique<double[]>(localCSR.getRows());
         distributeVector(rank, size, matrixCols, xLocal);
@@ -394,18 +412,20 @@ int main(int argc, char* argv[]) {
         exchangeGhostValues(rank, size, localCSR, xLocal, xGhost, ghostIndices, ghostGlobalToLocal);
         time = (MPI_Wtime() - time) * 1e3; // communication duration
 
-        if(rank==0) rm.setCommunicationDuration(time);
+        MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+        if(rank==0) rm.setCommunicationDuration(globalTime);
+        
+        // Gather ghost statistics
+        size_t localGhosts = ghostIndices.size();
+        size_t minGhosts, maxGhosts, sumGhosts;
 
-        // Gather ghost stats
-        int localGhosts = static_cast<int>(ghostIndices.size());
-        int totalGhosts = 0;
-
-        // Somma i ghost di tutti i rank e manda il totale al Rank 0
-        MPI_Reduce(&localGhosts, &totalGhosts, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&localGhosts, &minGhosts, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&localGhosts, &maxGhosts, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&localGhosts, &sumGhosts, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
 
         if (rank == 0) {
-            rm.setGhostInfo(totalGhosts);
-            rm.computeMetrics();
+            double avgGhosts = static_cast<double>(sumGhosts) / size;
+            rm.setGhostStats(minGhosts, avgGhosts, maxGhosts, sumGhosts);
         }
 
         for(int iter=-1; iter<iterations; iter++) {

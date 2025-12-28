@@ -43,6 +43,19 @@ void ResultsManager::setCommunicationDuration(double ms) {
     communicationDuration = ms;
 }
 
+void ResultsManager::setGhostStats(size_t minGhosts, size_t avgGhosts, size_t maxGhosts, size_t sumGhosts) {
+    minGhostEntries = minGhosts;
+    avgGhostEntries = avgGhosts;
+    maxGhostEntries = maxGhosts;
+    totalGhostEntries = sumGhosts;
+}
+
+void ResultsManager::setNNZStats(size_t minN, size_t avgN, size_t maxN) {
+    minNNZ = minN;
+    avgNNZ = avgN;
+    maxNNZ = maxN;
+}
+
 // -------------------- Metrics computation --------------------
 void ResultsManager::computeMetrics() {
     if (nnz == 0 || kernelDurations.empty()) return;
@@ -88,6 +101,16 @@ string ResultsManager::toJSON() const {
 
     ss << "  \"mpi\": {\n";
     ss << "    \"processes\": " << mpiProcesses << "\n";
+    ss << "    \"nnz_per_rank\": {\n";
+    ss << "      \"min\": " << minNNZ << ",\n";
+    ss << "      \"avg\": " << avgNNZ << ",\n";
+    ss << "      \"max\": " << maxNNZ << "\n";
+    ss << "    },\n";
+    ss << "    \"ghost_entries_per_rank\": {\n";
+    ss << "      \"min\": " << minGhostEntries << ",\n";
+    ss << "      \"avg\": " << avgGhostEntries << ",\n";
+    ss << "      \"max\": " << maxGhostEntries << "\n";
+    ss << "    },\n";
     ss << "    \"total_ghost_entries\": " << totalGhostEntries << "\n"; 
     ss << "  },\n";
 
