@@ -1,3 +1,10 @@
+/**
+ * ResultsManager.h
+ * 
+ * This header defines the ResultsManager class, which is responsible for collecting,
+ * managing, and outputting performance metrics and statistics related to sparse matrix-vector over MPI computations.
+ */
+
 #ifndef RESULTSMANAGER_H
 #define RESULTSMANAGER_H
 
@@ -35,7 +42,7 @@ private:
     size_t minGhostEntries = 0;
     size_t avgGhostEntries = 0;
     size_t maxGhostEntries = 0;
-    size_t totalGhostEntries = 0; // Totale aggregato di tutti i ra
+    size_t totalGhostEntries = 0; // sum over all ranks
 
     // Timing data (milliseconds) 
     double setupDuration = 0.0;          // matrix + vector distribution

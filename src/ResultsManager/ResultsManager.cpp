@@ -56,6 +56,7 @@ void ResultsManager::setNNZStats(size_t minN, size_t avgN, size_t maxN) {
     maxNNZ = maxN;
 }
 
+// -------------------- Metrics computation --------------------
 void ResultsManager::computeMetrics() {
     // Safety checks
     if (nnz == 0 || kernelDurations.empty() || mpiProcesses == 0) return;
