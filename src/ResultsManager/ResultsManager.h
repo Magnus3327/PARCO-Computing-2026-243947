@@ -24,6 +24,7 @@ private:
 
     // MPI environment 
     int mpiProcesses = 1;
+    size_t totalGhostEntries = 0; // Totale aggregato di tutti i rank
 
     // Timing data (milliseconds) 
     double setupDuration = 0.0;          // matrix + vector distribution
@@ -60,7 +61,9 @@ public:
     void setWarmupDuration(double ms);
 
     void addKernelDuration(double ms);
-    void setCommunicationDuration(double ms);  // now single measurement
+    void setCommunicationDuration(double ms);  
+
+    void setTotalGhostInfo(size_t gEntries) { totalGhostEntries = gEntries; }
 
     // Metrics
     void computeMetrics();
