@@ -26,23 +26,20 @@ private:
     int mpiProcesses = 1;
 
     // Timing data (milliseconds) 
-    double setupDuration = 0.0;              // matrix + vector distribution
-    double warmupDuration = 0.0;             // warm-up iteration
-    vector<double> kernelDurations;          // pure SpMV kernel
-    vector<double> communicationDurations;   // ghost exchange / collectives
+    double setupDuration = 0.0;          // matrix + vector distribution
+    double warmupDuration = 0.0;         // warm-up iteration
+    double communicationDuration = 0.0;  // ghost exchange / collectives 
+    vector<double> kernelDurations;      // pure SpMV kernel
 
     // Computed metrics 
-    double avgKernelDuration = 0.0;
     double kernelDuration90 = 0.0;
-    double avgCommunicationDuration = 0.0;
-    double communicationDuration90 = 0.0;
+    double gflops = 0.0;
+    double bandwidthGBps = 0.0;
 
+    // Memory metrics
     size_t totalFlops = 0;
     size_t totalBytesMoved = 0;
     size_t memoryFootprintBytes = 0;
-
-    double gflops = 0.0;
-    double bandwidthGBps = 0.0;
 
     // Errors 
     vector<string> errors;
@@ -63,7 +60,7 @@ public:
     void setWarmupDuration(double ms);
 
     void addKernelDuration(double ms);
-    void addCommunicationDuration(double ms);
+    void setCommunicationDuration(double ms);  // now single measurement
 
     // Metrics
     void computeMetrics();

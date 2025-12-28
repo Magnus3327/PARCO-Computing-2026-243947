@@ -1,14 +1,12 @@
 #include "ResultsManager.h"
 
-// -------------------- Helpers --------------------
 double ResultsManager::percentile90(std::vector<double> v) {
     if (v.empty()) return 0.0;
     std::sort(v.begin(), v.end());
     size_t idx = static_cast<size_t>(std::ceil(0.9 * v.size())) - 1;
-    return v[std::min(idx, v.size() - 1)];
+    return std::min(v[idx], v.back());
 }
 
-// -------------------- Setters --------------------
 void ResultsManager::setMatrixInfo(const std::string& name, bool generated,
                                    size_t r, size_t c, size_t n, double dens) {
     matrixName = name;
@@ -38,9 +36,9 @@ void ResultsManager::addKernelDuration(double ms) {
     kernelDurations.push_back(ms);
 }
 
-void ResultsManager::addCommunicationDuration(double ms) {
+void ResultsManager::setCommunicationDuration(double ms) {
     if (ms < 0.0) throw runtime_error("Communication duration cannot be negative");
-    communicationDurations.push_back(ms);
+    communicationDuration = ms;
 }
 
 // -------------------- Metrics computation --------------------
@@ -57,12 +55,11 @@ void ResultsManager::computeMetrics() {
     memoryFootprintBytes = totalBytesMoved;
 
     kernelDuration90 = percentile90(kernelDurations);
-    communicationDuration90 = percentile90(communicationDurations);
 
     double seconds = kernelDuration90 / 1000.0;
     if (seconds > 0.0) {
-        gflops = (static_cast<double>(totalFlops) / seconds) / 1e9;
-        bandwidthGBps = (static_cast<double>(totalBytesMoved) / seconds) / 1e9;
+        gflops = static_cast<double>(totalFlops) / seconds / 1e9;
+        bandwidthGBps = static_cast<double>(totalBytesMoved) / seconds / 1e9;
     }
 }
 
@@ -95,17 +92,11 @@ string ResultsManager::toJSON() const {
     }
     ss << "],\n";
 
-    ss << "    \"communication\": [";
-    for (size_t i = 0; i < communicationDurations.size(); ++i) {
-        ss << communicationDurations[i];
-        if (i + 1 < communicationDurations.size()) ss << ", ";
-    }
-    ss << "]\n";
+    ss << "    \"communication\": " << communicationDuration << "\n";
     ss << "  },\n";
 
     ss << "  \"statistics\": {\n";
     ss << "    \"kernel_p90_ms\": " << kernelDuration90 << ",\n";
-    ss << "    \"comm_p90_ms\": " << communicationDuration90 << ",\n";
     ss << "    \"gflops\": " << gflops << ",\n";
     ss << "    \"bandwidth_gbps\": " << bandwidthGBps << "\n";
     ss << "  },\n";
@@ -133,6 +124,6 @@ void ResultsManager::addError(const std::string& msg) {
 
 void ResultsManager::clear() {
     kernelDurations.clear();
-    communicationDurations.clear();
+    communicationDuration = 0.0;
     errors.clear();
 }
