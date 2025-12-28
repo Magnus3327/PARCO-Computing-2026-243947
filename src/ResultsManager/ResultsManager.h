@@ -63,7 +63,7 @@ public:
     void addKernelDuration(double ms);
     void setCommunicationDuration(double ms);  
 
-    void setTotalGhostInfo(size_t gEntries) { totalGhostEntries = gEntries; }
+    void setGhostInfo(size_t gEntries) { totalGhostEntries = gEntries; }
 
     // Metrics
     void computeMetrics();
