@@ -57,7 +57,6 @@ using namespace std;
 using namespace mtx;
 using namespace utils;
 
-
 //MPI DERIVED DATATYPE FOR COO ENTRY
 MPI_Datatype createEntryType() {
     MPI_Datatype type;
@@ -73,6 +72,17 @@ MPI_Datatype createEntryType() {
     MPI_Type_create_struct(3, blocklengths, offsets, types, &type);
     MPI_Type_commit(&type);
 
+    return type;
+}
+
+// MPI DERIVED DATATYPE FOR CYCLIC VECTOR STRIDE
+MPI_Datatype createVectorStrideType(int count, int size) {
+    MPI_Datatype type;
+    // count: number of elements to send
+    // blocklength: 1 element per block
+    // stride: jump 'size' elements to get to the next one
+    MPI_Type_vector(count, 1, size, MPI_DOUBLE, &type);
+    MPI_Type_commit(&type);
     return type;
 }
 
@@ -167,7 +177,7 @@ void sortEntriesByRowCol(vector<Entry>& entries) {
     });
 }
 
-// DISTRIBUTE MATRIX USING 1D CYCLIC PARTITIONING USING NON-BLOCKING COMMUNICATION
+// DISTRIBUTE MATRIX USING 1D CYCLIC
 void distributeMatrix(const vector<Entry>& allEntries,vector<Entry>& localEntries, int rank, int size, MPI_Datatype entryType) {
     if (rank == 0) {
         // Step 1: create buckets for each rank
@@ -214,43 +224,50 @@ void distributeMatrix(const vector<Entry>& allEntries,vector<Entry>& localEntrie
     }
 }
 
-// DISTRIBUTE VECTOR X USING 1D CYCLIC PARTITIONING USING NON-BLOCKING COMMUNICATION
-void distributeVector(int rank, int size, int matrixCols, std::unique_ptr<double[]>& xLocal) {
+// DISTRIBUTE VECTOR X USING 1D CYCLIC
+void distributeVector(int rank, int size, int matrixCols, unique_ptr<double[]>& xLocal) {
     int localCols = (matrixCols + size - 1 - rank) / size;
     xLocal = make_unique<double[]>(localCols);
-
-    MPI_Request* requests = nullptr;
 
     if (rank == 0) {
         // Generate full vector x
         double* xFull = generateRandomVector(matrixCols, -1000, 1000);
 
-        // Handle non-blocking sends
-        requests = new MPI_Request[size - 1];
-
+        MPI_Request* requests = new MPI_Request[size - 1];
         int reqIndex = 0;
+
+        // Vector to store types to free them later
+        vector<MPI_Datatype> strideTypes(size);
+
         for (int p = 0; p < size; ++p) {
-            int cols = (matrixCols + size - 1 - p) / size;
+            int pCols = (matrixCols + size - 1 - p) / size;
+
             if (p == 0) {
-                // local copy for rank 0
-                for (int j = 0; j < cols; j++) {
+                // Local copy for rank 0: still needs manual copy because types are for communication
+                for (int j = 0; j < pCols; j++) {
                     xLocal[j] = xFull[p + j * size];
                 }
             } else {
-                // Non-blocking send to other ranks
-                MPI_Isend(xFull + p, cols, MPI_DOUBLE, p, 2, MPI_COMM_WORLD, &requests[reqIndex++]);
+                // Create a specific type for this rank's portion
+                strideTypes[p] = createVectorStrideType(pCols, size);
+                
+                // Send directly from xFull with stride
+                MPI_Isend(xFull + p, 1, strideTypes[p], p, 2, MPI_COMM_WORLD, &requests[reqIndex++]);
             }
         }
 
-        // Wait for all non-blocking sends to complete
+        // Wait for all non-blocking sends
         if (size > 1) MPI_Waitall(size - 1, requests, MPI_STATUSES_IGNORE);
 
+        // Cleanup
+        for (int p = 1; p < size; ++p) MPI_Type_free(&strideTypes[p]);
         delete[] requests;
         delete[] xFull;
     } else {
-        // Receive local portion of x
-        MPI_Irecv(xLocal.get(), localCols, MPI_DOUBLE, 0, 2, MPI_COMM_WORLD, MPI_REQUEST_NULL);
-        MPI_Wait(MPI_REQUEST_NULL, MPI_STATUS_IGNORE);
+        // Receive local portion: it arrives contiguous in xLocal
+        MPI_Request req;
+        MPI_Irecv(xLocal.get(), localCols, MPI_DOUBLE, 0, 2, MPI_COMM_WORLD, &req);
+        MPI_Wait(&req, MPI_STATUS_IGNORE);
     }
 }
 
@@ -342,45 +359,37 @@ int main(int argc, char* argv[]) {
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixRows, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
-        
+
         // Distribute matrix entries among ranks
         distributeMatrix(allEntries, localEntries, rank, size, entryType);
-        
-        // Entries should be sorted when are readed or generated  but just in case of communication error, we sort them again here
-        sortEntriesByRowCol(localEntries);
 
         localCSR.buildFromEntries(localEntries);
-        
+
         // Allocate local output vector y
         y = make_unique<double[]>(localCSR.getRows());
 
         // Distribute vector x among ranks
         distributeVector(rank, size, matrixCols, xLocal);
 
-        // ghost region handling would go here if needed
+        // MAIN COMPUTATION LOOP
+        for(int iter = -1; iter < iterations; iter++) {
+            MPI_Barrier(MPI_COMM_WORLD); // synchronize before each iteration
 
-        // WARM_UP PHASE
-        // Synchronize ranks to ensure consistent kernel timing
-        MPI_Barrier(MPI_COMM_WORLD);
-        SpMV_Distributed(localCSR, x.get(), y.get(), localTime);
+            // ghost region handling would go here if needed
 
-        MPI_Reduce(&localTime, &globalTime, 1, MPI_DOUBLE,
-                   MPI_MAX, 0, MPI_COMM_WORLD);
-
-        if (rank == 0)
-            rm.addWarmUpDuration(globalTime);
-
-        for (int it = 0; it < iterations; it++) {
             // Synchronize ranks to ensure consistent kernel timing
             MPI_Barrier(MPI_COMM_WORLD);
             
-            SpMV_Distributed(localCSR, x.get(), y.get(), localTime);
+            SpMV_Distributed(localCSR, xLocal.get(), yLocal.get(), localTime);
 
             MPI_Reduce(&localTime, &globalTime, 1, MPI_DOUBLE,
-                       MPI_MAX, 0, MPI_COMM_WORLD);
+                        MPI_MAX, 0, MPI_COMM_WORLD);
 
-            if (rank == 0)
-                rm.addIterationDuration(globalTime);
+            if (iter >= 0) // skip warm-up and first iteration{
+                if(rank == 0 ) rm.addIterationDuration(globalTime);
+            else {
+                if(rank == 0 ) rm.addWarmUpDuration(globalTime);
+            }
         }
 
         // performance metrics computation and print of results (rank 0)

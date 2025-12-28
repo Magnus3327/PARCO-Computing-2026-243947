@@ -3,57 +3,77 @@
 
 #include <string>
 #include <vector>
-#include <sstream>
-#include <iostream>
-#include <algorithm>
-#include <cmath>
 #include <stdexcept>
+#include <iomanip>
+#include <cmath>
+#include <numeric>
+#include <algorithm>
+#include <sstream>
 
 using namespace std;
 
 class ResultsManager {
 private:
-    // Metadata Matrice
-    string matrixName = "";
+    // Matrix metadata 
+    string matrixName;
     bool isGenerated = false;
     size_t rows = 0;
     size_t cols = 0;
     size_t nnz = 0;
     double density = 0.0;
 
-    // Ambiente MPI
+    // MPI environment 
     int mpiProcesses = 1;
 
-    // Dati Benchmarking
-    double warmupDuration = 0.0;
-    vector<double> iterationDurations;
+    // Timing data (milliseconds) 
+    double setupDuration = 0.0;              // matrix + vector distribution
+    double warmupDuration = 0.0;             // warm-up iteration
+    vector<double> kernelDurations;          // pure SpMV kernel
+    vector<double> communicationDurations;   // ghost exchange / collectives
 
-    // Metriche Calcolate
-    double avgDuration = 0.0;
-    double duration90 = 0.0;
+    // Computed metrics 
+    double avgKernelDuration = 0.0;
+    double kernelDuration90 = 0.0;
+    double avgCommunicationDuration = 0.0;
+    double communicationDuration90 = 0.0;
+
     size_t totalFlops = 0;
     size_t totalBytesMoved = 0;
+    size_t memoryFootprintBytes = 0;
+
     double gflops = 0.0;
     double bandwidthGBps = 0.0;
 
+    // Errors 
     vector<string> errors;
+
+    // Helpers
+    double percentile90(vector<double> v);
 
 public:
     ResultsManager() = default;
-    
-    // Setters
-    void setMatrixInfo(const string& name, bool generated, size_t r, size_t c, size_t n, double dens);
-    void setMPIInfo(int procs);
-    void addIterationDuration(double duration);
-    void addWarmUpDuration(double duration);
 
-    // Calcoli
-    void computeAllMetrics(size_t mpiProcesses);
+    // Setters
+    void setMatrixInfo(const string& name, bool generated,
+                       size_t rows, size_t cols, size_t nnz, double density);
+
+    void setMPIInfo(int procs);
+
+    void setSetupDuration(double ms);
+    void setWarmupDuration(double ms);
+
+    void addKernelDuration(double ms);
+    void addCommunicationDuration(double ms);
+
+    // Metrics
+    void computeMetrics();
 
     // Output
     void addError(const string& msg);
     string toJSON() const;
+
+    // Utility
     void clear();
 };
 
-#endif
+#endif // RESULTSMANAGER_H
