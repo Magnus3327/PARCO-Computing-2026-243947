@@ -18,6 +18,7 @@ namespace utils {
     // The random engine is initialized only once for consistent randomness
     double* generateRandomVector(int size, double minVal = 0.0, double maxVal = 1.0);
 
+
 } // namespace utils
 
 #endif // UTILS_H
