@@ -213,7 +213,7 @@ void distributeVector(int rank, int size, int matrixCols, unique_ptr<double[]>& 
     }
 }
 
-void exchangeGhostValuesOptimized(int rank, int size, const CSRMatrix& localCSR, const unique_ptr<double[]>& xLocal, unique_ptr<double[]>& xGhost, vector<int>& ghostIndices, vector<int>& ghostGlobalToLocal) {
+void exchangeGhostValues(int rank, int size, const CSRMatrix& localCSR, const unique_ptr<double[]>& xLocal, unique_ptr<double[]>& xGhost, vector<int>& ghostIndices, vector<int>& ghostGlobalToLocal) {
     // Clear previous ghost data
     ghostIndices.clear();
     ghostGlobalToLocal.clear();
@@ -402,7 +402,7 @@ int main(int argc, char* argv[]) {
 
         // Ghost exchanging
         time = MPI_Wtime();
-        exchangeGhostValuesOptimized(rank, size, localCSR, xLocal, xGhost, ghostIndices, ghostGlobalToLocal);
+        exchangeGhostValues(rank, size, localCSR, xLocal, xGhost, ghostIndices, ghostGlobalToLocal);
         time = (MPI_Wtime() - time) * 1e3; // communication duration
 
         MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
