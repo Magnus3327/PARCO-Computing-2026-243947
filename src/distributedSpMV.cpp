@@ -194,7 +194,7 @@ void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntri
             int count = static_cast<int>(buckets[p].size());
 
             if (p == 0) {
-                localEntries = move(buckets[0]);
+                localEntries = std::move(buckets[0]);
             } else {
                 // Send count first
                 MPI_Send(&count, 1, MPI_INT, p, 0, MPI_COMM_WORLD);
