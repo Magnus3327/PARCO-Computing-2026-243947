@@ -8,7 +8,7 @@
 #PBS -e ./bin/pbs/distributed.err
 #PBS -q short_cpuQ
 #PBS -l walltime=06:00:00
-#PBS -l select=4:ncpus=64:mpiprocs=64:mem=64gb
+#PBS -l select=4:ncpus=64:mpiprocs=64:mem=64gb:net_type=OP
 
 # ------------------------------------------
 # Load Required Modules
@@ -46,7 +46,7 @@ fi
 # ------------------------------------------
 #ALL_RANKS=(1 2 4 8 16 32 64 96 128 192 256)
 ALL_RANKS=(1 4 16 64 128 256)
-VIRTUAL_MATRICES=("-VM=10000,10000,0.01" "-VM=10000,10000,0.11")
+VIRTUAL_MATRICES=("-VM=10000;10000;0.01" "-VM=10000;10000;0.11")
 ITER=10
 
 # ------------------------------------------
