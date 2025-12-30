@@ -42,13 +42,13 @@ namespace utils {
         vector<Entry> entries;
         entries.reserve(nnz);
 
-        // RNG: fixed seed for reproducibility (importante per il benchmarking)
+        // fixed seed for reproducibility (importante per il benchmarking)
         std::mt19937 gen(42);
         std::uniform_int_distribution<int> rowDist(0, rows - 1);
         std::uniform_int_distribution<int> colDist(0, cols - 1);
         std::uniform_real_distribution<double> valDist(-1.0, 1.0);
 
-        // Set per evitare duplicati (row, col)
+        // set to avoid duplicate entries
         unordered_set<size_t> used;
         used.reserve(nnz);
 
@@ -56,17 +56,16 @@ namespace utils {
             int r = rowDist(gen);
             int c = colDist(gen);
 
-            // Chiave univoca per la coppia (r, c)
+            // unique key for (row, col)
             size_t key = static_cast<size_t>(r) * cols + c;
 
             if (used.insert(key).second) {
-                // Utilizziamo un initializer list per pulizia
+                // New unique entry
                 entries.push_back({r, c, valDist(gen)});
             }
         }
 
-        // --- SORTING (Fondamentale per la conversione COO -> CSR) ---
-        // Ordiniamo per riga, poi per colonna
+        // sort by row, then by column
         sort(entries.begin(), entries.end(), [](const Entry& a, const Entry& b) {
             return (a.row == b.row) ? (a.col < b.col) : (a.row < b.row);
         });
