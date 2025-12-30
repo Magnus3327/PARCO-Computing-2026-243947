@@ -1,16 +1,15 @@
 #include "ResultsManager.h"
 
-// -------------------- Helpers --------------------
-double ResultsManager::percentile90(std::vector<double> v) {
+// Helpers 
+double ResultsManager::percentile90(vector<double> v) {
     if (v.empty()) return 0.0;
-    std::sort(v.begin(), v.end());
-    size_t idx = static_cast<size_t>(std::ceil(0.9 * v.size())) - 1;
-    return std::min(v[idx], v.back());
+    sort(v.begin(), v.end());
+    size_t idx = static_cast<size_t>(ceil(0.9 * v.size())) - 1;
+    return min(v[idx], v.back());
 }
 
-// -------------------- Setters --------------------
-void ResultsManager::setMatrixInfo(const std::string& name, bool generated,
-                                   size_t r, size_t c, size_t n, double dens) {
+// Setters
+void ResultsManager::setMatrixInfo(const string& name, bool generated, size_t r, size_t c, size_t n, double dens) {
     matrixName = name;
     isGenerated = generated;
     rows = r;
@@ -56,15 +55,15 @@ void ResultsManager::setNNZStats(size_t minN, size_t avgN, size_t maxN) {
     maxNNZ = maxN;
 }
 
-// -------------------- Metrics computation --------------------
+// Metrics computation 
 void ResultsManager::computeMetrics() {
     // Safety checks
     if (nnz == 0 || kernelDurations.empty() || mpiProcesses == 0) return;
 
-    // 1. Total FLOPs: 2 per non-zero element
+    // Total FLOPs: 2 per non-zero element
     totalFlops = 2 * nnz;
 
-    // 2. Calculate bytes moved based on actual data per rank
+    // Calculate bytes moved based on actual data per rank
     // CSR format (values + indices)
     size_t csrValAndInd = nnz * (sizeof(double) + sizeof(int));
     // Row pointers per rank: each rank has rows/mpiProcesses rows
@@ -84,13 +83,13 @@ void ResultsManager::computeMetrics() {
 
     totalBytesMoved = csrValAndInd + csrRowPtr + xAccesses + yWrites + lutExtraBytes;
 
-    // 3. Average footprint per rank
+    // Average footprint per rank
     memoryFootprintBytes = totalBytesMoved / mpiProcesses;
 
-    // 4. Kernel duration: 90th percentile
+    // Kernel duration: 90th percentile
     kernelDuration90 = percentile90(kernelDurations);
 
-    // 5. Performance metrics
+    // Performance metrics
     double seconds = kernelDuration90 / 1000.0;
     if (seconds > 0.0) {
         gflops = static_cast<double>(totalFlops) / seconds / 1e9;
@@ -99,7 +98,7 @@ void ResultsManager::computeMetrics() {
 }
 
 
-// -------------------- JSON output --------------------
+// JSON output
 string ResultsManager::toJSON() const {
     stringstream ss;
     ss << fixed << setprecision(4);
@@ -163,8 +162,8 @@ string ResultsManager::toJSON() const {
     return ss.str();
 }
 
-// -------------------- Errors & reset --------------------
-void ResultsManager::addError(const std::string& msg) {
+// Errors & reset
+void ResultsManager::addError(const string& msg) {
     if (msg.empty()) throw std::runtime_error("Empty error message");
     errors.push_back(msg);
 }

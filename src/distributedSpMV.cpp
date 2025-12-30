@@ -10,17 +10,19 @@
     0 - Problem info (iterations, rows, cols)
     1 - Matrix entries
     2 - Vector x segments
-    3 - Ghost exchange
+    3 - Ghost column indices
+    4 - Ghost values
     
     WORKFLOW
     --------
     1. Parse CLI arguments (rank 0).
     2. Rank 0 loads or generates the sparse matrix and input vector.
     3. Matrix entries are distributed using 1D cyclic partitioning.
-    4. Each rank builds its local CSR matrix.
-    5. Warm-up iteration.
-    6. N timed SpMV iterations.
-    7. Rank 0 outputs results in JSON format.
+    4. Input vector x is distributed using 1D cyclic partitioning.
+    5. Each rank identifies and exchanges ghost values needed for local SpMV.
+    6. Perform distributed SpMV for a number of iterations, measuring performance.
+    7. Collect and report performance metrics (rank 0).
+    8. Finalize MPI.
 
     CLI ARGUMENTS
     -------------
@@ -48,6 +50,7 @@
 #include <algorithm>
 #include <numeric>
 #include <cmath>
+#include <unordered_map>
 
 // Project headers
 #include "ResultsManager/ResultsManager.h"
@@ -62,29 +65,40 @@ using namespace utils;
 //MPI DERIVED DATATYPE FOR COO ENTRY
 MPI_Datatype createEntryType() {
     MPI_Datatype type;
+
     int blocklengths[3] = {1, 1, 1};
+
     MPI_Datatype types[3] = {MPI_INT, MPI_INT, MPI_DOUBLE};
     MPI_Aint offsets[3];
+
     offsets[0] = offsetof(Entry, row);
     offsets[1] = offsetof(Entry, col);
     offsets[2] = offsetof(Entry, value);
+
     MPI_Type_create_struct(3, blocklengths, offsets, types, &type);
     MPI_Type_commit(&type);
+
     return type;
 }
 
 // MPI DERIVED DATATYPE FOR CYCLIC VECTOR STRIDE
 MPI_Datatype createVectorStrideType(int count, int size) {
     MPI_Datatype type;
+
     MPI_Type_vector(count, 1, size, MPI_DOUBLE, &type);
     MPI_Type_commit(&type);
+
     return type;
 }
 
 // CLI PARSING (RANK 0 ONLY)
 struct CLIOptions {
     int iterations = 0;
+
+    // Matrix file path
     string filepath;
+
+    // Matrix generation parameters
     bool generateMatrix = false;
     int rows = 0;
     int cols = 0;
@@ -101,21 +115,31 @@ CLIOptions parseCLI(int argc, char* argv[]) {
 
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
+
         if (arg.rfind("-M=", 0) == 0) {
-            if (matrixSpecified) throw runtime_error("Matrix source already specified");
-            if (arg.length() <= 3) throw runtime_error("Filepath for -M is empty");
+            if (matrixSpecified) 
+                throw runtime_error("Matrix source already specified");
+            if (arg.length() <= 3) 
+                throw runtime_error("Filepath for -M is empty");
+            
             opts.filepath = arg.substr(3);
             opts.generateMatrix = false;
             matrixSpecified = true;
+
         } else if (arg.rfind("-VM=", 0) == 0) {
-            if (matrixSpecified) throw runtime_error("Matrix source already specified");
-            if (arg.length() <= 4) throw runtime_error("-VM parameters are empty");
+            if (matrixSpecified) 
+                throw runtime_error("Matrix source already specified");
+            if (arg.length() <= 4) 
+                throw runtime_error("-VM parameters are empty");
 
             stringstream ss(arg.substr(4));
             string token;
             vector<string> values;
+
             while (getline(ss, token, ';')) if (!token.empty()) values.push_back(token);
-            if (values.size() != 3) throw runtime_error("Invalid -VM format. Expected rows;cols;density (e.g., -VM=100;100;0.1)");
+
+            if (values.size() != 3) 
+                throw runtime_error("Invalid -VM format. Expected rows;cols;density (e.g., -VM=100;100;0.1)");
 
             try {
                 opts.rows = stoi(values[0]);
@@ -125,15 +149,19 @@ CLIOptions parseCLI(int argc, char* argv[]) {
                 throw runtime_error("Invalid numeric values in -VM");
             }
 
-            if (opts.rows <= 0 || opts.cols <= 0) throw runtime_error("Dimensions must be positive");
-            if (opts.density <= 0.0 || opts.density > 1.0) throw runtime_error("Density must be in (0, 1]");
+            if (opts.rows <= 0 || opts.cols <= 0) 
+                throw runtime_error("Dimensions must be positive");
+            if (opts.density <= 0.0 || opts.density > 1.0) 
+                throw runtime_error("Density must be in (0, 1]");
 
             opts.generateMatrix = true;
             matrixSpecified = true;
         } else if (arg.rfind("-I=", 0) == 0) {
             try {
                 opts.iterations = stoi(arg.substr(3));
-                if (opts.iterations <= 0) opts.iterations = 1;
+
+                if (opts.iterations <= 0) 
+                    opts.iterations = 1;
             } catch (...) {
                 throw runtime_error("Invalid iteration count in -I");
             }
@@ -148,39 +176,38 @@ CLIOptions parseCLI(int argc, char* argv[]) {
     return opts;
 }
 
-// SORT ENTRIES BY ROW AND COLUMN
-void sortEntriesByRowCol(vector<Entry>& entries) {
-    sort(entries.begin(), entries.end(), [](const Entry& a, const Entry& b) {
-        if (a.row != b.row) return a.row < b.row;
-        return a.col < b.col;
-    });
-}
-
 // DISTRIBUTE MATRIX USING 1D CYCLIC - BLOCKING VERSION
 void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntries, int rank, int size, MPI_Datatype entryType) {
     if (rank == 0) {
         vector<vector<Entry>> buckets(size);
+
         for (const auto& e : allEntries) {
             int owner = e.row % size;
+
             Entry local = e;
+
             local.row = (e.row - owner) / size; // local row index, global to local
             buckets[owner].push_back(local);
         }
 
         for (int p = 0; p < size; ++p) {
             int count = static_cast<int>(buckets[p].size());
+
             if (p == 0) {
-                localEntries = std::move(buckets[0]);
+                localEntries = move(buckets[0]);
             } else {
                 // Send count first
                 MPI_Send(&count, 1, MPI_INT, p, 0, MPI_COMM_WORLD);
+
                 // Send entries
                 MPI_Send(buckets[p].data(), count, entryType, p, 1, MPI_COMM_WORLD);
             }
         }
     } else {
         int count;
+
         MPI_Recv(&count, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
         localEntries.resize(count);
         MPI_Recv(localEntries.data(), count, entryType, 0, 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
@@ -196,6 +223,7 @@ void distributeVector(int rank, int size, int matrixCols, unique_ptr<double[]>& 
 
         for (int p = 0; p < size; ++p) {
             int pCols = (matrixCols + size - 1 - p) / size;
+
             if (p == 0) {
                 for (int j = 0; j < pCols; j++)
                     xLocal[j] = xFull[p + j * size];
@@ -214,15 +242,8 @@ void distributeVector(int rank, int size, int matrixCols, unique_ptr<double[]>& 
 }
 
 void exchangeGhostValues(
-    int rank, int size,
-    const CSRMatrix& localCSR,
-    const unique_ptr<double[]>& xLocal,
-    unique_ptr<double[]>& xGhost,
-    unordered_map<int,int>& ghostMap
-) {
-    // --------------------------------------------------
-    // 1. Identify needed remote columns per rank
-    // --------------------------------------------------
+int rank, int size, const CSRMatrix& localCSR, const unique_ptr<double[]>& xLocal, unique_ptr<double[]>& xGhost, unordered_map<int,int>& ghostMap) {
+    // Identify needed remote columns per rank
     vector<vector<int>> neededCols(size);
 
     for (int i = 0; i < localCSR.getRows(); ++i) {
@@ -237,36 +258,31 @@ void exchangeGhostValues(
         }
     }
 
-    // Deduplicate + sort
+    // Deduplicate + sort, per rank. Avoids redundant requests.
     for (int p = 0; p < size; ++p) {
         auto& v = neededCols[p];
+
         sort(v.begin(), v.end());
         v.erase(unique(v.begin(), v.end()), v.end());
     }
 
-    // --------------------------------------------------
-    // 2. Exchange counts (simple, not optimal but fine)
-    // --------------------------------------------------
+    // Exchange counts, using Alltoall.
     vector<int> sendCounts(size, 0), recvCounts(size, 0);
     for (int p = 0; p < size; ++p)
         sendCounts[p] = static_cast<int>(neededCols[p].size());
 
-    MPI_Alltoall(sendCounts.data(), 1, MPI_INT,
-                 recvCounts.data(), 1, MPI_INT,
-                 MPI_COMM_WORLD);
+    MPI_Alltoall(sendCounts.data(), 1, MPI_INT, recvCounts.data(), 1, MPI_INT, MPI_COMM_WORLD);
 
-    // --------------------------------------------------
-    // 3. Exchange column indices
-    // --------------------------------------------------
+    // Exchange column indices
     vector<vector<int>> recvCols(size);
     vector<MPI_Request> reqs;
 
     for (int p = 0; p < size; ++p) {
         if (recvCounts[p] > 0) {
-            recvCols[p].resize(recvCounts[p]);
+            recvCols[p].resize(recvCounts[p]); // allocate space
+            
             MPI_Request r;
-            MPI_Irecv(recvCols[p].data(), recvCounts[p],
-                      MPI_INT, p, 10, MPI_COMM_WORLD, &r);
+            MPI_Irecv(recvCols[p].data(), recvCounts[p], MPI_INT, p, 3, MPI_COMM_WORLD, &r);
             reqs.push_back(r);
         }
     }
@@ -274,19 +290,15 @@ void exchangeGhostValues(
     for (int p = 0; p < size; ++p) {
         if (sendCounts[p] > 0) {
             MPI_Request r;
-            MPI_Isend(neededCols[p].data(), sendCounts[p],
-                      MPI_INT, p, 10, MPI_COMM_WORLD, &r);
+            MPI_Isend(neededCols[p].data(), sendCounts[p],MPI_INT, p, 3, MPI_COMM_WORLD, &r);
             reqs.push_back(r);
         }
     }
 
-    MPI_Waitall(static_cast<int>(reqs.size()),
-                reqs.data(), MPI_STATUSES_IGNORE);
+    MPI_Waitall(static_cast<int>(reqs.size()), reqs.data(), MPI_STATUSES_IGNORE);
     reqs.clear();
 
-    // --------------------------------------------------
-    // 4. Prepare values to send (xLocal → sendVals)
-    // --------------------------------------------------
+    // Prepare values to send (xLocal → sendVals)
     vector<vector<double>> sendVals(size);
 
     for (int p = 0; p < size; ++p) {
@@ -295,7 +307,7 @@ void exchangeGhostValues(
         sendVals[p].resize(recvCounts[p]);
         for (int i = 0; i < recvCounts[p]; ++i) {
             int col = recvCols[p][i];
-            int localIdx = (col - rank) / size;
+            int localIdx = (col - rank) / size; // local index in xLocal
 
             if (localIdx < 0)
                 throw runtime_error("Invalid localIdx in ghost send");
@@ -304,17 +316,15 @@ void exchangeGhostValues(
         }
     }
 
-    // --------------------------------------------------
-    // 5. Exchange ghost values
-    // --------------------------------------------------
+    // Exchange ghost values
     vector<vector<double>> recvVals(size);
 
     for (int p = 0; p < size; ++p) {
         if (sendCounts[p] > 0) {
             recvVals[p].resize(sendCounts[p]);
+
             MPI_Request r;
-            MPI_Irecv(recvVals[p].data(), sendCounts[p],
-                      MPI_DOUBLE, p, 11, MPI_COMM_WORLD, &r);
+            MPI_Irecv(recvVals[p].data(), sendCounts[p], MPI_DOUBLE, p, 4, MPI_COMM_WORLD, &r);
             reqs.push_back(r);
         }
     }
@@ -322,18 +332,14 @@ void exchangeGhostValues(
     for (int p = 0; p < size; ++p) {
         if (recvCounts[p] > 0) {
             MPI_Request r;
-            MPI_Isend(sendVals[p].data(), recvCounts[p],
-                      MPI_DOUBLE, p, 11, MPI_COMM_WORLD, &r);
+            MPI_Isend(sendVals[p].data(), recvCounts[p], MPI_DOUBLE, p, 4, MPI_COMM_WORLD, &r);
             reqs.push_back(r);
         }
     }
 
-    MPI_Waitall(static_cast<int>(reqs.size()),
-                reqs.data(), MPI_STATUSES_IGNORE);
+    MPI_Waitall(static_cast<int>(reqs.size()), reqs.data(), MPI_STATUSES_IGNORE);
 
-    // --------------------------------------------------
-    // 6. Build xGhost and mapping (ROBUST VERSION)
-    // --------------------------------------------------
+    // Build xGhost and mapping (col → xGhost index)
     int ghostCount = 0;
     for (int p = 0; p < size; ++p)
         ghostCount += static_cast<int>(recvVals[p].size());
@@ -345,6 +351,7 @@ void exchangeGhostValues(
     for (int p = 0; p < size; ++p) {
         for (int i = 0; i < recvVals[p].size(); ++i) {
             int col = neededCols[p][i];  
+            
             ghostMap[col] = pos;
             xGhost[pos++] = recvVals[p][i];
         }
@@ -357,16 +364,20 @@ void exchangeGhostValues(
 // DISTRIBUTED SpMV KERNEL WITH GHOSTS
 void SpMVDistributed(const CSRMatrix& localCSR, const double* xLocal, const unique_ptr<double[]>& xGhost, const unordered_map<int,int>& ghostMap, double* y, int rank, int size) {
     for (int i = 0; i < localCSR.getRows(); ++i) {
+        
         double sum = 0.0;
+        
         for (int j = localCSR.getIndexPointers(i); j < localCSR.getIndexPointers(i + 1); ++j) {
             int col = localCSR.getIndices(j);
+            
             if (col % size == rank) {
-                int localIdx = (col - rank) / size;
+                int localIdx = (col - rank) / size; // local index in xLocal
                 sum += localCSR.getData(j) * xLocal[localIdx];
             } else {
-                sum += localCSR.getData(j) * xGhost[ghostMap.at(col)];
+                sum += localCSR.getData(j) * xGhost[ghostMap.find(col)->second]; // using find to avoid double lookup
             }
         }
+
         y[i] = sum;
     }
 }
@@ -387,11 +398,12 @@ int main(int argc, char* argv[]) {
     vector<Entry> allEntries;
     vector<Entry> localEntries;
 
-    // local data
     unique_ptr<double[]> xLocal;
     unique_ptr<double[]> yLocal;
 
     // ghost management
+    // xGhost: values of remote vector elements needed for local computation
+    // ghostMap: map from global column -> index in xGhost
     unique_ptr<double[]> xGhost;
     unordered_map<int,int> ghostMap;
 
@@ -404,10 +416,14 @@ int main(int argc, char* argv[]) {
 
     try {
         if (rank == 0) {
+            // Parse CLI
             opts = parseCLI(argc, argv);
             iterations = opts.iterations;
-            if (opts.generateMatrix) allEntries = generateMatrixEntries(opts.rows, opts.cols, opts.density);
-            else allEntries = readMTX(opts.filepath);
+
+            if (opts.generateMatrix)
+                allEntries = generateMatrixEntries(opts.rows, opts.cols, opts.density);
+            else 
+                allEntries = readMTX(opts.filepath);
 
             opts.rows = 0; opts.cols = 0;
             for (const auto& e : allEntries) {
@@ -415,9 +431,7 @@ int main(int argc, char* argv[]) {
                 if (e.col + 1 > opts.cols) opts.cols = e.col + 1;
             }
 
-            rm.setMatrixInfo(opts.filepath.empty() ? "Generated" : opts.filepath,
-                             opts.generateMatrix, opts.rows, opts.cols,
-                             allEntries.size(), opts.density);
+            rm.setMatrixInfo(opts.filepath.empty() ? "Generated" : opts.filepath, opts.generateMatrix, opts.rows, opts.cols, allEntries.size(), opts.density);
             rm.setMPIInfo(size);
 
             iterations = opts.iterations;
@@ -431,6 +445,7 @@ int main(int argc, char* argv[]) {
         MPI_Bcast(&matrixRows, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
+        // Distribute matrix entries and build local CSR
         distributeMatrix(allEntries, localEntries, rank, size, entryType);
         localCSR.buildFromEntries(localEntries);
 
@@ -448,6 +463,8 @@ int main(int argc, char* argv[]) {
         }
 
         yLocal = make_unique<double[]>(localCSR.getRows());
+        
+        // Distribute vector x  
         distributeVector(rank, size, matrixCols, xLocal);
 
         time = (MPI_Wtime() - time) * 1e3; // setup duration
@@ -489,13 +506,13 @@ int main(int argc, char* argv[]) {
 
         if(rank==0) {
             rm.computeMetrics();
-            std::cout << rm.toJSON() << std::endl;
+            cout << rm.toJSON() << endl;
         }
     }
-    catch(const std::exception& e) {
+    catch(const exception& e) {
         if(rank==0) {
             rm.addError(e.what());
-            std::cout << rm.toJSON() << std::endl;
+            cout << rm.toJSON() << endl;
         }
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
