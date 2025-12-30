@@ -1,0 +1,142 @@
+#!/bin/bash
+# ------------------------------------------
+# PBS - Distributed SpMV (MPI Deliverable 2)
+# ------------------------------------------
+
+#PBS -N SpMV_MPI
+#PBS -o ./bin/pbs/distributed.out
+#PBS -e ./bin/pbs/distributed.err
+#PBS -q short_cpuQ
+#PBS -l walltime=06:00:00
+#PBS -l select=4:ncpus=64:mpiprocs=64:mem=64gb
+
+# ------------------------------------------
+# Load Required Modules
+# ------------------------------------------
+module load gcc91
+module load mpich-3.2.1--gcc-9.1.0
+g++() { g++-9.1.0 "$@"; }
+cd "$PBS_O_WORKDIR"
+
+# ------------------------------------------
+# Prepare directories
+# ------------------------------------------
+MATRIX_DIR="./matrices"
+mkdir -p "$MATRIX_DIR"
+
+OUT_DIR="./results"
+mkdir -p "$OUT_DIR"
+OUTPUT_FILE="$OUT_DIR/distributedSPMV.json"
+
+SCRIPT_DIR="./scripts"
+
+# ------------------------------------------
+# Compile
+# ------------------------------------------
+make distributed
+EXEC="./bin/distributedSpMV"
+
+if [ ! -x "$EXEC" ]; then
+    echo "Error: executable $EXEC not found or not executable."
+    exit 1
+fi
+
+# ------------------------------------------
+# Parameters
+# ------------------------------------------
+ALL_RANKS=(1 2 4 8 16 32 64 96 128 192 256)
+VIRTUAL_MATRICES=("-VM=10000,10000,0.01" "-VM=10000,10000,0.11")
+ITER=10
+
+# ------------------------------------------
+# Hardware info
+# ------------------------------------------
+DATE_NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# Start JSON
+echo "{" > "$OUTPUT_FILE"
+echo "  \"date\": \"$DATE_NOW\"," >> "$OUTPUT_FILE"
+echo "  \"nodes\": [" >> "$OUTPUT_FILE"
+
+FIRST_NODE=true
+for NODE in $(sort -u $PBS_NODEFILE); do
+    if [ "$FIRST_NODE" = true ]; then
+        FIRST_NODE=false
+    else
+        echo "," >> "$OUTPUT_FILE"
+    fi
+
+    ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
+    CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
+    CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
+    SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
+    CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
+    THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
+    TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
+    L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
+    L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
+    L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
+    L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
+    BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
+
+    cat <<EOF >> "$OUTPUT_FILE"
+    {
+        "architecture": "$ARCH",
+        "cpu_model": "$CPU_MODEL",
+        "cpu_mhz": $CPU_MHZ,
+        "sockets": $SOCKETS,
+        "cores_per_socket": $CORES_PER_SOCKET,
+        "threads_per_core": $THREADS_PER_CORE,
+        "total_cores": $TOTAL_CORES,
+        "l1d_cache": "$L1D_CACHE",
+        "l1i_cache": "$L1I_CACHE",
+        "l2_cache": "$L2_CACHE",
+        "l3_cache": "$L3_CACHE",
+        "byte_order": "$BYTE_ORDER"
+    }
+EOF
+done
+
+echo "  ]," >> "$OUTPUT_FILE"
+echo "  \"results\": [" >> "$OUTPUT_FILE"
+
+# ------------------------------------------
+# Run all ranks and matrices
+# ------------------------------------------
+FIRST_ENTRY_GLOBAL=true
+
+for RANKS in "${ALL_RANKS[@]}"; do
+    # Real matrices
+    for matrix in "$MATRIX_DIR"/*.mtx; do
+        [ -e "$matrix" ] || continue
+
+        if [ "$FIRST_ENTRY_GLOBAL" = true ]; then
+            FIRST_ENTRY_GLOBAL=false
+        else
+            echo "," >> "$OUTPUT_FILE"
+        fi
+
+        echo "   -> Processing $(basename "$matrix") with $RANKS ranks..."
+        JSON_OUTPUT=$(mpirun -np $RANKS $EXEC "-M=$matrix" "-I=$ITER")
+        echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
+    done
+
+    # Virtual matrices
+    for vm_param in "${VIRTUAL_MATRICES[@]}"; do
+        if [ "$FIRST_ENTRY_GLOBAL" = true ]; then
+            FIRST_ENTRY_GLOBAL=false
+        else
+            echo "," >> "$OUTPUT_FILE"
+        fi
+
+        echo "   -> Processing $vm_param with $RANKS ranks..."
+        JSON_OUTPUT=$(mpirun -np $RANKS $EXEC "$vm_param" "-I=$ITER")
+        echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
+    done
+done
+
+# Close JSON
+echo "  ]" >> "$OUTPUT_FILE"
+echo "}" >> "$OUTPUT_FILE"
+
+echo "All runs completed. JSON saved in $OUTPUT_FILE"
