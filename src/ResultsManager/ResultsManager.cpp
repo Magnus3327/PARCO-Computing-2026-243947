@@ -113,7 +113,7 @@ string ResultsManager::toJSON() const {
     ss << "  },\n";
 
     ss << "  \"mpi\": {\n";
-    ss << "    \"processes\": " << mpiProcesses << "\n";
+    ss << "    \"processes\": " << mpiProcesses << ",\n";
     ss << "    \"nnz_per_rank\": {\n";
     ss << "      \"min\": " << minNNZ << ",\n";
     ss << "      \"avg\": " << avgNNZ << ",\n";
