@@ -44,9 +44,13 @@ fi
 # ------------------------------------------
 # Parameters
 # ------------------------------------------
-#ALL_RANKS=(1 2 4 8 16 32 64 96 128 192 256)
+#ALL_RANKS=(1 4 8 16 32 64 128 256)
 ALL_RANKS=(1 4 16 64 128 256)
-VIRTUAL_MATRICES=("-VM=10000;10000;0.01" "-VM=10000;10000;0.11")
+
+declare -A VIRTUAL_MATRICES_CONFIGURATION
+
+VIRTUAL_MATRICES_CONFIGURATION["-VM=10000;10000;0.01"]=1
+VIRTUAL_MATRICES_CONFIGURATION["-VM=10000;10000;0.11"]=4
 ITER=10
 
 # ------------------------------------------
@@ -123,15 +127,16 @@ for RANKS in "${ALL_RANKS[@]}"; do
     done
 
     # Virtual matrices
-    for vm_param in "${VIRTUAL_MATRICES[@]}"; do
+    for vm_param in "${!VIRTUAL_MATRICES[@]}"; do
+        RANK="${VIRTUAL_MATRICES[$vm_param]}"
+
         if [ "$FIRST_ENTRY_GLOBAL" = true ]; then
             FIRST_ENTRY_GLOBAL=false
         else
             echo "," >> "$OUTPUT_FILE"
         fi
 
-        echo "   -> Processing $vm_param with $RANKS ranks..."
-        JSON_OUTPUT=$(mpirun -np $RANKS $EXEC "$vm_param" "-I=$ITER")
+        JSON_OUTPUT=$(mpirun -np "$RANK" "$EXEC" "$vm_param" "-I=$ITER")
         echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
     done
 done
