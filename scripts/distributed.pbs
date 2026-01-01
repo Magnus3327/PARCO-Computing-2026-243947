@@ -92,18 +92,18 @@ for NODE in $(sort -u $PBS_NODEFILE); do
         echo "," >> "$OUTPUT_FILE"
     fi
 
-    ARCH=$(lscpu | grep 'Architecture:' | awk '{print $2}')
-    CPU_MODEL=$(lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
-    CPU_MHZ=$(lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
-    SOCKETS=$(lscpu | grep 'Socket(s):' | awk '{print $2}')
-    CORES_PER_SOCKET=$(lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
-    THREADS_PER_CORE=$(lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
-    TOTAL_CORES=$(lscpu | grep '^CPU(s):' | awk '{print $2}')
-    L1D_CACHE=$(lscpu | grep 'L1d cache:' | awk '{print $3}')
-    L1I_CACHE=$(lscpu | grep 'L1i cache:' | awk '{print $3}')
-    L2_CACHE=$(lscpu | grep 'L2 cache:' | awk '{print $3}')
-    L3_CACHE=$(lscpu | grep 'L3 cache:' | awk '{print $3}')
-    BYTE_ORDER=$(lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
+    ARCH=$(ssh $NODE lscpu | grep 'Architecture:' | awk '{print $2}')
+    CPU_MODEL=$(ssh $NODE lscpu | grep 'Model name:' | sed 's/Model name:[ \t]*//')
+    CPU_MHZ=$(ssh $NODE lscpu | grep 'CPU MHz:' | awk '{print $3}' | cut -d. -f1)
+    SOCKETS=$(ssh $NODE lscpu | grep 'Socket(s):' | awk '{print $2}')
+    CORES_PER_SOCKET=$(ssh $NODE lscpu | grep 'Core(s) per socket:' | awk '{print $4}')
+    THREADS_PER_CORE=$(ssh $NODE lscpu | grep 'Thread(s) per core:' | awk '{print $4}')
+    TOTAL_CORES=$(ssh $NODE lscpu | grep '^CPU(s):' | awk '{print $2}')
+    L1D_CACHE=$(ssh $NODE lscpu | grep 'L1d cache:' | awk '{print $3}')
+    L1I_CACHE=$(ssh $NODE lscpu | grep 'L1i cache:' | awk '{print $3}')
+    L2_CACHE=$(ssh $NODE lscpu | grep 'L2 cache:' | awk '{print $3}')
+    L3_CACHE=$(ssh $NODE lscpu | grep 'L3 cache:' | awk '{print $3}')
+    BYTE_ORDER=$(ssh $NODE lscpu | grep 'Byte Order:' | awk '{print $3, $4}')
 
     cat <<EOF >> "$OUTPUT_FILE"
     {
@@ -146,21 +146,22 @@ for RANKS in "${ALL_RANKS[@]}"; do
         JSON_OUTPUT=$(mpirun -np $RANKS $EXEC "-M=$matrix" "-I=$ITER")
         echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
     done
-
-    # Virtual matrices
-    for vm_param in "${!VIRTUAL_MATRICES[@]}"; do
-        RANK="${VIRTUAL_MATRICES[$vm_param]}"
-
-        if [ "$FIRST_ENTRY_GLOBAL" = true ]; then
-            FIRST_ENTRY_GLOBAL=false
-        else
-            echo "," >> "$OUTPUT_FILE"
-        fi
-
-        JSON_OUTPUT=$(mpirun -np "$RANK" "$EXEC" "$vm_param" "-I=$ITER")
-        echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
-    done
 done
+
+# Virtual matrices
+for vm_param in "${!VIRTUAL_MATRICES[@]}"; do
+    RANK="${VIRTUAL_MATRICES[$vm_param]}"
+
+    if [ "$FIRST_ENTRY_GLOBAL" = true ]; then
+        FIRST_ENTRY_GLOBAL=false
+    else
+        echo "," >> "$OUTPUT_FILE"
+    fi
+
+    JSON_OUTPUT=$(mpirun -np "$RANK" "$EXEC" "$vm_param" "-I=$ITER")
+    echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
+done
+
 
 # Close JSON
 echo "  ]" >> "$OUTPUT_FILE"
