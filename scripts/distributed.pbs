@@ -212,7 +212,7 @@ python "$SCRIPT_DIR/plots/weakScalingSE.py" $OUTPUT_FILE $OUT_DIR
 
     for matrix in "$MATRIX_DIR"/*.mtx; do
         [ -e "$matrix" ] || continue
-        python "$SCRIPT_DIR/plots/matrixAnalysis.py" $OUTPUT_FILE $matrix $OUT_DIR
+        python "$SCRIPT_DIR/plots/executionTime.py" $OUTPUT_FILE $matrix $OUT_DIR
     done
 
 deactivate
