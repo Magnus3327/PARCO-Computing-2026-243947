@@ -8,13 +8,14 @@
 #PBS -e $PBS_O_WORKDIR/bin/pbs/distributed.err
 #PBS -q short_cpuQ
 #PBS -l walltime=06:00:00
-#PBS -l select=4:ncpus=64:mpiprocs=64:mem=8gb:net_type=OP
+#PBS -l select=4:ncpus=64:mpiprocs=64:mem=8gb:net_type=IB
 
 # ------------------------------------------
 # Load Required Modules
 # ------------------------------------------
 module load gcc91
 module load mpich-3.2.1--gcc-9.1.0
+module load python-3.10.14_gcc91
 g++() { g++-9.1.0 "$@"; }
 cd "$PBS_O_WORKDIR"
 
@@ -193,3 +194,28 @@ echo "  ]" >> "$OUTPUT_FILE"
 echo "}" >> "$OUTPUT_FILE"
 
 echo "All runs completed. JSON saved in $OUTPUT_FILE"
+
+# ------------------------------------------
+# Plotting
+# ------------------------------------------
+
+# create a venv for plotting
+python3 -m venv plot_env
+source plot_env/bin/activate
+pip install matplotlib numpy pandas
+
+python "$SCRIPT_DIR/plots/roofline_inverse.py" $OUTPUT_FILE $OUT_DIR
+python "$SCRIPT_DIR/plots/strongScaling.py" $OUTPUT_FILE $OUT_DIR
+python "$SCRIPT_DIR/plots/weakScaling.py" $OUTPUT_FILE $OUT_DIR
+python "$SCRIPT_DIR/plots/strongScalingSE.py" $OUTPUT_FILE $OUT_DIR
+python "$SCRIPT_DIR/plots/weakScalingSE.py" $OUTPUT_FILE $OUT_DIR
+
+    for matrix in "$MATRIX_DIR"/*.mtx; do
+        [ -e "$matrix" ] || continue
+        python "$SCRIPT_DIR/plots/matrixAnalysis.py" $OUTPUT_FILE $matrix $OUT_DIR
+    done
+
+deactivate
+
+# Clean up venv
+rm -rf plot_env
