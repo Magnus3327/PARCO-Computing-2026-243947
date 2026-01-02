@@ -1,6 +1,6 @@
 #!/bin/bash
 # ------------------------------------------
-# PBS - Distributed SpMV (MPI Deliverable 2)
+# PBS - Distributed SpMV 
 # ------------------------------------------
 
 #PBS -N SpMV_MPI
@@ -8,7 +8,7 @@
 #PBS -e $PBS_O_WORKDIR/bin/pbs/distributed.err
 #PBS -q short_cpuQ
 #PBS -l walltime=06:00:00
-#PBS -l select=4:ncpus=64:mpiprocs=64:mem=16gb:net_type=OP
+#PBS -l select=4:ncpus=64:mpiprocs=64:mem=8gb:net_type=OP
 
 # ------------------------------------------
 # Load Required Modules
@@ -34,7 +34,7 @@ SCRIPT_DIR="./scripts"
 # Download Matrices
 # ------------------------------------------
 declare -A MATRICES
-MATRICES["cit-Patents"]="Patents"
+MATRICES["cit-Patents"]="SNAP"
 MATRICES["soc-LiveJournal1"]="SNAP"
 MATRICES["thermal2"]="Schmid"
 MATRICES["Flan_1565"]="Janna"
@@ -182,6 +182,7 @@ for vm_param in "${!VIRTUAL_MATRICES[@]}"; do
         echo "," >> "$OUTPUT_FILE"
     fi
 
+    echo "   -> Processing virtual matrix $vm_param with $RANK ranks..."
     JSON_OUTPUT=$(mpirun -np "$RANK" "$EXEC" "$vm_param" "-I=$ITER")
     echo "$JSON_OUTPUT" >> "$OUTPUT_FILE"
 done
