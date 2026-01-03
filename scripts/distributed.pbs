@@ -4,8 +4,8 @@
 # ------------------------------------------
 
 #PBS -N SpMV_MPI
-#PBS -o bin/pbs/distributed.out
-#PBS -e bin/pbs/distributed.err
+#PBS -o distributed.out
+#PBS -e distributed.err
 #PBS -q short_cpuQ
 #PBS -l walltime=06:00:00
 #PBS -l select=4:ncpus=64:mpiprocs=64:mem=2gb
