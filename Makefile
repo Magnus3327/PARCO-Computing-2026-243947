@@ -1,56 +1,63 @@
 # Makefile for Distributed SpMV (MPI)
 
-# Compilatore MPI
+# MPI Compiler
 CXX = mpic++
 CXXFLAGS = -O3 -I./src
 
-# Directory
+# Directories
 SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
 
-# File Sorgente dei Moduli
+# Module Source Files
 CSR_SRC     = $(SRC_DIR)/CSR/CSRMatrix.cpp
 MTX_SRC     = $(SRC_DIR)/MTX/MTXReader.cpp
 UTILS_SRC   = $(SRC_DIR)/Utils/Utils.cpp
 MANAGER_SRC = $(SRC_DIR)/ResultsManager/ResultsManager.cpp
 
-# File Sorgente Principale (visto nello screenshot)
+# Main Source Files
 MAIN_SRC    = $(SRC_DIR)/distributedSpMV.cpp
+MAIN_B_SRC  = $(SRC_DIR)/bcastSPMV.cpp
 
-# File Oggetto
+# Object Files
 CSR_OBJ     = $(OBJ_DIR)/CSR/CSRMatrix.o
 MTX_OBJ     = $(OBJ_DIR)/MTX/MTXReader.o
 UTILS_OBJ   = $(OBJ_DIR)/Utils/Utils.o
 MANAGER_OBJ = $(OBJ_DIR)/ResultsManager/ResultsManager.o
 MAIN_OBJ    = $(OBJ_DIR)/distributedSpMV.o
+MAIN_B_OBJ  = $(OBJ_DIR)/bcastSpMV.o
 
 COMMON_OBJS = $(CSR_OBJ) $(MTX_OBJ) $(UTILS_OBJ) $(MANAGER_OBJ)
 
-# Target di default
-all: distributed
+# Default target
+all: distributed bcast
 
-# Creazione directory obj e bin
+# Create obj and bin directories
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)/CSR
-	mkdir -p $(OBJ_DIR)/MTX
-	mkdir -p $(OBJ_DIR)/Utils
-	mkdir -p $(OBJ_DIR)/ResultsManager
+	mkdir -p $(OBJ_DIR)/{CSR,MTX,Utils,ResultsManager}
 	mkdir -p $(BIN_DIR)
 
-# Compilazione degli oggetti (Moduli)
+# Compile object files
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Target per l'eseguibile distribuito
-distributed: $(COMMON_OBJS) $(MAIN_SRC) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $(COMMON_OBJS) $(MAIN_SRC) -o $(BIN_DIR)/distributedSpMV
+# Distributed executable target
+distributed: $(COMMON_OBJS) $(MAIN_OBJ) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@
 
-# Pulizia
+# Broadcast executable target
+bcast: $(COMMON_OBJS) $(MAIN_B_OBJ) | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@
+
+# Cleanup
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
+.PHONY: all distributed bcast clean help
+
 help:
-	@echo "Comandi disponibili:"
-	@echo "  make distributed  # Compila la versione MPI"
-	@echo "  make clean        # Rimuove file binari e oggetti"
+	@echo "Available targets:"
+	@echo "  make distributed  # Build distributed SpMV version"
+	@echo "  make bcast        # Build broadcast SpMV version"
+	@echo "  make clean        # Remove binaries and objects"
+	@echo "  make help         # Show this help"
