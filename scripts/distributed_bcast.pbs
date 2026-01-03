@@ -3,12 +3,12 @@
 # PBS - Distributed SpMV 
 # ------------------------------------------
 
-#PBS -N SpMV_MPI_Map
-#PBS -o distributedMap.out
-#PBS -e distributedMap.err
+#PBS -N SpMV_MPI_Bcast
+#PBS -o distributedBcast.out
+#PBS -e distributedBcast.err
 #PBS -q short_cpuQ
 #PBS -l walltime=06:00:00
-#PBS -l select=4:ncpus=64:mpiprocs=64:mem=2gb
+#PBS -l select=4:ncpus=64:mpiprocs=64:mem=16gb
 
 # ------------------------------------------
 # Load Required Modules
@@ -27,7 +27,7 @@ mkdir -p "$MATRIX_DIR"
 
 OUT_DIR="./results"
 mkdir -p "$OUT_DIR"
-OUTPUT_FILE="$OUT_DIR/distributedMapSPMV.json"
+OUTPUT_FILE="$OUT_DIR/bcastSPMV.json"
 
 SCRIPT_DIR="./scripts"
 
@@ -63,8 +63,8 @@ done
 # ------------------------------------------
 # Compile
 # ------------------------------------------
-make map
-EXEC="./bin/map"
+make bcast
+EXEC="./bin/bcast"
 
 if [ ! -x "$EXEC" ]; then
     echo "Error: executable $EXEC not found or not executable."
@@ -203,11 +203,11 @@ set -euo pipefail
 PLOTS_DIR="$OUT_DIR/plots"
 mkdir -p "$PLOTS_DIR"
 
-PLOT_DIR="$PLOTS_DIR/map"
+PLOT_DIR="$PLOTS_DIR/bcast"
 mkdir -p "$PLOT_DIR"
 
-python3 -m venv plot_env2
-source plot_env2/bin/activate
+python3 -m venv plot_env
+source plot_env/bin/activate
 
 pip install --upgrade pip >/dev/null
 pip install matplotlib numpy pandas
@@ -224,5 +224,8 @@ for matrix in "$MATRIX_DIR"/*.mtx; do
     python "$SCRIPT_DIR/plots/executionTime.py" "$OUTPUT_FILE" "$matrix" "$PLOT_DIR"
 done
 
+# Optional roofline (post-run)
+# python "$SCRIPT_DIR/plots/roofline_inverse.py" "$OUTPUT_FILE" "$PLOT_DIR"
+
 deactivate
-rm -rf plot_env2
+rm -rf plot_env
