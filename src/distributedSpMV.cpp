@@ -419,7 +419,9 @@ int main(int argc, char* argv[]){
             matrixRows=opts.rows; matrixCols=opts.cols;
         }
 
-        time = MPI_Wtime();
+        time = MPI_Wtime(); // Start timing the setpup phase
+
+        // Broadcast problem info
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixRows, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
