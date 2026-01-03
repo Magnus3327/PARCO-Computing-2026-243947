@@ -301,10 +301,15 @@ int main(int argc, char* argv[]) {
             delete[] tmp; 
         }
 
-        MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
         time = (MPI_Wtime() - time) * 1e3; // setup duration
         if(rank==0) rm.setSetupDuration(time);
+
+        // Broadcast vector x to all ranks
+        time = MPI_Wtime();
+        MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        time = (MPI_Wtime() - time) * 1e3;
+        MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+        if(rank==0) rm.setCommunicationDuration(globalTime);
 
         for(int iter=-1; iter<iterations; iter++) {
             MPI_Barrier(MPI_COMM_WORLD); // synchronize before computation
