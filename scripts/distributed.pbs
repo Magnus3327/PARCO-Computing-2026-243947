@@ -8,7 +8,7 @@
 #PBS -e $PBS_O_WORKDIR/bin/pbs/distributed.err
 #PBS -q short_cpuQ
 #PBS -l walltime=06:00:00
-#PBS -l select=4:ncpus=64:mpiprocs=64:mem=8gb:net_type=IB
+#PBS -l select=4:ncpus=64:mpiprocs=64:mem=4gb
 
 # ------------------------------------------
 # Load Required Modules
@@ -198,28 +198,31 @@ echo "All runs completed. JSON saved in $OUTPUT_FILE"
 # ------------------------------------------
 # Plotting
 # ------------------------------------------
+set -euo pipefail
 
-# create a venv for plotting
+PLOT_DIR="$OUT_DIR/plots"
+mkdir -p "$PLOT_DIR"
+
 python3 -m venv plot_env
 source plot_env/bin/activate
-pip3 install matplotlib numpy pandas
 
-mkdir -p "$OUT_DIR/plots"
+pip install --upgrade pip >/dev/null
+pip install matplotlib numpy pandas
 
-python "$SCRIPT_DIR/plots/strongScaling.py" $OUTPUT_FILE $OUT_DIR/Plots
-python "$SCRIPT_DIR/plots/weakScaling.py" $OUTPUT_FILE $OUT_DIR/Plots
-python "$SCRIPT_DIR/plots/strongScalingSE.py" $OUTPUT_FILE $OUT_DIR/Plots
-python "$SCRIPT_DIR/plots/weakScalingSE.py" $OUTPUT_FILE $OUT_DIR/Plots
+# Scaling plots
+python "$SCRIPT_DIR/plots/strongScaling.py"   "$OUTPUT_FILE" "$PLOT_DIR"
+python "$SCRIPT_DIR/plots/weakScaling.py"     "$OUTPUT_FILE" "$PLOT_DIR"
+python "$SCRIPT_DIR/plots/strongScalingSE.py" "$OUTPUT_FILE" "$PLOT_DIR"
+python "$SCRIPT_DIR/plots/weakScalingSE.py"   "$OUTPUT_FILE" "$PLOT_DIR"
 
-    for matrix in "$MATRIX_DIR"/*.mtx; do
-        [ -e "$matrix" ] || continue
-        python "$SCRIPT_DIR/plots/executionTime.py" $OUTPUT_FILE $matrix $OUT_DIR
-    done
+# Execution time per matrix
+for matrix in "$MATRIX_DIR"/*.mtx; do
+    [[ -e "$matrix" ]] || continue
+    python "$SCRIPT_DIR/plots/executionTime.py" "$OUTPUT_FILE" "$matrix" "$PLOT_DIR"
+done
 
-# Has to be run after simulations, as it needs hardware info and peak performance
-#python "$SCRIPT_DIR/plots/roofline_inverse.py" $OUTPUT_FILE $OUT_DIR/plots
+# Optional roofline (post-run)
+# python "$SCRIPT_DIR/plots/roofline_inverse.py" "$OUTPUT_FILE" "$PLOT_DIR"
 
 deactivate
-
-# Clean up venv
 rm -rf plot_env

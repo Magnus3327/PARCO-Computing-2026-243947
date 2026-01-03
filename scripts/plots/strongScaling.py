@@ -103,7 +103,7 @@ def main():
     plt.grid(True, which="major", ls="-", alpha=0.3)
 
     # Legend positioning
-    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left', fontsize='small')
+    plt.legend(loc='lower left', fontsize='small')
     plt.tight_layout()
 
     # Save as PDF in the specified directory

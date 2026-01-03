@@ -70,7 +70,7 @@ def main():
     ax1.set_title("Weak Scaling: Scaled Speedup (Gustafson's Law)", fontsize=14)
     ax1.set_xlabel('Number of Processes (p)', fontsize=12)
     ax1.set_ylabel('Scaled Speedup ($p \cdot T_1 / T_p$)', fontsize=12)
-    
+
     ax1.plot(p_vals, s_total, marker='o', linestyle='-', color='tab:blue', label='Total Scaled Speedup', linewidth=2)
     ax1.plot(p_vals, s_kernel, marker='s', linestyle='--', color='tab:orange', label='Kernel Scaled Speedup', alpha=0.7)
     
@@ -95,7 +95,7 @@ def main():
         ax.set_xticklabels([str(p) for p in p_vals])
         ax.minorticks_off()
         ax.grid(True, which="both", ls="-", alpha=0.3)
-        ax.legend(fontsize='medium')
+        ax.legend(loc='upper right', fontsize='medium')
 
     ax2.set_ylim(0, 1.1)
 

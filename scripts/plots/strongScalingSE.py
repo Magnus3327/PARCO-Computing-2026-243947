@@ -109,7 +109,7 @@ def main():
     ax2.set_xticklabels([str(c) for c in core_counts])
     ax2.set_ylim(0, 1.1)
     ax2.grid(True, which="both", ls="-", alpha=0.3)
-    ax2.legend(fontsize='small', loc='lower left')
+    ax2.legend(fontsize='small', loc='upper right')
 
     plt.tight_layout()
 
