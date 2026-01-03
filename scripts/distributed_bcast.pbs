@@ -3,7 +3,7 @@
 # PBS - Distributed SpMV 
 # ------------------------------------------
 
-#PBS -N SpMV_MPI
+#PBS -N SpMV_MPI_Bcast
 #PBS -o $PBS_O_WORKDIR/bin/pbs/distributed.out
 #PBS -e $PBS_O_WORKDIR/bin/pbs/distributed.err
 #PBS -q short_cpuQ
@@ -27,7 +27,7 @@ mkdir -p "$MATRIX_DIR"
 
 OUT_DIR="./results"
 mkdir -p "$OUT_DIR"
-OUTPUT_FILE="$OUT_DIR/distributedSPMV.json"
+OUTPUT_FILE="$OUT_DIR/bcastSPMV.json"
 
 SCRIPT_DIR="./scripts"
 
@@ -200,7 +200,10 @@ echo "All runs completed. JSON saved in $OUTPUT_FILE"
 # ------------------------------------------
 set -euo pipefail
 
-PLOT_DIR="$OUT_DIR/plots"
+PLOTS_DIR="$OUT_DIR/plots"
+mkdir -p "$PLOTS_DIR"
+
+PLOT_DIR="$PLOTS_DIR/bcast"
 mkdir -p "$PLOT_DIR"
 
 python3 -m venv plot_env
