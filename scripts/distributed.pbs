@@ -202,18 +202,22 @@ echo "All runs completed. JSON saved in $OUTPUT_FILE"
 # create a venv for plotting
 python3 -m venv plot_env
 source plot_env/bin/activate
-pip install matplotlib numpy pandas
+pip3 install matplotlib numpy pandas
 
-python "$SCRIPT_DIR/plots/roofline_inverse.py" $OUTPUT_FILE $OUT_DIR
-python "$SCRIPT_DIR/plots/strongScaling.py" $OUTPUT_FILE $OUT_DIR
-python "$SCRIPT_DIR/plots/weakScaling.py" $OUTPUT_FILE $OUT_DIR
-python "$SCRIPT_DIR/plots/strongScalingSE.py" $OUTPUT_FILE $OUT_DIR
-python "$SCRIPT_DIR/plots/weakScalingSE.py" $OUTPUT_FILE $OUT_DIR
+mkdir -p "$OUT_DIR/plots"
+
+python "$SCRIPT_DIR/plots/strongScaling.py" $OUTPUT_FILE $OUT_DIR/Plots
+python "$SCRIPT_DIR/plots/weakScaling.py" $OUTPUT_FILE $OUT_DIR/Plots
+python "$SCRIPT_DIR/plots/strongScalingSE.py" $OUTPUT_FILE $OUT_DIR/Plots
+python "$SCRIPT_DIR/plots/weakScalingSE.py" $OUTPUT_FILE $OUT_DIR/Plots
 
     for matrix in "$MATRIX_DIR"/*.mtx; do
         [ -e "$matrix" ] || continue
         python "$SCRIPT_DIR/plots/executionTime.py" $OUTPUT_FILE $matrix $OUT_DIR
     done
+
+# Has to be run after simulations, as it needs hardware info and peak performance
+#python "$SCRIPT_DIR/plots/roofline_inverse.py" $OUTPUT_FILE $OUT_DIR/plots
 
 deactivate
 
