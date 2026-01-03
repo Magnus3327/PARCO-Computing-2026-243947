@@ -15,9 +15,8 @@ MTX_SRC     = $(SRC_DIR)/MTX/MTXReader.cpp
 UTILS_SRC   = $(SRC_DIR)/Utils/Utils.cpp
 MANAGER_SRC = $(SRC_DIR)/ResultsManager/ResultsManager.cpp
 
-# Main Source Files (Optimanl, Bcast and Distributed with map)
+# Main Source Files
 MAIN_SRC    = $(SRC_DIR)/distributedSpMV.cpp
-MAIN_B_SRC  = $(SRC_DIR)/bcastSpMV.cpp
 MAIN_M_SRC  = $(SRC_DIR)/distributedMapSpMV.cpp
 
 # Object Files
@@ -26,13 +25,12 @@ MTX_OBJ     = $(OBJ_DIR)/MTX/MTXReader.o
 UTILS_OBJ   = $(OBJ_DIR)/Utils/Utils.o
 MANAGER_OBJ = $(OBJ_DIR)/ResultsManager/ResultsManager.o
 MAIN_OBJ    = $(OBJ_DIR)/distributedSpMV.o
-MAIN_B_OBJ  = $(OBJ_DIR)/bcastSpMV.o
 MAIN_M_OBJ  = $(OBJ_DIR)/distributedMapSpMV.o
 
 COMMON_OBJS = $(CSR_OBJ) $(MTX_OBJ) $(UTILS_OBJ) $(MANAGER_OBJ)
 
 # Default target
-all: distributed bcast map
+all: distributed map
 
 # Create obj and bin directories
 $(OBJ_DIR):
@@ -47,10 +45,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 distributed: $(COMMON_OBJS) $(MAIN_OBJ) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/distributedSpMV
 
-# Broadcast executable target
-bcast: $(COMMON_OBJS) $(MAIN_B_OBJ) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@
-
 # Distributed with map executable target
 map: $(COMMON_OBJS) $(MAIN_M_OBJ) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@
@@ -59,12 +53,11 @@ map: $(COMMON_OBJS) $(MAIN_M_OBJ) | $(BIN_DIR)
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-.PHONY: all distributed bcast clean help
+.PHONY: all distributed clean help
 
 help:
 	@echo "Available targets:"
 	@echo "  make distributed  # Build distributed SpMV version"
-	@echo "  make bcast        # Build broadcast SpMV version"
 	@echo "  make map          # Build distributed SpMV with map version"
 	@echo "  make clean        # Remove binaries and objects"
 	@echo "  make help         # Show this help"
