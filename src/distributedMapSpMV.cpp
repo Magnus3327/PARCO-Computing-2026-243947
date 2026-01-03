@@ -361,50 +361,21 @@ int rank, int size, const CSRMatrix& localCSR, const unique_ptr<double[]>& xLoca
         throw runtime_error("Ghost exchange mismatch");
 }
 
-// --------------------------------------------------
-// PRE-INDEXING PHASE (one-time cost)
-// Resolve for each NNZ whether it accesses xLocal or xGhost
-// Builds:
-//   - xIndex[j]: resolved index (local or ghost)
-//   - isGhost[j]: 0 = local, 1 = ghost
-// --------------------------------------------------
-void preIndexCSR(const CSRMatrix& localCSR, int rank, int size, const unordered_map<int,int>& ghostMap, vector<int>& xIndex, vector<char>& isGhost) {
-    const size_t nnz = localCSR.getNNZ();
-
-    xIndex.resize(nnz);
-    isGhost.resize(nnz);
-
+// DISTRIBUTED SpMV KERNEL WITH GHOSTS
+void SpMVDistributed(const CSRMatrix& localCSR, const double* xLocal, const unique_ptr<double[]>& xGhost, const unordered_map<int,int>& ghostMap, double* y, int rank, int size) {
     for (int i = 0; i < localCSR.getRows(); ++i) {
-        for (int j = localCSR.getIndexPointers(i);
-             j < localCSR.getIndexPointers(i + 1); ++j) {
-
-            int col = localCSR.getIndices(j);
-
-            if (col % size == rank) {
-                // Local vector access
-                isGhost[j] = 0;
-                xIndex[j] = (col - rank) / size;
-            } else {
-                // Ghost vector access
-                isGhost[j] = 1;
-                xIndex[j] = ghostMap.at(col); // safe: ghostMap already built
-            }
-        }
-    }
-}
-
-// DISTRIBUTED SpMV KERNEL WITH PRE-INDEXED GHOSTS
-void SpMVDistributed(const CSRMatrix& localCSR, const double* xLocal, const unique_ptr<double[]>& xGhost, const vector<int>& xIndex, const vector<char>& isGhost, double* y) {
-    for (int i = 0; i < localCSR.getRows(); ++i) {
-
+        
         double sum = 0.0;
-
-        for (int j = localCSR.getIndexPointers(i);j < localCSR.getIndexPointers(i + 1); ++j) {
-
-            double val = localCSR.getData(j);
-
-            // Branch-light access
-            sum += val * (isGhost[j] ? xGhost[xIndex[j]] : xLocal[xIndex[j]] );
+        
+        for (int j = localCSR.getIndexPointers(i); j < localCSR.getIndexPointers(i + 1); ++j) {
+            int col = localCSR.getIndices(j);
+            
+            if (col % size == rank) {
+                int localIdx = (col - rank) / size; // local index in xLocal
+                sum += localCSR.getData(j) * xLocal[localIdx];
+            } else {
+                sum += localCSR.getData(j) * xGhost[ghostMap.find(col)->second]; // using find to avoid double lookup
+            }
         }
 
         y[i] = sum;
@@ -435,10 +406,6 @@ int main(int argc, char* argv[]) {
     // ghostMap: map from global column -> index in xGhost
     unique_ptr<double[]> xGhost;
     unordered_map<int,int> ghostMap;
-
-    // Pre-indexed access for SpMV
-    vector<int> xIndex;      // resolved index (local or ghost)
-    vector<char> isGhost;    // 0 = local, 1 = ghost
 
     int iterations = 0, matrixRows = 0, matrixCols = 0;
     
@@ -528,7 +495,7 @@ int main(int argc, char* argv[]) {
             MPI_Barrier(MPI_COMM_WORLD); // synchronize before computation
 
             time = MPI_Wtime();
-            SpMVDistributed(localCSR, xLocal.get(), xGhost, xIndex, isGhost, yLocal.get());
+            SpMVDistributed(localCSR, xLocal.get(), xGhost, ghostMap, yLocal.get(), rank, size);
             time = (MPI_Wtime() - time) * 1e3; // local computation duration
 
             MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
