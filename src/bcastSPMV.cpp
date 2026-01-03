@@ -9,7 +9,6 @@
     ---------
     0 - Problem info (iterations, rows, cols)
     1 - Matrix entries
-    2 - Vector x segments
     
     WORKFLOW
     --------
@@ -215,7 +214,7 @@ void distributeVector(int rank, int matrixCols, unique_ptr<double[]>& x) {
     if (rank == 0) {
         x.reset(generateRandomVector(matrixCols, -1000, 1000));
     }
-    MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 2, MPI_COMM_WORLD);
+    MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 }
 
 // DISTRIBUTED SpMV KERNEL WITH CYCLIC VECTOR INDEXING
