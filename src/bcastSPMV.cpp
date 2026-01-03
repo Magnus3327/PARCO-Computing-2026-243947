@@ -10,19 +10,16 @@
     0 - Problem info (iterations, rows, cols)
     1 - Matrix entries
     2 - Vector x segments
-    3 - Ghost column indices
-    4 - Ghost values
     
     WORKFLOW
     --------
     1. Parse CLI arguments (rank 0).
     2. Rank 0 loads or generates the sparse matrix and input vector.
     3. Matrix entries are distributed using 1D cyclic partitioning.
-    4. Input vector x is distributed using 1D cyclic partitioning.
-    5. Each rank identifies and exchanges ghost values needed for local SpMV.
-    6. Perform distributed SpMV for a number of iterations, measuring performance.
-    7. Collect and report performance metrics (rank 0).
-    8. Finalize MPI.
+    4. Input vector x is distributed using broadcasting.
+    5. Perform distributed SpMV for a number of iterations, measuring performance.
+    6. Collect and report performance metrics (rank 0).
+    7  . Finalize MPI.
 
     CLI ARGUMENTS
     -------------
@@ -216,9 +213,23 @@ void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntri
 // DISTRIBUTE VECTOR X USING BCASTING
 void distributeVector(int rank, int matrixCols, unique_ptr<double[]>& x) {
     if (rank == 0) {
-        x = generateRandomVector(matrixCols, -1000, 1000);
+        x.reset(generateRandomVector(matrixCols, -1000, 1000));
     }
-    MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 2, MPI_COMM_WORLD);
+}
+
+// DISTRIBUTED SpMV KERNEL WITH CYCLIC VECTOR INDEXING
+void SpMVDistributed(const CSRMatrix& localCSR, unique_ptr<double[]>& x, unique_ptr<double[]>& y, int rank, int size) {
+    for (int i = 0; i < localCSR.getRows(); ++i) {
+        double sum = 0.0;
+        
+        for (int j = localCSR.getIndexPointers(i); j < localCSR.getIndexPointers(i + 1); ++j) {
+            int globalCol = localCSR.getIndices(j);
+            sum += localCSR.getData(j) * x[globalCol];
+        }
+        
+        y[i] = sum;
+    }
 }
 
 // Main
@@ -299,7 +310,9 @@ int main(int argc, char* argv[]) {
         yLocal = make_unique<double[]>(localCSR.getRows());
         
         // Distribute vector x  
-
+        if(rank != 0) {
+            x = make_unique<double[]>(matrixCols);
+        }
         distributeVector(rank, matrixCols, x);
 
         time = (MPI_Wtime() - time) * 1e3; // setup duration
@@ -309,7 +322,7 @@ int main(int argc, char* argv[]) {
             MPI_Barrier(MPI_COMM_WORLD); // synchronize before computation
 
             time = MPI_Wtime();
-            SpMVDistributed(localCSR, xLocal.get(), xGhost, ghostMap, yLocal.get(), rank, size);
+            SpMVDistributed(localCSR, x, yLocal, rank, size);
             time = (MPI_Wtime() - time) * 1e3; // local computation duration
 
             MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
