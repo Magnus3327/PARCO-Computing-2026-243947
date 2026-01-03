@@ -209,14 +209,6 @@ void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntri
     }
 }
 
-// DISTRIBUTE VECTOR X USING BCASTING
-void distributeVector(int rank, int matrixCols, unique_ptr<double[]>& x) {
-    if (rank == 0) {
-        x.reset(generateRandomVector(matrixCols, -1000, 1000));
-    }
-    MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-}
-
 // DISTRIBUTED SpMV KERNEL WITH CYCLIC VECTOR INDEXING
 void SpMVDistributed(const CSRMatrix& localCSR, unique_ptr<double[]>& x, unique_ptr<double[]>& y, int rank, int size) {
     for (int i = 0; i < localCSR.getRows(); ++i) {
@@ -309,10 +301,16 @@ int main(int argc, char* argv[]) {
         yLocal = make_unique<double[]>(localCSR.getRows());
         
         // Distribute vector x  
-        if(rank != 0) {
-            x = make_unique<double[]>(matrixCols);
+        x = make_unique<double[]>(matrixCols);
+
+        if(rank == 0) {
+            double* tmp = generateRandomVector(matrixCols, -1000, 1000);
+            // copy to x
+            for(int i=0; i<matrixCols; i++) x[i] = tmp[i];
+            delete[] tmp; 
         }
-        distributeVector(rank, matrixCols, x);
+
+        MPI_Bcast(x.get(), matrixCols, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
         time = (MPI_Wtime() - time) * 1e3; // setup duration
         if(rank==0) rm.setSetupDuration(time);
