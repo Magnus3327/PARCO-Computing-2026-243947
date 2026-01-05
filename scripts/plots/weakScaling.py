@@ -61,7 +61,7 @@ def main():
 
     # 1. Total Time: Solid line with circles
     plt.plot(p_vals, t_total, marker='o', linestyle='-', color='tab:blue', 
-             label='Total Execution Time', linewidth=2)
+             label='Total (Communication + Kernel)', linewidth=2)
     
     # 2. Kernel Time: Dashed line with squares
     plt.plot(p_vals, t_kernel, marker='s', linestyle='--', color='tab:orange', 
@@ -69,7 +69,7 @@ def main():
 
     # 3. Ideal Scaling (Horizontal Line, Slope = 0)
     plt.axhline(y=t1_total, color='grey', linestyle=':', linewidth=2, 
-                label=f'Ideal Weak Scaling (T={t1_total:.2f}ms)')
+                label=f'Ideal Weak Scaling')
 
     # X-axis configuration (log scale for cores)
     plt.xscale('log', base=2)
@@ -81,7 +81,7 @@ def main():
 
     plt.xlabel('Number of Processes (p)')
     plt.ylabel('Execution Time (ms)')
-    plt.title('Weak Scaling: Constant Load per Rank (1M NNZ)')
+    plt.title('Weak Scaling')
     plt.grid(True, which="both", ls="-", alpha=0.3)
 
     # Legend

@@ -8,7 +8,7 @@
 #PBS -e distributedBcast.err
 #PBS -q short_cpuQ
 #PBS -l walltime=06:00:00
-#PBS -l select=4:ncpus=64:mpiprocs=64:mem=4gb
+#PBS -l select=4:ncpus=64:mpiprocs=64:mem=6gb
 
 # ------------------------------------------
 # Load Required Modules
@@ -217,15 +217,15 @@ python "$SCRIPT_DIR/plots/strongScaling.py"   "$OUTPUT_FILE" "$PLOT_DIR"
 python "$SCRIPT_DIR/plots/weakScaling.py"     "$OUTPUT_FILE" "$PLOT_DIR"
 python "$SCRIPT_DIR/plots/strongScalingSE.py" "$OUTPUT_FILE" "$PLOT_DIR"
 python "$SCRIPT_DIR/plots/weakScalingSE.py"   "$OUTPUT_FILE" "$PLOT_DIR"
+python "$SCRIPT_DIR/plots/loadBalancing.py"   "$OUTPUT_FILE" "$PLOT_DIR"
+python "$SCRIPT_DIR/plots/memoryFootprintScaling.py"   "$OUTPUT_FILE" "$PLOT_DIR"
+python "$SCRIPT_DIR/plots/structVSunstruct.py"   "$OUTPUT_FILE" "$PLOT_DIR"
 
 # Execution time per matrix
 for matrix in "$MATRIX_DIR"/*.mtx; do
     [[ -e "$matrix" ]] || continue
-    python "$SCRIPT_DIR/plots/executionTime.py" "$OUTPUT_FILE" "$matrix" "$PLOT_DIR"
+    python "$SCRIPT_DIR/plots/breakdownPerMTX.py" "$OUTPUT_FILE" "$matrix" "$PLOT_DIR"
 done
-
-# Optional roofline (post-run)
-# python "$SCRIPT_DIR/plots/roofline_inverse.py" "$OUTPUT_FILE" "$PLOT_DIR"
 
 deactivate
 rm -rf plot_env
