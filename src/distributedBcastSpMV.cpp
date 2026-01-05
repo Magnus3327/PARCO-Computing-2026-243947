@@ -259,9 +259,12 @@ int main(int argc, char* argv[]){
 
         x = make_unique<double[]>(matrixCols);
         if (rank == 0) {
-            unique_ptr<double[]> xFull = generateRandomVector(matrixCols, -1000.0, 1000.0);
+            double* xFull = generateRandomVector(matrixCols, -1000.0, 1000.0);
+
             // Rank 0, fill his buffer
             for(int i = 0; i < matrixCols; ++i) x[i] = xFull[i];
+
+            delete[] xFull
         }
 
         // Broadcast vector x to all ranks
