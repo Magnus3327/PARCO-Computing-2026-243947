@@ -18,7 +18,6 @@ MANAGER_SRC = $(SRC_DIR)/ResultsManager/ResultsManager.cpp
 # Main Source Files (Optimanl, Bcast and Distributed with map)
 MAIN_SRC    = $(SRC_DIR)/distributedSpMV.cpp
 MAIN_B_SRC  = $(SRC_DIR)/distributedBcastSpMV.cpp
-MAIN_M_SRC  = $(SRC_DIR)/distributedMapSpMV.cpp
 
 # Object Files
 CSR_OBJ     = $(OBJ_DIR)/CSR/CSRMatrix.o
@@ -27,7 +26,6 @@ UTILS_OBJ   = $(OBJ_DIR)/Utils/Utils.o
 MANAGER_OBJ = $(OBJ_DIR)/ResultsManager/ResultsManager.o
 MAIN_OBJ    = $(OBJ_DIR)/distributedSpMV.o
 MAIN_B_OBJ  = $(OBJ_DIR)/distributedBcastSpMV.o
-MAIN_M_OBJ  = $(OBJ_DIR)/distributedMapSpMV.o
 
 COMMON_OBJS = $(CSR_OBJ) $(MTX_OBJ) $(UTILS_OBJ) $(MANAGER_OBJ)
 
@@ -51,10 +49,6 @@ distributed: $(COMMON_OBJS) $(MAIN_OBJ) | $(BIN_DIR)
 bcast: $(COMMON_OBJS) $(MAIN_B_OBJ) | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@
 
-# Distributed with map executable target
-map: $(COMMON_OBJS) $(MAIN_M_OBJ) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@
-
 # Cleanup
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
@@ -65,6 +59,5 @@ help:
 	@echo "Available targets:"
 	@echo "  make distributed  # Build distributed SpMV version"
 	@echo "  make bcast        # Build broadcast SpMV version"
-	@echo "  make map          # Build distributed SpMV with map version"
 	@echo "  make clean        # Remove binaries and objects"
 	@echo "  make help         # Show this help"
