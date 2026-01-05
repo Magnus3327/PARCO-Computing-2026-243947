@@ -76,6 +76,7 @@ public:
 
     void setSetupDuration(double ms);
     void setWarmupDuration(double ms);
+    void addSetupDuration(double ms);
 
     void addKernelDuration(double ms);
     void setCommunicationDuration(double ms);  
