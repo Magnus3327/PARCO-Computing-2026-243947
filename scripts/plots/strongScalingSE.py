@@ -94,24 +94,28 @@ def main():
 
     # Add Ideal Reference Lines
     ideal_p = np.array([1, max(core_counts)])
-    ax1.loglog(ideal_p, ideal_p, color='grey', linestyle=':', linewidth=2, label='Ideal Speedup (S=p)')
-    ax2.axhline(y=1.0, color='grey', linestyle=':', linewidth=2, label='Ideal Efficiency (E=1.0)')
+    ax1.loglog(ideal_p, ideal_p, color='grey', linestyle=':', linewidth=2, label='Ideal for plot')
+    ax2.axhline(y=1.0, color='grey', linestyle=':', linewidth=2)
 
     # Aesthetics and Grids
     ax1.set_xticks(core_counts)
     ax1.set_xticklabels([str(c) for c in core_counts])
     ax1.minorticks_off()
     ax1.grid(True, which="both", ls="-", alpha=0.3)
-    ax1.legend(fontsize='small', loc='upper left')
 
     ax2.set_xscale('log', base=2)
     ax2.set_xticks(core_counts)
     ax2.set_xticklabels([str(c) for c in core_counts])
-    ax2.set_ylim(0, 1.1)
     ax2.grid(True, which="both", ls="-", alpha=0.3)
-    ax2.legend(fontsize='small', loc='upper right')
 
-    plt.tight_layout()
+    fig.legend(
+        handles=ax1.get_legend_handles_labels()[0],
+        loc='upper center',
+        ncol=3,
+        fontsize='medium'
+    )
+
+    plt.tight_layout(rect=[0, 0, 1, 0.88])  
 
     # Save as PDF
     output_path = os.path.join(output_dir, 'strong_scaling_metrics.pdf')
