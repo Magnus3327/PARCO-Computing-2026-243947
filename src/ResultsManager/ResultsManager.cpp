@@ -32,6 +32,11 @@ void ResultsManager::setWarmupDuration(double ms) {
     warmupDuration = ms;
 }
 
+void ResultsManager::addSetupDuration(double ms) {
+    if (ms < 0.0) throw runtime_error("Setup duration cannot be negative");
+    setupDuration += ms;
+}
+
 void ResultsManager::addKernelDuration(double ms) {
     if (ms < 0.0) throw runtime_error("Kernel duration cannot be negative");
     kernelDurations.push_back(ms);
