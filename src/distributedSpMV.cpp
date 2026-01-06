@@ -1,3 +1,45 @@
+/*
+    SPMV - MPI Version
+
+    Distributed Sparse Matrix-Vector Multiplication (SpMV) using MPI.
+    Implements 1D cyclic partitioning for matrix distribution.
+    This implementation focuses on performance benchmarking across multiple MPI processes and does not gather or validate the final result vector.
+
+    MPI TAGS
+    ---------
+    0 - Problem info (iterations, rows, cols)
+    1 - Matrix entries
+    2 - Vector x segments
+    3 - Ghost column indices
+    4 - Ghost values
+    
+    WORKFLOW
+    --------
+    1. Parse CLI arguments (rank 0).
+    2. Rank 0 loads or generates the sparse matrix and input vector.
+    3. Matrix entries are distributed using 1D cyclic partitioning.
+    4. Input vector x is distributed using 1D cyclic partitioning.
+    5. Each rank identifies and exchanges ghost values needed for local SpMV.
+    6. Perform distributed SpMV for a number of iterations, measuring performance.
+    7. Collect and report performance metrics (rank 0).
+    8. Finalize MPI.
+
+    CLI ARGUMENTS
+    -------------
+      -M=<path>       Matrix Market file
+      -VM=r;c;d       Generate matrix (rows;cols;density)
+      -I=<int>        Timed iterations
+
+    COMPILATION
+    -----------
+      mpic++ -O3 distributedSpMV.cpp -o bin/distributedSpMV
+
+    RUNNING
+    -------
+        mpirun -np <procs> bin/distributedSpMV -M=<filepath> -I=10
+        mpirun -np <procs> bin/distributedSpMV "-VM=<rows>;<cols>;<density>" -I=10
+*/
+
 #include <mpi.h>
 #include <iostream>
 #include <vector>
@@ -12,29 +54,21 @@
 #include <cassert>
 #include <cstdlib>
 
-// Project headers (UNITN HPC Project)
+// Project headers 
 #include "ResultsManager/ResultsManager.h"
 #include "MTX/MTXReader.h"
 #include "CSR/CSRMatrix.h"
 #include "Utils/Utils.h"
+#include "GhostManager/GhostManager.h"
 
 using namespace std;
 using namespace mtx;
 using namespace utils;
 
 /**
- * Struttura per gestire i dati dei Ghost.
- * Permette di separare la fase di analisi (search) da quella di scambio (exchange).
+ * Creates a custom MPI derived datatype for the Entry (COO) structure.
+ * This allows sending (row, col, value) as a single contiguous block.
  */
-struct GhostData {
-    vector<vector<int>> neededCols; 
-    vector<int> sendCounts;         
-    vector<int> recvCounts;         
-    unique_ptr<double[]> xGhost;
-    unordered_map<int, int> ghostMap;       
-};
-
-// MPI Datatype per le Entry del formato COO
 MPI_Datatype createEntryType() {
     MPI_Datatype type;
     int blocklengths[3] = {1, 1, 1};
@@ -48,6 +82,9 @@ MPI_Datatype createEntryType() {
     return type;
 }
 
+/**
+ * Parses command-line arguments for matrix file path or generation parameters.
+ */
 struct CLIOptions {
     int iterations = 0;
     string filepath;
@@ -87,14 +124,17 @@ CLIOptions parseCLI(int argc, char* argv[]) {
     return opts;
 }
 
-// Distribuzione 1D Cyclic della matrice
+/**
+ * Distributes matrix entries using a 1D cyclic partitioning on rows.
+ * Rank 0 splits the matrix and sends chunks to other processes.
+ */
 void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntries, int rank, int size, MPI_Datatype entryType) {
     if(rank==0) {
         vector<vector<Entry>> buckets(size);
         for(const auto& e: allEntries){
             int owner = e.row % size;
             Entry local = e;
-            local.row = (e.row - owner)/size;
+            local.row = (e.row - owner)/size; // Map to local row index
             buckets[owner].push_back(local);
         }
         for(int p=0; p<size; ++p){
@@ -115,6 +155,10 @@ void distributeMatrix(const vector<Entry>& allEntries, vector<Entry>& localEntri
     }
 }
 
+/**
+ * Distributes the input vector x using 1D cyclic partitioning.
+ * Returns a unique_ptr to the local portion of the vector.
+ */
 unique_ptr<double[]> distributeVector(int rank, int size, int matrixCols, int& localCols) {
     localCols = matrixCols / size + (rank < (matrixCols % size) ? 1 : 0);
     unique_ptr<double[]> xLocal(new double[max(1, localCols)]);
@@ -135,130 +179,14 @@ unique_ptr<double[]> distributeVector(int rank, int size, int matrixCols, int& l
 }
 
 /**
- * Fase di Scoperta (Search): identifica quali colonne servono e da chi.
- * Eseguita una sola volta prima del benchmark.
+ * Distributed SpMV Kernel: Computes y = A * x.
+ * Uses pre-indexed offsets to access local or ghost values directly (LUT strategy).
  */
-void searchGhostValues(int rank, int size, const CSRMatrix& localCSR, GhostData& gd) {
-    gd.neededCols.assign(size, vector<int>());
-    gd.sendCounts.assign(size, 0);
-    gd.recvCounts.assign(size, 0);
-
-    for(int i=0; i<localCSR.getRows(); ++i){
-        for(int j=localCSR.getIndexPointers(i); j<localCSR.getIndexPointers(i+1); ++j){
-            int col = localCSR.getIndices(j);
-            int owner = col % size;
-            if(owner != rank) gd.neededCols[owner].push_back(col);
-        }
-    }
-
-    for(int p=0; p<size; ++p){
-        auto& v = gd.neededCols[p];
-        sort(v.begin(), v.end());
-        v.erase(unique(v.begin(), v.end()), v.end());
-        gd.sendCounts[p] = static_cast<int>(v.size());
-    }
-    MPI_Alltoall(gd.sendCounts.data(), 1, MPI_INT, gd.recvCounts.data(), 1, MPI_INT, MPI_COMM_WORLD);
-}
-
-/**
- * Fase di Scambio (Exchange): scambia effettivamente i valori double di x.
- */
-void exchangeGhostValues(int rank, int size, GhostData& gd, const double* xLocal, int localCols) {
-    if (size <= 1) return;
-    vector<vector<int>> recvCols(size);
-    vector<MPI_Request> reqs;
-    reqs.reserve(size * 2);
-
-    for (int p = 0; p < size; ++p) {
-        if (gd.recvCounts[p] > 0) {
-            recvCols[p].resize(gd.recvCounts[p]);
-            MPI_Request r;
-            MPI_Irecv(recvCols[p].data(), gd.recvCounts[p], MPI_INT, p, 3, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-        if (gd.sendCounts[p] > 0) {
-            MPI_Request r;
-            MPI_Isend(gd.neededCols[p].data(), gd.sendCounts[p], MPI_INT, p, 3, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-    }
-    if (!reqs.empty()) {
-        MPI_Waitall(static_cast<int>(reqs.size()), reqs.data(), MPI_STATUSES_IGNORE);
-        reqs.clear();
-    }
-
-    vector<vector<double>> sendVals(size);
-    for (int p = 0; p < size; ++p) {
-        if (gd.recvCounts[p] == 0) continue;
-        sendVals[p].resize(gd.recvCounts[p]);
-        for (int i = 0; i < gd.recvCounts[p]; ++i) {
-            sendVals[p][i] = xLocal[(recvCols[p][i] - rank) / size];
-        }
-    }
-
-    vector<vector<double>> recvVals(size);
-    for (int p = 0; p < size; ++p) {
-        if (gd.sendCounts[p] > 0) {
-            recvVals[p].resize(gd.sendCounts[p]);
-            MPI_Request r;
-            MPI_Irecv(recvVals[p].data(), gd.sendCounts[p], MPI_DOUBLE, p, 4, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-        if (gd.recvCounts[p] > 0) {
-            MPI_Request r;
-            MPI_Isend(sendVals[p].data(), gd.recvCounts[p], MPI_DOUBLE, p, 4, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-    }
-    if (!reqs.empty()) MPI_Waitall(static_cast<int>(reqs.size()), reqs.data(), MPI_STATUSES_IGNORE);
-
-    int totalGhosts = accumulate(gd.sendCounts.begin(), gd.sendCounts.end(), 0);
-    gd.xGhost = make_unique<double[]>(max(1, totalGhosts));
-    gd.ghostMap.clear();
-    int pos = 0;
-    for (int p = 0; p < size; ++p) {
-        for (size_t i = 0; i < recvVals[p].size(); ++i) {
-            gd.ghostMap[gd.neededCols[p][i]] = pos;
-            gd.xGhost[pos++] = recvVals[p][i];
-        }
-    }
-}
-
-/**
- * Pre-indexing: mappa gli indici globali in indici locali o ghost.
- * Elimina la necessità di ricerche in mappe hash durante il loop SpMV.
- */
-void preIndexVector(const CSRMatrix& localCSR, int rank, int size, const GhostData& gd, vector<int>& xIndex, vector<char>& isGhost, int localCols) {
-    const size_t nnz = localCSR.getNNZ();
-    xIndex.resize(nnz);
-    isGhost.resize(nnz);
-
-    if (size <= 1) {
-        for (size_t j = 0; j < nnz; ++j) {
-            isGhost[j] = 0;
-            xIndex[j] = localCSR.getIndices(j);
-        }
-        return;
-    }
-
-    for(int i=0; i<localCSR.getRows(); ++i){
-        for(int j=localCSR.getIndexPointers(i); j<localCSR.getIndexPointers(i+1); ++j){
-            int col = localCSR.getIndices(j);
-            if(col % size == rank){
-                isGhost[j] = 0;
-                xIndex[j] = (col - rank) / size;
-            } else {
-                isGhost[j] = 1;
-                xIndex[j] = gd.ghostMap.at(col);
-            }
-        }
-    }
-}
-
 void SpMVDistributed(const CSRMatrix& localCSR, const double* xLocal, const double* xGhost, const vector<int>& xIndex, const vector<char>& isGhost, double* y) {
     for(int i=0; i<localCSR.getRows(); ++i){
         double sum = 0.0;
         for(int j=localCSR.getIndexPointers(i); j<localCSR.getIndexPointers(i+1); ++j){
+            // Indirect access through pre-computed LUT offsets
             sum += localCSR.getData(j) * (isGhost[j] ? xGhost[xIndex[j]] : xLocal[xIndex[j]]);
         }
         y[i] = sum;
@@ -278,7 +206,7 @@ int main(int argc, char* argv[]){
     unique_ptr<double[]> x, yLocal;
     vector<int> xIndex;
     vector<char> isGhost;
-    GhostData gd;
+    GhostManager gm(rank, size); // Custom module to handle remote dependencies
 
     int iterations=0, matrixRows=0, matrixCols=0, localCols=0;
     MPI_Datatype entryType = createEntryType();
@@ -289,6 +217,8 @@ int main(int argc, char* argv[]){
             opts = parseCLI(argc, argv);
             iterations = opts.iterations;
             allEntries = opts.generateMatrix ? generateMatrixEntries(opts.rows, opts.cols, opts.density) : readMTX(opts.filepath);
+            
+            // Determine dimensions based on input matrix
             matrixRows = 0; matrixCols = 0;
             for(const auto& e: allEntries) {
                 if(e.row+1 > matrixRows) matrixRows = e.row+1;
@@ -298,63 +228,77 @@ int main(int argc, char* argv[]){
             rm.setMPIInfo(size);
         }
 
+        // --- Broadcast Problem metadata ---
         time = MPI_Wtime();
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixRows, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
+        // --- Data Distribution ---
         distributeMatrix(allEntries, localEntries, rank, size, entryType);
         localCSR.buildFromEntries(localEntries);
         x = distributeVector(rank, size, matrixCols, localCols);
 
+        // --- NNZ Statistics Collection ---
         size_t localNNZ = localCSR.getNNZ(); 
         size_t minNNZ, maxNNZ, sumNNZ;
-
         MPI_Reduce(&localNNZ, &minNNZ, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
         MPI_Reduce(&localNNZ, &maxNNZ, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
         MPI_Reduce(&localNNZ, &sumNNZ, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
-
         if(rank == 0) rm.setNNZStats(minNNZ, static_cast<double>(sumNNZ)/size, maxNNZ);
 
-        // Se size > 1 facciamo la ricerca, altrimenti saltiamo tutto
-        if(size > 1) searchGhostValues(rank, size, localCSR, gd);
+        // Discovery phase: Identify off-rank dependencies
+        gm.search(localCSR);
 
         time = (MPI_Wtime() - time) * 1e3;
         if(rank==0) rm.setSetupDuration(time);
 
+        // --- Communication Phase: Exchange Ghost Elements ---
         time = MPI_Wtime();
-        if(size > 1) exchangeGhostValues(rank, size, gd, x.get(), localCols);
+        gm.exchange(x.get(), localCols);
         time = (MPI_Wtime() - time) * 1e3;
         MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
         if(rank==0) rm.setCommunicationDuration(globalTime);
 
+        // --- Pre-indexing (LUT Preparation) ---
         time = MPI_Wtime();
-        preIndexVector(localCSR, rank, size, gd, xIndex, isGhost, localCols);
+        gm.buildPreIndex(localCSR, xIndex, isGhost, localCols);
         time = (MPI_Wtime() - time) * 1e3;
         MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
         if(rank==0) rm.addSetupDuration(globalTime);
-        
-        size_t localGhosts = (size > 1) ? gd.ghostMap.size() : 0;
-        size_t minG, maxG, sumG;
-        MPI_Reduce(&localGhosts, &minG, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
-        MPI_Reduce(&localGhosts, &maxG, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
-        MPI_Reduce(&localGhosts, &sumG, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
-        if(rank==0) rm.setGhostStats(minG, (size > 1 ? (double)sumG/size : 0), maxG, sumG);
 
+        // --- Ghost Statistics Collection ---
+        size_t localG = (size > 1) ? gm.getGhostCount() : 0;
+        size_t minG, maxG, sumG;
+        MPI_Reduce(&localG, &minG, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&localG, &maxG, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
+        MPI_Reduce(&localG, &sumG, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+
+        if (rank == 0) {
+            rm.setGhostStats(minG, (size > 1 ? (double)sumG/size : 0), maxG, sumG);
+        }
+                
+        // --- Output Allocation ---
         int localRows = matrixRows / size + (rank < (matrixRows % size) ? 1 : 0);
         yLocal = make_unique<double[]>(max(1, localRows));
 
-        // SpMV Kernel Loop
+        // --- Main Kernel Execution ---
         for(int iter=-1; iter<iterations; iter++){
             time = MPI_Wtime();
-            SpMVDistributed(localCSR, x.get(), gd.xGhost.get(), xIndex, isGhost, yLocal.get());
+            // getGhostPtr() provides direct pointer access for maximum kernel performance
+            SpMVDistributed(localCSR, x.get(), gm.getGhostPtr(), xIndex, isGhost, yLocal.get());
             time = (MPI_Wtime()-time)*1e3;
+            
             MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
             if(iter>=0 && rank==0) rm.addKernelDuration(globalTime);
             else if(iter==-1 && rank==0) rm.setWarmupDuration(globalTime);
         }
 
-        if(rank==0) { rm.computeMetrics(); cout << rm.toJSON() << endl; }
+        if(rank==0) { 
+            rm.computeMetrics(); 
+            cout << rm.toJSON() << endl; 
+        }
+
     } catch(const exception& e){
         if(rank==0){ rm.addError(e.what()); cout << rm.toJSON() << endl; }
         MPI_Abort(MPI_COMM_WORLD,1);
