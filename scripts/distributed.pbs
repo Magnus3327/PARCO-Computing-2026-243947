@@ -221,7 +221,7 @@ python "$SCRIPT_DIR/plots/loadBalancing.py"   "$OUTPUT_FILE" "$PLOT_DIR"
 python "$SCRIPT_DIR/plots/memoryFootprintScaling.py"   "$OUTPUT_FILE" "$PLOT_DIR"
 python "$SCRIPT_DIR/plots/structVSunstruct.py"   "$OUTPUT_FILE" "$PLOT_DIR"
 
-# Execution time per matrix
+# Breakdown per matrix
 for matrix in "$MATRIX_DIR"/*.mtx; do
     [[ -e "$matrix" ]] || continue
     python "$SCRIPT_DIR/plots/breakdownPerMTX.py" "$OUTPUT_FILE" "$matrix" "$PLOT_DIR"
