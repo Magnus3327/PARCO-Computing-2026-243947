@@ -233,7 +233,7 @@ int main(int argc, char* argv[]){
             matrixRows=opts.rows; matrixCols=opts.cols;
         }
 
-        time = MPI_Wtime(); // Start timing the setpup phase
+        time = MPI_Wtime(); // Start timing the setup phase
 
         // Broadcast problem info
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -254,9 +254,7 @@ int main(int argc, char* argv[]){
         int localRows = matrixRows / size + (rank < (matrixRows % size) ? 1 : 0);
         yLocal = make_unique<double[]>(max(1, localRows));
 
-        time = (MPI_Wtime() - time) * 1e3;
-        if(rank==0) rm.setSetupDuration(time);
-
+        // X Vector
         x = make_unique<double[]>(matrixCols);
         if (rank == 0) {
             double* xFull = generateRandomVector(matrixCols, -1000.0, 1000.0);
@@ -266,6 +264,11 @@ int main(int argc, char* argv[]){
 
             delete[] xFull;
         }
+
+
+        time = (MPI_Wtime() - time) * 1e3;
+        if(rank==0) rm.setSetupDuration(time);
+
 
         // Broadcast vector x to all ranks
         time = MPI_Wtime();
