@@ -30,7 +30,7 @@ MAIN_B_OBJ  = $(OBJ_DIR)/distributedBcastSpMV.o
 COMMON_OBJS = $(CSR_OBJ) $(MTX_OBJ) $(UTILS_OBJ) $(MANAGER_OBJ)
 
 # Default target
-all: distributed bcast map
+all: distributed bcast
 
 # Create obj and bin directories
 $(OBJ_DIR):
@@ -47,7 +47,7 @@ distributed: $(COMMON_OBJS) $(MAIN_OBJ) | $(BIN_DIR)
 
 # Broadcast executable target
 bcast: $(COMMON_OBJS) $(MAIN_B_OBJ) | $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/$@
+	$(CXX) $(CXXFLAGS) $^ -o $(BIN_DIR)/distributedBcastSpMV
 
 # Cleanup
 clean:
