@@ -224,7 +224,7 @@ python "$SCRIPT_DIR/plots/structVSunstruct.py"   "$OUTPUT_FILE" "$PLOT_DIR"
 # Breakdown per matrix
 for matrix in "$MATRIX_DIR"/*.mtx; do
     [[ -e "$matrix" ]] || continue
-    python "$SCRIPT_DIR/plots/breakdownPerMTX.py" "$OUTPUT_FILE" "$matrix" "$PLOT_DIR"
+    python "$SCRIPT_DIR/plots/breakdown.py" "$OUTPUT_FILE" "$matrix" "$PLOT_DIR"
 done
 
 deactivate
