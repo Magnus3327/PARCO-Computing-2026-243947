@@ -317,10 +317,7 @@ int main(int argc, char* argv[]){
             MPI_Reduce(&localGhosts, &maxG, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
             MPI_Reduce(&localGhosts, &sumG, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
 
-            if (rank == 0) {
-                // Report stats to ResultsManager for the final JSON 
-                rm.setGhostStats(minG, static_cast<double>(sumG) / size, maxG, sumG);
-            }
+            if (rank == 0) rm.setGhostStats(minG, static_cast<double>(sumG) / size, maxG, sumG);
         }
 
         // Perform SpMV iterations (warm-up included)
