@@ -64,7 +64,7 @@ done
 # Compile
 # ------------------------------------------
 make bcast
-EXEC="./bin/bcast"
+EXEC="./bin/distributedBcastSpMV"
 
 if [ ! -x "$EXEC" ]; then
     echo "Error: executable $EXEC not found or not executable."
