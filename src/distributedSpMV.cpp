@@ -10,7 +10,7 @@
     0 - Problem info (iterations, rows, cols)
     1 - Matrix entries
     2 - Vector x segments
-    3 - Ghost column indices
+    3 - Setup ghost idx
     4 - Ghost values
     
     WORKFLOW
@@ -59,6 +59,7 @@
 #include "MTX/MTXReader.h"
 #include "CSR/CSRMatrix.h"
 #include "Utils/Utils.h"
+#include "GhostManager/GhostManager.h"
 
 using namespace std;
 using namespace mtx;
@@ -219,149 +220,6 @@ unique_ptr<double[]> distributeVector(int rank, int size, int matrixCols, int& l
     return xLocal;
 }
 
-// GHOST EXCHANGE - Using non-blocking sends/receives
-void exchangeGhostValues(int rank, int size, const CSRMatrix& localCSR, const double* xLocal, int localCols, unique_ptr<double[]>& xGhost, unordered_map<int,int>& ghostMap) {
-    // Collect needed cols
-    vector<vector<int>> neededCols(size);
-
-    for(int i=0;i<localCSR.getRows();++i){
-
-        for(int j=localCSR.getIndexPointers(i); j<localCSR.getIndexPointers(i+1); ++j){
-            int col = localCSR.getIndices(j);
-            int owner = col % size;
-
-            if(owner!=rank) neededCols[owner].push_back(col);
-        }
-    }
-
-    for(int p=0;p<size;++p){
-        auto& v = neededCols[p];
-        sort(v.begin(), v.end());
-        v.erase(unique(v.begin(), v.end()), v.end());
-    }
-
-    // counts
-    vector<int> sendCounts(size,0), recvCounts(size,0);
-    for(int p=0;p<size;++p) sendCounts[p]=static_cast<int>(neededCols[p].size());
-    MPI_Alltoall(sendCounts.data(),1,MPI_INT,recvCounts.data(),1,MPI_INT,MPI_COMM_WORLD);
-
-    // exchange indices
-    vector<vector<int>> recvCols(size);
-    vector<MPI_Request> reqs;
-
-    for(int p=0;p<size;++p){
-
-        if(recvCounts[p]>0){
-            recvCols[p].resize(recvCounts[p]);
-            MPI_Request r;
-            MPI_Irecv(recvCols[p].data(), recvCounts[p], MPI_INT, p, 3, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-    }
-    for(int p=0;p<size;++p){
-
-        if(sendCounts[p]>0){
-            MPI_Request r;
-            MPI_Isend(neededCols[p].data(), sendCounts[p], MPI_INT, p, 3, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-    }
-
-    if(!reqs.empty()) MPI_Waitall(static_cast<int>(reqs.size()), reqs.data(), MPI_STATUSES_IGNORE);
-    reqs.clear();
-
-    // prepare values
-    vector<vector<double>> sendVals(size);
-    for(int p=0;p<size;++p){
-        if(recvCounts[p]==0) continue;
-        sendVals[p].resize(recvCounts[p]);
-
-        for(int i=0;i<recvCounts[p];++i){
-            int col = recvCols[p][i];
-            int localIdx = (col - rank)/size;
-            if(localIdx<0 || localIdx>=localCols) throw runtime_error("Invalid localIdx in ghost send");
-            sendVals[p][i] = xLocal[localIdx];
-        }
-    }
-
-    // exchange values
-    vector<vector<double>> recvVals(size);
-    for(int p=0;p<size;++p){
-        if(sendCounts[p]>0){
-            recvVals[p].resize(sendCounts[p]);
-            MPI_Request r;
-            MPI_Irecv(recvVals[p].data(), sendCounts[p], MPI_DOUBLE, p, 4, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-    }
-    for(int p=0;p<size;++p){
-        if(recvCounts[p]>0){
-            MPI_Request r;
-            MPI_Isend(sendVals[p].data(), recvCounts[p], MPI_DOUBLE, p, 4, MPI_COMM_WORLD, &r);
-            reqs.push_back(r);
-        }
-    }
-
-    if(!reqs.empty()) MPI_Waitall(static_cast<int>(reqs.size()), reqs.data(), MPI_STATUSES_IGNORE);
-
-    // build xGhost
-    int ghostCount = 0;
-    for(int p=0;p<size;++p) ghostCount+=static_cast<int>(recvVals[p].size());
-    xGhost = make_unique<double[]>(max(1,ghostCount));
-    ghostMap.clear();
-    int pos=0;
-
-    for(int p=0;p<size;++p){
-        for(int i=0;i<recvVals[p].size();++i){
-            int col = neededCols[p][i];
-            ghostMap[col]=pos;
-            xGhost[pos++] = recvVals[p][i];
-        }
-    }
-
-    if(pos!=ghostCount) throw runtime_error("Ghost exchange mismatch");
-}
-
-// PRE-INDEXING
-/*
-    Pre-indexing vector x for fast access during SpMV:
-
-    Each non-zero element A(i,j) needs x[j] for multiplication.
-    - If x[j] is owned by this rank (cyclic partitioning), compute local index:
-        localIdx = (col - rank) / size
-    - If x[j] is not owned (ghost), find its index in xGhost using ghostMap
-
-    isGhost[j] marks whether to access xLocal or xGhost.
-    xIndex[j] stores the correct index in the selected vector.
-*/
-void preIndexVector(const CSRMatrix& localCSR, int rank, int size, const unordered_map<int,int>& ghostMap, vector<int>& xIndex, vector<char>& isGhost, int localCols) {
-    const size_t nnz = localCSR.getNNZ();
-    xIndex.resize(nnz);
-    isGhost.resize(nnz);
-
-    for(int i=0;i<localCSR.getRows();++i){
-
-        // pre-index row
-        for(int j=localCSR.getIndexPointers(i); j<localCSR.getIndexPointers(i+1); ++j){
-            int col = localCSR.getIndices(j);
-            
-            // Compute local index and ghost status
-            if(col%size==rank){
-                isGhost[j]=0;
-                int idx=(col-rank)/size;
-                
-                if(idx<0 || idx>=localCols) throw runtime_error("Local index out of bounds");
-                xIndex[j]=idx;
-            } else { 
-                isGhost[j]=1;
-                auto it = ghostMap.find(col);
-                if(it == ghostMap.end()) throw runtime_error("Ghost index not found");
-                xIndex[j]=it->second;
-            }
-        }
-    }
-}
-
 // DISTRIBUTED SpMV
 void SpMVDistributed(const CSRMatrix& localCSR, const double* xLocal, const unique_ptr<double[]>& xGhost, const vector<int>& xIndex, const vector<char>& isGhost, double* y) {
     for(int i=0;i<localCSR.getRows();++i){
@@ -377,7 +235,6 @@ void SpMVDistributed(const CSRMatrix& localCSR, const double* xLocal, const uniq
     }
 }
 
-// Main
 int main(int argc, char* argv[]){
     MPI_Init(&argc,&argv);
 
@@ -385,45 +242,37 @@ int main(int argc, char* argv[]){
     MPI_Comm_rank(MPI_COMM_WORLD,&rank);
     MPI_Comm_size(MPI_COMM_WORLD,&size);
 
-    // Managers
     ResultsManager rm;
     CLIOptions opts;
 
-    // Local variables
     CSRMatrix localCSR;
     vector<Entry> allEntries, localEntries;
-    unique_ptr<double[]> x, xGhost, yLocal;
-    unordered_map<int,int> ghostMap;
-    vector<int> xIndex;
-    vector<char> isGhost;
+    unique_ptr<double[]> xLocal, xGhost, yLocal;
+    GhostManager gm = GhostManager(rank, size);
 
     int iterations=0, matrixRows=0, matrixCols=0, localCols=0;
 
     MPI_Datatype entryType = createEntryType();
-    double globalTime=0.0, time;
+    double globalTime=0.0, t;
 
     try{
         if(rank==0){
             opts = parseCLI(argc,argv);
             iterations = opts.iterations;
-            if(opts.generateMatrix) allEntries=generateMatrixEntries(opts.rows,opts.cols,opts.density);
-            else allEntries=readMTX(opts.filepath);
 
-            opts.rows=0; opts.cols=0;
+            allEntries = opts.generateMatrix ? generateMatrixEntries(opts.rows,opts.cols,opts.density) : readMTX(opts.filepath);
+
+            matrixRows = matrixCols = 0;
             for(const auto& e: allEntries){
-                if(e.row+1>opts.rows) opts.rows=e.row+1;
-                if(e.col+1>opts.cols) opts.cols=e.col+1;
+                if(e.row+1>matrixRows) matrixRows=e.row+1;
+                if(e.col+1>matrixCols) matrixCols=e.col+1;
             }
 
-            rm.setMatrixInfo(opts.filepath.empty()?"Generated":opts.filepath, opts.generateMatrix, opts.rows, opts.cols, allEntries.size(), opts.density);
+            rm.setMatrixInfo(opts.filepath.empty()?"Generated":opts.filepath, opts.generateMatrix, matrixRows, matrixCols, allEntries.size(), opts.density);
             rm.setMPIInfo(size);
-
-            matrixRows=opts.rows; matrixCols=opts.cols;
         }
+        t = MPI_Wtime(); // setup timer
 
-        time = MPI_Wtime(); // Start timing the setpup phase
-
-        // Broadcast problem info
         MPI_Bcast(&iterations, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixRows, 1, MPI_INT, 0, MPI_COMM_WORLD);
         MPI_Bcast(&matrixCols, 1, MPI_INT, 0, MPI_COMM_WORLD);
@@ -431,52 +280,61 @@ int main(int argc, char* argv[]){
         distributeMatrix(allEntries, localEntries, rank, size, entryType);
         localCSR.buildFromEntries(localEntries);
 
-        // NNZ STATS
-        size_t localNNZ=localCSR.getNNZ(), minNNZ,maxNNZ,sumNNZ;
-        MPI_Reduce(&localNNZ,&minNNZ, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
-        MPI_Reduce(&localNNZ,&maxNNZ, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
-        MPI_Reduce(&localNNZ,&sumNNZ, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+        // Local NNZ stats
+        size_t localNNZ = localCSR.getNNZ(), minNNZ,maxNNZ,sumNNZ;
+        MPI_Reduce(&localNNZ,&minNNZ,1,MPI_UNSIGNED_LONG,MPI_MIN,0,MPI_COMM_WORLD);
+        MPI_Reduce(&localNNZ,&maxNNZ,1,MPI_UNSIGNED_LONG,MPI_MAX,0,MPI_COMM_WORLD);
+        MPI_Reduce(&localNNZ,&sumNNZ,1,MPI_UNSIGNED_LONG,MPI_SUM,0,MPI_COMM_WORLD);
         if(rank==0) rm.setNNZStats(minNNZ, static_cast<double>(sumNNZ)/size, maxNNZ);
 
-        // Allocate local vectors
         int localRows = matrixRows / size + (rank < (matrixRows % size) ? 1 : 0);
         yLocal = make_unique<double[]>(max(1, localRows));
-        x = distributeVector(rank,size,matrixCols,localCols);
 
-        time = (MPI_Wtime() - time) * 1e3;
-        if(rank==0) rm.setSetupDuration(time);
+        xLocal = distributeVector(rank, size, matrixCols, localCols);
 
-        // Communication: exchange ghost values 
-        time = MPI_Wtime();
-        exchangeGhostValues(rank, size, localCSR, x.get(), localCols, xGhost, ghostMap);
-        time = (MPI_Wtime() - time) * 1e3;
-        MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-        if(rank==0) rm.setCommunicationDuration(globalTime);
+        if(size > 1) gm.setup(localCSR);   // prepare ghost indices
 
-        // Setup: Add time for pre index phase
-        time = MPI_Wtime();
-        preIndexVector(localCSR, rank, size, ghostMap, xIndex, isGhost, localCols);
-        time = (MPI_Wtime() - time) * 1e3;
-        MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
-        if(rank==0) rm.addSetupDuration(globalTime);
-        
-        // GHOST STATS
-        size_t localGhosts = ghostMap.size(), minGhosts,maxGhosts,sumGhosts;
-        MPI_Reduce(&localGhosts, &minGhosts, 1, MPI_UNSIGNED_LONG ,MPI_MIN, 0,MPI_COMM_WORLD);
-        MPI_Reduce(&localGhosts, &maxGhosts, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
-        MPI_Reduce(&localGhosts, &sumGhosts, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
-        if(rank==0) rm.setGhostStats(minGhosts, static_cast<double>(sumGhosts)/size, maxGhosts, sumGhosts);
+        gm.preIndex(localCSR);
 
-        // Perform SpMV iterations, with warm-up
+        t = (MPI_Wtime()-t)*1e3;
+        if(rank==0) rm.setSetupDuration(t);
+
+        // Exchange ghost values if more than 1 rank
+        if(size>1){
+            t = MPI_Wtime();
+            xGhost = gm.exchangeGhostValues(xLocal.get(), localCols);
+            t = (MPI_Wtime()-t)*1e3;
+
+            MPI_Reduce(&t,&globalTime,1,MPI_DOUBLE,MPI_MAX,0,MPI_COMM_WORLD);
+            if(rank==0) rm.setCommunicationDuration(globalTime);
+
+            // Each rank takes its local ghost count
+            size_t localGhosts = static_cast<size_t>(gm.getTotalGhostCount());
+            size_t minG, maxG, sumG;
+
+            // Use collectives to find global stats
+            MPI_Reduce(&localGhosts, &minG, 1, MPI_UNSIGNED_LONG, MPI_MIN, 0, MPI_COMM_WORLD);
+            MPI_Reduce(&localGhosts, &maxG, 1, MPI_UNSIGNED_LONG, MPI_MAX, 0, MPI_COMM_WORLD);
+            MPI_Reduce(&localGhosts, &sumG, 1, MPI_UNSIGNED_LONG, MPI_SUM, 0, MPI_COMM_WORLD);
+
+            if (rank == 0) {
+                // Report stats to ResultsManager for the final JSON 
+                rm.setGhostStats(minG, static_cast<double>(sumG) / size, maxG, sumG);
+            }
+        }
+
+        // Perform SpMV iterations (warm-up included)
         for(int iter=-1; iter<iterations; iter++){
-            time = MPI_Wtime();
-            SpMVDistributed(localCSR, x.get(), xGhost, xIndex, isGhost, yLocal.get());
-            time = (MPI_Wtime()-time)*1e3;
-            
-            MPI_Reduce(&time, &globalTime, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+            t = MPI_Wtime();
+            SpMVDistributed(localCSR, xLocal.get(), xGhost, gm.getXIndex(), gm.getIsGhost(), yLocal.get());
+            t = (MPI_Wtime()-t)*1e3;
 
-            if(iter>=0 && rank==0) rm.addKernelDuration(globalTime);
-            else if(iter==-1 && rank==0) rm.setWarmupDuration(globalTime);
+            MPI_Reduce(&t,&globalTime,1,MPI_DOUBLE,MPI_MAX,0,MPI_COMM_WORLD);
+
+            if(rank==0){
+                if(iter==-1) rm.setWarmupDuration(globalTime);
+                else rm.addKernelDuration(globalTime);
+            }
         }
 
         if(rank==0){
