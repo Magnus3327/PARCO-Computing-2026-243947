@@ -264,7 +264,7 @@ int main(int argc, char* argv[]){
             // Rank 0, fill his buffer
             for(int i = 0; i < matrixCols; ++i) x[i] = xFull[i];
 
-            delete[] xFull
+            delete[] xFull;
         }
 
         // Broadcast vector x to all ranks
