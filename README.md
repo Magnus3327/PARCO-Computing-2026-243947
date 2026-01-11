@@ -45,7 +45,7 @@ All executions produce **structured JSON output**, later processed by Python scr
 ---
 
 ## Repository Structure
-'''
+```
 ├── D1_Parallel_VS_Sequential/    # Deliverable 1
 ├── Makefile                      # Global build configuration
 ├── README.md                     # Project documentation
@@ -77,26 +77,26 @@ All executions produce **structured JSON output**, later processed by Python scr
     ├── MTX/                      # Matrix Market parsing utilities
     ├── ResultsManager/           # Timing and results aggregation
     └── Utils/                    # Shared helper utilities
-'''
+```
 ---
 
 ## Simulations commands 
 **HPC**
-'''
+```
 git https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
 qsub scritps/distributed.pbs 
-'''
+```
 
 results including script are into results direcory
 
 **Local**
-'''
+```
 git https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
 make distributed
 mpirun -np 4 bin/distributedSpMV -M=matrices/heart1.mtx -I=10
-'''
+```
 
 result printed into cli
 **Local**
@@ -202,10 +202,10 @@ The distributed executables accept the following command line options:
   Number of timed SpMV iterations.
 
 Examples:
-'''
+```
 - mpirun -np 16 bin/distributedSpMV -M=matrices/heart1.mtx -I=10
 - mpirun -np 8  bin/distributedSpMV "-VM=10000;10000;0.01" -I=10
-'''
+```
 
 ---
 
