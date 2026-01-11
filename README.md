@@ -88,7 +88,7 @@ Software Stack:
 - MPI: mpich-3.2.1--gcc-9.1.0 
 - Python: 3.10.14_gcc91 for performance analysis
 
-Automated Environment Management
+Automated Environment Management:
 The provided PBS scripts (scripts/distributed.pbs) implement a robust reproducibility pipeline:
 
 - Module Loading: Automatically loads the required GCC, MPI, and Python modules. 
