@@ -80,6 +80,37 @@ All executions produce **structured JSON output**, later processed by Python scr
 ```
 ---
 
+# Version
+gcc91
+module load mpich-3.2.1--gcc-9.1.0
+module load python-3.10.14_gcc91
+
+# Alias for the specific GCC version used
+g++() { g++-9.1.0 "$@"; }
+## Requirements
+This project is designed to be built in HPC with:
+```
+gcc91
+mpich-3.2.1--gcc-9.1.0
+```
+
+Optional (for plotting):
+
+```
+Python 
+matplotlib 
+numpy
+pandas
+```
+
+To run local mpi is needed, 
+use on MacOS (system used for development) to install it
+```
+brew install open-mpi
+```
+
+---
+
 ## Simulations commands 
 **HPC**
 ```
@@ -203,8 +234,8 @@ The distributed executables accept the following command line options:
 
 Examples:
 ```
-- mpirun -np 16 bin/distributedSpMV -M=matrices/heart1.mtx -I=10
-- mpirun -np 8  bin/distributedSpMV "-VM=10000;10000;0.01" -I=10
+mpirun -np 16 bin/distributedSpMV -M=matrices/heart1.mtx -I=10
+mpirun -np 8  bin/distributedSpMV "-VM=10000;10000;0.01" -I=10
 ```
 
 ---
