@@ -45,33 +45,33 @@ All executions produce **structured JSON output**, later processed by Python scr
 ---
 
 ## Repository Structure
-├── D1_Parallel_VS_Sequential        **Contains the D1 project**
-├── Makefile
-├── README.md
-├── bin                              **Output compilation**
-├── matrices                         **To store in-simulation download mtx**
-├── obj                              **Object files**
-├── scripts                          **Pbs scripts and plots scripts**
-│   ├── distributed_bcast.pbs
-│   ├── distributed.pbs
-│   └── plots
-│       ├── breakdown.py
-│       ├── loadBalancing.py
-│       ├── memoryFootprintScaling.py
-│       ├── performance.py
-│       ├── strongScaling.py
-│       ├── strongScalingSE.py
-│       ├── structVSunstruct.py
-│       ├── weakScaling.py
-│       └── weakScalingSE.py
-└── src
-    ├── distributedBcastSpMV.cpp
-    ├── distributedSpMV.cpp
-    ├── CSR                         
-    ├── GhostManager                  **new custom header added to implement ghost exchenge**
-    ├── MTX
-    ├── ResultsManager
-    └── Utils
+├── D1_Parallel_VS_Sequential/    # Deliverable 1
+├── Makefile                      # Global build configuration
+├── README.md                     # Project documentation
+├── bin/                          # Compiled binaries
+├── matrices/                     # Matrix Market (.mtx) files (downloaded at runtime)
+├── obj/                          # Object files
+├── scripts/                      # Job scripts and analysis tools
+│   ├── distributed.pbs           # PBS script for ghost-based SpMV
+│   ├── distributed_bcast.pbs     # PBS script for broadcast-based SpMV
+│   └── plots/                    # Python scripts for performance analysis
+│       ├── breakdown.py
+│       ├── loadBalancing.py
+│       ├── memoryFootprintScaling.py
+│       ├── performance.py
+│       ├── strongScaling.py
+│       ├── strongScalingSE.py
+│       ├── structVSunstruct.py
+│       ├── weakScaling.py
+│       └── weakScalingSE.py
+└── src/
+    ├── distributedSpMV.cpp       # Ghost-based distributed SpMV implementation
+    ├── distributedBcastSpMV.cpp  # Broadcast-based distributed SpMV implementation
+    ├── CSR/                      # Compressed Sparse Row data structures
+    ├── GhostManager/             # Custom ghost exchange management
+    ├── MTX/                      # Matrix Market parsing utilities
+    ├── ResultsManager/           # Timing and results aggregation
+    └── Utils/                    # Shared helper utilities
 ---
 
 ## Implementations
