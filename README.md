@@ -159,7 +159,6 @@ Strong scaling experiments were conducted using **real-world sparse matrices** f
 
 The following matrices were used:
 
-
 | Matrix name        | Sparsity Type   | Notes                    |
 |--------------------|-----------------|--------------------------|
 | `cit-Patents`      | Unstructured    | Citation graph adjacency |
