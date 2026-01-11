@@ -159,12 +159,19 @@ Strong scaling experiments were conducted using **real-world sparse matrices** f
 
 The following matrices were used:
 
-| Matrix name        | Collection | Description |
-|--------------------|------------|-------------|
-| `cit-Patents`      | SNAP       | Citation network graph with highly irregular sparsity |
-| `soc-LiveJournal1` | SNAP       | Large-scale social network adjacency matrix |
-| `thermal2`         | Schmid     | Finite element thermal simulation matrix |
-| `Flan_1565`        | Janna      | Structural engineering sparse matrix |
+
+| Matrix name        | Sparsity Type   | Notes                    |
+|--------------------|-----------------|--------------------------|
+| `cit-Patents`      | Unstructured    | Citation graph adjacency |
+| `soc-LiveJournal1` | Unstructured    | Social network adjacency |
+| `thermal2`         | Structured      | Finite element mesh      |
+| `Flan_1565`        | Structured      | Engineering matrix       |
+
+**Notes:**  
+
+- **Structured matrices** (`thermal2`, `Flan_1565`) typically lead to more predictable load balancing and better vectorization.  
+- **Unstructured matrices** (`cit-Patents`, `soc-LiveJournal1`) stress the communication system due to irregular ghost exchanges and uneven NNZ distribution.  
+- Performance differences between ghost-based and broadcast-based implementations are more pronounced on unstructured matrices.
 
 All matrices are automatically downloaded during the PBS job execution from the official SuiteSparse repository.
 
