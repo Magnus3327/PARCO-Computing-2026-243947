@@ -90,9 +90,10 @@ Software Stack:
 
 Automated Environment Management
 The provided PBS scripts (scripts/distributed.pbs) implement a robust reproducibility pipeline:
--Module Loading: Automatically loads the required GCC, MPI, and Python modules. 
--Virtual Environment: Creates a temporary Python venv to install dependencies (matplotlib, numpy, pandas) without affecting the system environment. 
--Execution & Cleanup: After generating all performance plots, the venv directory is automatically removed to maintain a clean workspace.
+
+- Module Loading: Automatically loads the required GCC, MPI, and Python modules. 
+- Virtual Environment: Creates a temporary Python venv to install dependencies (matplotlib, numpy, pandas) without affecting the system environment. 
+- Execution & Cleanup: After generating all performance plots, the venv directory is automatically removed to maintain a clean workspace.
 
 To run local mpi is needed, on MacOS (system used for development) use brew to install it
 ```
