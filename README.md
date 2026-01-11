@@ -80,32 +80,26 @@ All executions produce **structured JSON output**, later processed by Python scr
 ```
 ---
 
-## Requirements
-This project is designed to be built in HPC with:
-```
-gcc91
-mpich-3.2.1--gcc-9.1.0
-```
+## Requirements & Reproducibility
+This project is optimized for the UNITN HPC Cluster. To ensure strict reproducibility, the environment is managed via modules and automated scripts.
 
-Optional (for plotting):
+Software Stack:
+- Compiler: gcc91 (specifically g++ 9.1.0) 
+- MPI: mpich-3.2.1--gcc-9.1.0 
+- Python: 3.10.14_gcc91 for performance analysis
 
-```
-Python 
-matplotlib 
-numpy
-pandas
-```
+Automated Environment Management
+The provided PBS scripts (scripts/distributed.pbs) implement a robust reproducibility pipeline:
+-Module Loading: Automatically loads the required GCC, MPI, and Python modules. 
+-Virtual Environment: Creates a temporary Python venv to install dependencies (matplotlib, numpy, pandas) without affecting the system environment. 
+-Execution & Cleanup: After generating all performance plots, the venv directory is automatically removed to maintain a clean workspace.
 
-To run local mpi is needed, 
-use on MacOS (system used for development) to install it
+To run local mpi is needed, on MacOS (system used for development) use brew to install it
 ```
 brew install open-mpi
 ```
 
----
-
-## Simulations commands 
-**HPC**
+**HPC commands**
 ```
 git https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
@@ -114,7 +108,7 @@ qsub scritps/distributed.pbs
 
 results including script are into results direcory
 
-**Local**
+**Local commands**
 ```
 git https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
