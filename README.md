@@ -58,7 +58,7 @@ All executions produce **structured JSON output**, later processed by Python scr
 ├── scripts/                      # Job scripts and analysis tools
 │   ├── distributed.pbs           # PBS script for ghost-based SpMV
 │   ├── distributed_bcast.pbs     # PBS script for broadcast-based SpMV
-│   ├── plot.sh                   # Bash script useful in developing phase(Don't use in cluster environment, only in local after change to adapt to your environment)
+│   ├── plot.sh                   # Auxiliary script used during local development (not used on HPC)
 │   └── plots/                    # Python scripts for performance analysis
 │       ├── breakdown.py
 │       ├── loadBalancing.py
@@ -97,14 +97,14 @@ brew install open-mpi
 ```
 git https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
-qsub scritps/distributed.pbs 
+qsub scripts/distributed.pbs
 ```
 
 results including script are into results direcory
 
 **Local commands**
 ```
-git https://github.com/Magnus3327/PARCO-Computing-2026-243947
+git clone https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
 make distributed
 mpirun -np 4 bin/distributedSpMV -M=matrices/heart1.mtx -I=10
@@ -200,11 +200,13 @@ Real-world matrices highlight the effects of irregular sparsity patterns and loa
 
 ## Compilation
 MPI compiler is required.
+
+# Compiler flags:O3
+
+```
 make distributed     # Ghost-based implementation
 make bcast           # Broadcast-based implementation
-
-Compiler flags:
-O3
+```
 
 ---
 
@@ -215,8 +217,8 @@ The distributed executables accept the following command line options:
 - `-M=`  
   Path to a Matrix Market (`.mtx`) file.
 
-- `"-VM=rows;cols;density"`  
-  Generate a synthetic sparse matrix with the specified dimensions and density.
+- `-VM=rows;cols;density` 
+  Generate a synthetic sparse matrix with the specified dimensions and density. 
 
 - `-I=`  
   Number of timed SpMV iterations.
@@ -226,6 +228,8 @@ Examples:
 mpirun -np 16 bin/distributedSpMV -M=matrices/heart1.mtx -I=10
 mpirun -np 8  bin/distributedSpMV "-VM=10000;10000;0.01" -I=10
 ```
+
+>-VM option requires quotes in the shell for correct parsing (future improvement: adjust CLI parser)
 
 ---
 
@@ -257,8 +261,8 @@ Each run produces a JSON object containing:
 - Load-balancing statistics (NNZ per rank)
 - Ghost statistics per rank and overall
 - Timing breakdown:
-  - setup (creazione matrice, creazione vettore, distribuzione matrice)
-  - communication (distribuzione ghost entries o broadcasting vettore)
+  - setup (matrix creation, vector creation, matrix distribution)
+  - communication (ghost entries or broadcasting vetctor)
   - kernel
 - Derived metrics:
   - GFLOPS
@@ -313,7 +317,7 @@ results/plots/**bcast or distributed**/
 ---
 
 ## Notes
-- Numerical correctness is **not validated** (performance-oriented implementation)
+- Output vector is not gathered, the main focus is on performances
 - Ghost-based implementation is the reference solution
 - Broadcast version is included for communication comparison only
 - Designed for execution on HPC clusters with MPI
@@ -322,8 +326,7 @@ results/plots/**bcast or distributed**/
 
 A complete set of results and plots is included for reproducibility and evaluation.
 
----  
-
-## Notes
 Some `.DS_Store` metadata files may appear due to macOS filesystem behavior.
 They do not affect the project.
+
+---  
