@@ -80,13 +80,6 @@ All executions produce **structured JSON output**, later processed by Python scr
 ```
 ---
 
-# Version
-gcc91
-module load mpich-3.2.1--gcc-9.1.0
-module load python-3.10.14_gcc91
-
-# Alias for the specific GCC version used
-g++() { g++-9.1.0 "$@"; }
 ## Requirements
 This project is designed to be built in HPC with:
 ```
