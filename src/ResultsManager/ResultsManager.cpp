@@ -102,6 +102,50 @@ void ResultsManager::computeMetrics() {
     }
 }
 
+// Metrics computation for Broadcast version
+void ResultsManager::computeMetricsBcast() {
+    // Safety checks
+    if (nnz == 0 || kernelDurations.empty() || mpiProcesses == 0) return;
+
+    // Total FLOPs: 2 per non-zero element
+    totalFlops = 2 * nnz;
+
+    // Calculate bytes moved based on actual data per rank
+    // CSR format (values + indices)
+    size_t csrValAndInd = nnz * (sizeof(double) + sizeof(int));
+    
+    // Row pointers per rank: each rank handles a subset of rows
+    size_t rowsPerRank = (rows + mpiProcesses - 1) / mpiProcesses; 
+    size_t csrRowPtr = (rowsPerRank + 1) * sizeof(int); 
+
+    // X vector: In Bcast, the vector x is replicated on all ranks
+    // Each rank reads nnz elements from the global x vector during the kernel
+    size_t xAccesses = nnz * sizeof(double);
+
+    // Y vector: local writes for owned rows
+    size_t yWrites = rowsPerRank * sizeof(double);
+
+    // Total bytes moved by a single rank during kernel execution
+    // (Note: No LUT is used in the Broadcast version)
+    size_t localBytesMoved = csrValAndInd + csrRowPtr + xAccesses + yWrites;
+    totalBytesMoved = localBytesMoved * mpiProcesses;
+
+    // Memory footprint per rank: Every rank allocates the full global x vector
+    size_t xFullVectorSize = cols * sizeof(double);
+    memoryFootprintBytes = (csrValAndInd + csrRowPtr + yWrites + xFullVectorSize);
+
+    // Kernel duration: 90th percentile
+    kernelDuration90 = percentile90(kernelDurations);
+
+    // Performance metrics
+    double seconds = kernelDuration90 / 1000.0;
+    if (seconds > 0.0) {
+        gflops = static_cast<double>(totalFlops) / seconds / 1e9;
+        // Bandwidth based on effective data movement during kernel
+        bandwidthGBps = static_cast<double>(localBytesMoved) / seconds / 1e9;
+    }
+}
+
 
 // JSON output
 string ResultsManager::toJSON() const {
