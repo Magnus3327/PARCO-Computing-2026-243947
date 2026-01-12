@@ -95,7 +95,7 @@ brew install open-mpi
 
 **HPC commands**
 ```
-git https://github.com/Magnus3327/PARCO-Computing-2026-243947
+git clone https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
 qsub scripts/distributed.pbs
 ```
