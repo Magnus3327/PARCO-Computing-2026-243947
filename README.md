@@ -57,7 +57,7 @@ All executions produce **structured JSON output**, later processed by Python scr
 ├── obj/                          # Object files
 ├── scripts/                      # Job scripts and analysis tools
 │   ├── distributed.pbs           # PBS script for ghost-based SpMV
-│   ├── distributed_bcast.pbs     # PBS script for broadcast-based SpMV
+│   ├── distributedBcast.pbs     # PBS script for broadcast-based SpMV
 │   ├── plot.sh                   # Auxiliary script used during local development (not used on HPC)
 │   └── plots/                    # Python scripts for performance analysis
 │       ├── breakdown.py
@@ -99,7 +99,7 @@ git clone https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
 qsub scripts/distributed.pbs
 ```
-
+>qsub scripts/distributedBcast.pbs to start simulation with broadcasting version
 results including script are into results direcory
 
 **Local commands**
@@ -113,7 +113,7 @@ mpirun -np 4 bin/distributedSpMV "-VM=10000;10000;0.01" -I=10
 result printed into cli
 
 **Script note**
-The provided PBS scripts (scripts/distributed.pbs) implement a robust reproducibility pipeline:
+The provided PBS scripts implements a robust reproducibility pipeline:
 
 - Module Loading: Automatically loads the required GCC, MPI, and Python modules. 
 - Virtual Environment: Creates a temporary Python venv to install dependencies (matplotlib, numpy, pandas) without affecting the system environment. 
