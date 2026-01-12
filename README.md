@@ -101,7 +101,7 @@ qsub scripts/distributed.pbs
 ```
 >qsub scripts/distributedBcast.pbs to start simulation with broadcasting version
 
-**Simulation result** including plots are into results direcory
+**Simulation result** including plots are into results directory
 
 **Local commands**
 ```
