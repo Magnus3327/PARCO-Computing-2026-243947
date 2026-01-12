@@ -51,13 +51,15 @@ All executions produce **structured JSON output**, later processed by Python scr
 ├── README.md                     # Project documentation
 ├── results/                      # Results
 │   └── plots/                    # plots
+│       ├── distributed/          # Simulation with ghost base SPMV (Main program of the Project)
+│       ├── bcast/                # Simulation with broadcast-base SPMV 
 │   └── distributedSpmV.json.     # Results data  
 ├── bin/                          # Compiled binaries
 ├── matrices/                     # Matrix Market (.mtx) files (downloaded at runtime)
 ├── obj/                          # Object files
 ├── scripts/                      # Job scripts and analysis tools
 │   ├── distributed.pbs           # PBS script for ghost-based SpMV
-│   ├── distributedBcast.pbs     # PBS script for broadcast-based SpMV
+│   ├── distributedBcast.pbs      # PBS script for broadcast-based SpMV
 │   ├── plot.sh                   # Auxiliary script used during local development (not used on HPC)
 │   └── plots/                    # Python scripts for performance analysis
 │       ├── breakdown.py
