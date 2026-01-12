@@ -290,7 +290,7 @@ int main(int argc, char* argv[]){
         }
 
         if(rank==0){
-            rm.computeMetrics();
+            rm.computeMetricsBcast();
             cout << rm.toJSON() << endl;
         }
 
