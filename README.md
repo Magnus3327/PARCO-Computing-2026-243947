@@ -214,6 +214,11 @@ make distributed     # Ghost-based implementation
 make bcast           # Broadcast-based implementation
 ```
 
+output bin are:
+- distributedSpMV
+- distributedBcastSpMV
+> stored in bin folder
+
 ---
 
 ## Command Line Arguments
