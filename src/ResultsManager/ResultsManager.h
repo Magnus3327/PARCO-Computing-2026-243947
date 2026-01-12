@@ -85,7 +85,7 @@ public:
     void setNNZStats(size_t minNNZ, size_t avgNNZ, size_t maxNNZ);
 
     // Metrics
-    void computeMetrics();
+    void computeMetrics();  // Ghost based
     void computeMetricsBcast();
 
     // Output
