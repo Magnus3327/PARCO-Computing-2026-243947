@@ -100,7 +100,9 @@ cd PARCO-Computing-2026-243947
 qsub scripts/distributed.pbs
 ```
 >qsub scripts/distributedBcast.pbs to start simulation with broadcasting version
-results including script are into results direcory
+
+**Simulation results**
+results including plots are into results direcory
 
 **Local commands**
 ```
