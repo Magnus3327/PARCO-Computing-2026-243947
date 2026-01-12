@@ -86,6 +86,7 @@ public:
 
     // Metrics
     void computeMetrics();
+    void computeMetricsBcast();
 
     // Output
     void addError(const string& msg);
