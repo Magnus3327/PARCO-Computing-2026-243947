@@ -107,7 +107,7 @@ results including script are into results direcory
 git clone https://github.com/Magnus3327/PARCO-Computing-2026-243947
 cd PARCO-Computing-2026-243947
 make distributed
-mpirun -np 4 bin/distributedSpMV -M=matrices/heart1.mtx -I=10
+mpirun -np 4 bin/distributedSpMV "-VM=10000;10000;0.01" -I=10
 ```
 
 result printed into cli
