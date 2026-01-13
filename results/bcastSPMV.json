@@ -1,0 +1,1205 @@
+{
+  "date": "2026-01-13T00:24:41Z",
+  "nodes": [
+    {
+        "architecture": "x86_64",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6252N CPU @ 2.30GHz",
+        "cpu_mhz": 2300,
+        "sockets": 4,
+        "cores_per_socket": 24,
+        "threads_per_core": 1,
+        "total_cores": 96,
+        "l1d_cache": "32K",
+        "l1i_cache": "32K",
+        "l2_cache": "1024K",
+        "l3_cache": "36608K",
+        "byte_order": "Little Endian"
+    }
+,
+    {
+        "architecture": "x86_64",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6252N CPU @ 2.30GHz",
+        "cpu_mhz": 2300,
+        "sockets": 4,
+        "cores_per_socket": 24,
+        "threads_per_core": 1,
+        "total_cores": 96,
+        "l1d_cache": "32K",
+        "l1i_cache": "32K",
+        "l2_cache": "1024K",
+        "l3_cache": "36608K",
+        "byte_order": "Little Endian"
+    }
+,
+    {
+        "architecture": "x86_64",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6252N CPU @ 2.30GHz",
+        "cpu_mhz": 2300,
+        "sockets": 4,
+        "cores_per_socket": 24,
+        "threads_per_core": 1,
+        "total_cores": 96,
+        "l1d_cache": "32K",
+        "l1i_cache": "32K",
+        "l2_cache": "1024K",
+        "l3_cache": "36608K",
+        "byte_order": "Little Endian"
+    }
+,
+    {
+        "architecture": "x86_64",
+        "cpu_model": "Intel(R) Xeon(R) Gold 6252N CPU @ 2.30GHz",
+        "cpu_mhz": 2300,
+        "sockets": 4,
+        "cores_per_socket": 24,
+        "threads_per_core": 1,
+        "total_cores": 96,
+        "l1d_cache": "32K",
+        "l1i_cache": "32K",
+        "l2_cache": "1024K",
+        "l3_cache": "36608K",
+        "byte_order": "Little Endian"
+    }
+  ],
+  "results": [
+{
+  "matrix": {
+    "name": "./matrices/cit-Patents.mtx",
+    "rows": 3774768,
+    "cols": 3774768,
+    "nnz": 11012632
+  },
+  "mpi": {
+    "processes": 1,
+    "nnz_per_rank": {
+      "min": 11012632,
+      "avg": 11012632,
+      "max": 11012632
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 398.4637,
+    "warmup": 68.4750,
+    "kernel": [64.2457, 64.1828, 64.1930, 64.1620, 64.1770, 64.1396, 64.1980, 64.1780, 64.1870, 64.1093],
+    "communication": 0.0045
+  },
+  "statistics": {
+    "kernel_p90_ms": 64.1980,
+    "gflops": 0.3431,
+    "bandwidth_gbps": 4.1364
+  },
+  "memory": {
+    "bytes_per_rank": 207646948
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/Flan_1565.mtx",
+    "rows": 1564794,
+    "cols": 1564794,
+    "nnz": 59485419
+  },
+  "mpi": {
+    "processes": 1,
+    "nnz_per_rank": {
+      "min": 59485419,
+      "avg": 59485419,
+      "max": 59485419
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 2112.4127,
+    "warmup": 83.0312,
+    "kernel": [108.3760, 108.7399, 108.9635, 109.9048, 109.3738, 108.3729, 108.7890, 109.2870, 108.5038, 108.8848],
+    "communication": 0.0019
+  },
+  "statistics": {
+    "kernel_p90_ms": 109.3738,
+    "gflops": 1.0877,
+    "bandwidth_gbps": 11.0491
+  },
+  "memory": {
+    "bytes_per_rank": 745120912
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/soc-LiveJournal1.mtx",
+    "rows": 4847571,
+    "cols": 4847571,
+    "nnz": 45995848
+  },
+  "mpi": {
+    "processes": 1,
+    "nnz_per_rank": {
+      "min": 45995848,
+      "avg": 45995848,
+      "max": 45995848
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 2336.8590,
+    "warmup": 338.6478,
+    "kernel": [406.9083, 444.1793, 333.9798, 330.7550, 330.7266, 330.5995, 330.6029, 330.6103, 330.7188, 331.4815],
+    "communication": 0.0014
+  },
+  "statistics": {
+    "kernel_p90_ms": 406.9083,
+    "gflops": 0.2261,
+    "bandwidth_gbps": 2.4037
+  },
+  "memory": {
+    "bytes_per_rank": 648901600
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/thermal2.mtx",
+    "rows": 1228045,
+    "cols": 1228045,
+    "nnz": 4904179
+  },
+  "mpi": {
+    "processes": 1,
+    "nnz_per_rank": {
+      "min": 4904179,
+      "avg": 4904179,
+      "max": 4904179
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 177.6445,
+    "warmup": 12.1524,
+    "kernel": [12.2855, 12.2139, 12.2199, 12.1856, 12.2077, 12.2287, 12.2719, 12.2023, 12.2313, 12.1901],
+    "communication": 0.0017
+  },
+  "statistics": {
+    "kernel_p90_ms": 12.2719,
+    "gflops": 0.7993,
+    "bandwidth_gbps": 9.1934
+  },
+  "memory": {
+    "bytes_per_rank": 83411052
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/cit-Patents.mtx",
+    "rows": 3774768,
+    "cols": 3774768,
+    "nnz": 11012632
+  },
+  "mpi": {
+    "processes": 4,
+    "nnz_per_rank": {
+      "min": 2750974,
+      "avg": 2753158,
+      "max": 2754157
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 361.9816,
+    "warmup": 20.0050,
+    "kernel": [16.6872, 16.4850, 16.4657, 16.4652, 16.4628, 16.4530, 16.4163, 16.4549, 16.4165, 16.4468],
+    "communication": 122.6685
+  },
+  "statistics": {
+    "kernel_p90_ms": 16.4850,
+    "gflops": 1.3361,
+    "bandwidth_gbps": 14.0478
+  },
+  "memory": {
+    "bytes_per_rank": 173674036
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/Flan_1565.mtx",
+    "rows": 1564794,
+    "cols": 1564794,
+    "nnz": 59485419
+  },
+  "mpi": {
+    "processes": 4,
+    "nnz_per_rank": {
+      "min": 14856452,
+      "avg": 14871354,
+      "max": 14885553
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1425.9820,
+    "warmup": 17.2281,
+    "kernel": [17.0748, 17.3333, 17.0085, 16.8209, 17.3349, 17.3249, 17.2105, 17.1592, 16.9785, 17.2553],
+    "communication": 263.8319
+  },
+  "statistics": {
+    "kernel_p90_ms": 17.3333,
+    "gflops": 6.8637,
+    "bandwidth_gbps": 68.9081
+  },
+  "memory": {
+    "bytes_per_rank": 731037772
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/soc-LiveJournal1.mtx",
+    "rows": 4847571,
+    "cols": 4847571,
+    "nnz": 45995848
+  },
+  "mpi": {
+    "processes": 4,
+    "nnz_per_rank": {
+      "min": 11475483,
+      "avg": 11498962,
+      "max": 11529416
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1269.6455,
+    "warmup": 56.5934,
+    "kernel": [50.1256, 50.1366, 50.0546, 50.0040, 49.9756, 50.0128, 49.9794, 49.9933, 49.9611, 49.9530],
+    "communication": 275.7006
+  },
+  "statistics": {
+    "kernel_p90_ms": 50.1256,
+    "gflops": 1.8352,
+    "bandwidth_gbps": 18.6424
+  },
+  "memory": {
+    "bytes_per_rank": 605273464
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/thermal2.mtx",
+    "rows": 1228045,
+    "cols": 1228045,
+    "nnz": 4904179
+  },
+  "mpi": {
+    "processes": 4,
+    "nnz_per_rank": {
+      "min": 1225379,
+      "avg": 1226044,
+      "max": 1226573
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 158.5734,
+    "warmup": 2.9814,
+    "kernel": [2.9659, 2.8732, 2.8136, 2.8081, 2.8214, 2.8236, 2.8300, 2.8291, 2.8269, 2.8088],
+    "communication": 45.4195
+  },
+  "statistics": {
+    "kernel_p90_ms": 2.8732,
+    "gflops": 3.4138,
+    "bandwidth_gbps": 35.4199
+  },
+  "memory": {
+    "bytes_per_rank": 72358656
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/cit-Patents.mtx",
+    "rows": 3774768,
+    "cols": 3774768,
+    "nnz": 11012632
+  },
+  "mpi": {
+    "processes": 16,
+    "nnz_per_rank": {
+      "min": 686630,
+      "avg": 688289,
+      "max": 690880
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 392.4391,
+    "warmup": 7.2870,
+    "kernel": [6.7680, 6.7208, 6.7108, 6.6981, 6.6712, 6.6726, 6.6643, 6.6955, 6.6659, 6.5548],
+    "communication": 173.9552
+  },
+  "statistics": {
+    "kernel_p90_ms": 6.7208,
+    "gflops": 3.2772,
+    "bandwidth_gbps": 33.1931
+  },
+  "memory": {
+    "bytes_per_rank": 165180808
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/Flan_1565.mtx",
+    "rows": 1564794,
+    "cols": 1564794,
+    "nnz": 59485419
+  },
+  "mpi": {
+    "processes": 16,
+    "nnz_per_rank": {
+      "min": 3711834,
+      "avg": 3717838,
+      "max": 3723961
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1408.6530,
+    "warmup": 5.0051,
+    "kernel": [5.7061, 5.2147, 5.0039, 5.0099, 5.0511, 5.0290, 5.1048, 5.0125, 4.9791, 4.9272],
+    "communication": 441.3958
+  },
+  "statistics": {
+    "kernel_p90_ms": 5.2147,
+    "gflops": 22.8146,
+    "bandwidth_gbps": 228.3706
+  },
+  "memory": {
+    "bytes_per_rank": 727516984
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/soc-LiveJournal1.mtx",
+    "rows": 4847571,
+    "cols": 4847571,
+    "nnz": 45995848
+  },
+  "mpi": {
+    "processes": 16,
+    "nnz_per_rank": {
+      "min": 2857440,
+      "avg": 2874740,
+      "max": 2890913
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 2429.7817,
+    "warmup": 39.4735,
+    "kernel": [43.2928, 43.0427, 42.9749, 43.0110, 42.8369, 42.8762, 42.8824, 42.8822, 42.8691, 42.7837],
+    "communication": 644.2385
+  },
+  "statistics": {
+    "kernel_p90_ms": 43.0427,
+    "gflops": 2.1372,
+    "bandwidth_gbps": 21.4567
+  },
+  "memory": {
+    "bytes_per_rank": 594366436
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/thermal2.mtx",
+    "rows": 1228045,
+    "cols": 1228045,
+    "nnz": 4904179
+  },
+  "mpi": {
+    "processes": 16,
+    "nnz_per_rank": {
+      "min": 305458,
+      "avg": 306511,
+      "max": 307266
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 190.7861,
+    "warmup": 1.2369,
+    "kernel": [1.1806, 1.1697, 1.1718, 1.1721, 1.1399, 1.1480, 1.1442, 1.1518, 1.1530, 1.1520],
+    "communication": 75.4480
+  },
+  "statistics": {
+    "kernel_p90_ms": 1.1721,
+    "gflops": 8.3684,
+    "bandwidth_gbps": 84.4702
+  },
+  "memory": {
+    "bytes_per_rank": 69595548
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/cit-Patents.mtx",
+    "rows": 3774768,
+    "cols": 3774768,
+    "nnz": 11012632
+  },
+  "mpi": {
+    "processes": 64,
+    "nnz_per_rank": {
+      "min": 170194,
+      "avg": 172072,
+      "max": 173814
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 556.1092,
+    "warmup": 4.7967,
+    "kernel": [3.6488, 3.5017, 3.4928, 3.5031, 3.4544, 3.2992, 3.1528, 2.9078, 2.9061, 2.8100],
+    "communication": 269.4125
+  },
+  "statistics": {
+    "kernel_p90_ms": 3.5031,
+    "gflops": 6.2874,
+    "bandwidth_gbps": 63.0760
+  },
+  "memory": {
+    "bytes_per_rank": 163057504
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/Flan_1565.mtx",
+    "rows": 1564794,
+    "cols": 1564794,
+    "nnz": 59485419
+  },
+  "mpi": {
+    "processes": 64,
+    "nnz_per_rank": {
+      "min": 927159,
+      "avg": 929459,
+      "max": 931854
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1757.5312,
+    "warmup": 7.0472,
+    "kernel": [5.9502, 5.6202, 5.7054, 5.7335, 5.7292, 5.7902, 5.7440, 5.2426, 4.7972, 4.4749],
+    "communication": 576.6189
+  },
+  "statistics": {
+    "kernel_p90_ms": 5.7902,
+    "gflops": 20.5468,
+    "bandwidth_gbps": 205.5188
+  },
+  "memory": {
+    "bytes_per_rank": 726636784
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/soc-LiveJournal1.mtx",
+    "rows": 4847571,
+    "cols": 4847571,
+    "nnz": 45995848
+  },
+  "mpi": {
+    "processes": 64,
+    "nnz_per_rank": {
+      "min": 708985,
+      "avg": 718685,
+      "max": 731991
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1620.0149,
+    "warmup": 17.7886,
+    "kernel": [18.1670, 18.2037, 18.0860, 17.8328, 16.9804, 11.9646, 9.9730, 9.5217, 9.5174, 9.3460],
+    "communication": 605.0060
+  },
+  "statistics": {
+    "kernel_p90_ms": 18.1670,
+    "gflops": 5.0637,
+    "bandwidth_gbps": 50.6867
+  },
+  "memory": {
+    "bytes_per_rank": 591639676
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/thermal2.mtx",
+    "rows": 1228045,
+    "cols": 1228045,
+    "nnz": 4904179
+  },
+  "mpi": {
+    "processes": 64,
+    "nnz_per_rank": {
+      "min": 76121,
+      "avg": 76627,
+      "max": 77129
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 257.2434,
+    "warmup": 2.5558,
+    "kernel": [1.8504, 1.7538, 1.7195, 1.6873, 1.6730, 1.5984, 1.4784, 1.2500, 1.1313, 1.0033],
+    "communication": 122.8824
+  },
+  "statistics": {
+    "kernel_p90_ms": 1.7538,
+    "gflops": 5.5926,
+    "bandwidth_gbps": 56.0574
+  },
+  "memory": {
+    "bytes_per_rank": 68904780
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/cit-Patents.mtx",
+    "rows": 3774768,
+    "cols": 3774768,
+    "nnz": 11012632
+  },
+  "mpi": {
+    "processes": 128,
+    "nnz_per_rank": {
+      "min": 84654,
+      "avg": 86036,
+      "max": 87577
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1158.8557,
+    "warmup": 5.7371,
+    "kernel": [3.5717, 3.4442, 3.2642, 2.6979, 2.6484, 2.5659, 2.5144, 2.4176, 2.3146, 2.1946],
+    "communication": 943.2428
+  },
+  "statistics": {
+    "kernel_p90_ms": 3.4442,
+    "gflops": 6.3949,
+    "bandwidth_gbps": 64.0517
+  },
+  "memory": {
+    "bytes_per_rank": 162703624
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/Flan_1565.mtx",
+    "rows": 1564794,
+    "cols": 1564794,
+    "nnz": 59485419
+  },
+  "mpi": {
+    "processes": 128,
+    "nnz_per_rank": {
+      "min": 463071,
+      "avg": 464729,
+      "max": 466542
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 3725.3966,
+    "warmup": 15.1141,
+    "kernel": [16.8891, 15.7614, 15.6202, 15.6898, 15.4181, 15.5284, 15.4738, 15.6567, 15.4619, 14.6916],
+    "communication": 1767.1549
+  },
+  "statistics": {
+    "kernel_p90_ms": 15.7614,
+    "gflops": 7.5483,
+    "bandwidth_gbps": 75.4918
+  },
+  "memory": {
+    "bytes_per_rank": 726490084
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/soc-LiveJournal1.mtx",
+    "rows": 4847571,
+    "cols": 4847571,
+    "nnz": 45995848
+  },
+  "mpi": {
+    "processes": 128,
+    "nnz_per_rank": {
+      "min": 351220,
+      "avg": 359342,
+      "max": 370781
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 3503.0580,
+    "warmup": 14.8716,
+    "kernel": [15.2123, 14.5633, 14.2970, 14.5593, 14.4944, 14.6115, 13.1738, 9.7272, 9.6891, 9.3930],
+    "communication": 1765.0807
+  },
+  "statistics": {
+    "kernel_p90_ms": 14.6115,
+    "gflops": 6.2958,
+    "bandwidth_gbps": 62.9896
+  },
+  "memory": {
+    "bytes_per_rank": 591185212
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/thermal2.mtx",
+    "rows": 1228045,
+    "cols": 1228045,
+    "nnz": 4904179
+  },
+  "mpi": {
+    "processes": 128,
+    "nnz_per_rank": {
+      "min": 37887,
+      "avg": 38313,
+      "max": 38912
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 713.4271,
+    "warmup": 1.6110,
+    "kernel": [1.2152, 0.9494, 0.7749, 0.7007, 0.6518, 0.6335, 0.6094, 0.5875, 0.5581, 0.5045],
+    "communication": 611.8543
+  },
+  "statistics": {
+    "kernel_p90_ms": 0.9494,
+    "gflops": 10.3313,
+    "bandwidth_gbps": 103.4343
+  },
+  "memory": {
+    "bytes_per_rank": 68789652
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/cit-Patents.mtx",
+    "rows": 3774768,
+    "cols": 3774768,
+    "nnz": 11012632
+  },
+  "mpi": {
+    "processes": 256,
+    "nnz_per_rank": {
+      "min": 41812,
+      "avg": 43018,
+      "max": 44171
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1634.9478,
+    "warmup": 2.2645,
+    "kernel": [1.6825, 0.8204, 0.5343, 0.4268, 0.3695, 0.4034, 0.5159, 0.4597, 0.3495, 0.3312],
+    "communication": 1427.2902
+  },
+  "statistics": {
+    "kernel_p90_ms": 0.8204,
+    "gflops": 26.8470,
+    "bandwidth_gbps": 268.6861
+  },
+  "memory": {
+    "bytes_per_rank": 162526684
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/Flan_1565.mtx",
+    "rows": 1564794,
+    "cols": 1564794,
+    "nnz": 59485419
+  },
+  "mpi": {
+    "processes": 256,
+    "nnz_per_rank": {
+      "min": 231287,
+      "avg": 232364,
+      "max": 233860
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 3881.4836,
+    "warmup": 6.6319,
+    "kernel": [5.8739, 5.5552, 5.4798, 5.4395, 5.4715, 5.4073, 5.4820, 5.3861, 5.3394, 5.1429],
+    "communication": 2572.5899
+  },
+  "statistics": {
+    "kernel_p90_ms": 5.5552,
+    "gflops": 21.4163,
+    "bandwidth_gbps": 214.1762
+  },
+  "memory": {
+    "bytes_per_rank": 726416740
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/soc-LiveJournal1.mtx",
+    "rows": 4847571,
+    "cols": 4847571,
+    "nnz": 45995848
+  },
+  "mpi": {
+    "processes": 256,
+    "nnz_per_rank": {
+      "min": 173702,
+      "avg": 179671,
+      "max": 187863
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 3630.8420,
+    "warmup": 8.3323,
+    "kernel": [6.1631, 4.2186, 4.1506, 4.1199, 4.0684, 4.0042, 3.9759, 3.9067, 3.7889, 3.7060],
+    "communication": 2487.5963
+  },
+  "statistics": {
+    "kernel_p90_ms": 4.2186,
+    "gflops": 21.8063,
+    "bandwidth_gbps": 218.1171
+  },
+  "memory": {
+    "bytes_per_rank": 590957980
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "./matrices/thermal2.mtx",
+    "rows": 1228045,
+    "cols": 1228045,
+    "nnz": 4904179
+  },
+  "mpi": {
+    "processes": 256,
+    "nnz_per_rank": {
+      "min": 18848,
+      "avg": 19156,
+      "max": 19544
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 902.8254,
+    "warmup": 0.5705,
+    "kernel": [0.4740, 0.3791, 0.3517, 0.2983, 0.2210, 0.1976, 0.2041, 0.2022, 0.1864, 0.1569],
+    "communication": 834.4421
+  },
+  "statistics": {
+    "kernel_p90_ms": 0.3791,
+    "gflops": 25.8737,
+    "bandwidth_gbps": 258.8892
+  },
+  "memory": {
+    "bytes_per_rank": 68732088
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Generated",
+    "rows": 160000,
+    "cols": 160000,
+    "nnz": 256000000
+  },
+  "mpi": {
+    "processes": 256,
+    "nnz_per_rank": {
+      "min": 997739,
+      "avg": 1000000,
+      "max": 1002341
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 38999.3186,
+    "warmup": 6.1185,
+    "kernel": [5.0049, 4.9846, 4.9431, 4.9858, 4.9841, 4.9753, 4.9927, 4.9875, 4.9787, 4.8974],
+    "communication": 5901.1738
+  },
+  "statistics": {
+    "kernel_p90_ms": 4.9927,
+    "gflops": 102.5492,
+    "bandwidth_gbps": 1025.4939
+  },
+  "memory": {
+    "bytes_per_rank": 3073287504
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Generated",
+    "rows": 40000,
+    "cols": 40000,
+    "nnz": 16000000
+  },
+  "mpi": {
+    "processes": 16,
+    "nnz_per_rank": {
+      "min": 997866,
+      "avg": 1000000,
+      "max": 1001444
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 1367.7952,
+    "warmup": 1.4238,
+    "kernel": [1.3871, 1.3735, 1.3747, 1.3592, 1.3549, 1.3623, 1.3497, 1.3626, 1.3769, 1.3452],
+    "communication": 127.1956
+  },
+  "statistics": {
+    "kernel_p90_ms": 1.3769,
+    "gflops": 23.2412,
+    "bandwidth_gbps": 232.4334
+  },
+  "memory": {
+    "bytes_per_rank": 192350004
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Generated",
+    "rows": 113137,
+    "cols": 113137,
+    "nnz": 127999807
+  },
+  "mpi": {
+    "processes": 128,
+    "nnz_per_rank": {
+      "min": 997429,
+      "avg": 999998,
+      "max": 1002267
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 14975.9154,
+    "warmup": 5.8169,
+    "kernel": [5.2600, 5.0156, 5.0089, 4.9896, 4.9744, 4.9882, 4.9639, 4.9603, 4.9250, 4.9055],
+    "communication": 2518.7747
+  },
+  "statistics": {
+    "kernel_p90_ms": 5.0156,
+    "gflops": 51.0406,
+    "bandwidth_gbps": 510.4077
+  },
+  "memory": {
+    "bytes_per_rank": 1536913392
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Generated",
+    "rows": 80000,
+    "cols": 80000,
+    "nnz": 64000000
+  },
+  "mpi": {
+    "processes": 64,
+    "nnz_per_rank": {
+      "min": 997261,
+      "avg": 1000000,
+      "max": 1002594
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 6502.8400,
+    "warmup": 3.3603,
+    "kernel": [2.7602, 2.7344, 2.7177, 2.7101, 2.6996, 2.6989, 2.6844, 2.6104, 2.4192, 2.1861],
+    "communication": 561.8012
+  },
+  "statistics": {
+    "kernel_p90_ms": 2.7344,
+    "gflops": 46.8106,
+    "bandwidth_gbps": 468.1116
+  },
+  "memory": {
+    "bytes_per_rank": 768655004
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Generated",
+    "rows": 10000,
+    "cols": 10000,
+    "nnz": 1000000
+  },
+  "mpi": {
+    "processes": 1,
+    "nnz_per_rank": {
+      "min": 1000000,
+      "avg": 1000000,
+      "max": 1000000
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 53.3080,
+    "warmup": 1.0729,
+    "kernel": [1.0533, 1.0355, 1.0307, 1.0302, 1.0300, 1.0307, 1.0300, 1.0302, 1.0326, 1.0300],
+    "communication": 0.0005
+  },
+  "statistics": {
+    "kernel_p90_ms": 1.0355,
+    "gflops": 1.9315,
+    "bandwidth_gbps": 19.4311
+  },
+  "memory": {
+    "bytes_per_rank": 12200004
+  },
+  "errors": []
+}
+,
+{
+  "matrix": {
+    "name": "Generated",
+    "rows": 20000,
+    "cols": 20000,
+    "nnz": 4000000
+  },
+  "mpi": {
+    "processes": 4,
+    "nnz_per_rank": {
+      "min": 998740,
+      "avg": 1000000,
+      "max": 1001827
+    },
+    "ghost_entries_per_rank": {
+      "min": 0,
+      "avg": 0,
+      "max": 0
+    },
+    "total_ghost_entries": 0
+  },
+  "timings_ms": {
+    "setup": 276.3791,
+    "warmup": 1.2162,
+    "kernel": [1.1384, 1.0853, 1.0910, 1.0803, 1.0803, 1.0805, 1.0803, 1.0798, 1.0798, 1.0839],
+    "communication": 20.8576
+  },
+  "statistics": {
+    "kernel_p90_ms": 1.0910,
+    "gflops": 7.3327,
+    "bandwidth_gbps": 73.3820
+  },
+  "memory": {
+    "bytes_per_rank": 48220004
+  },
+  "errors": []
+}
+  ]
+}
