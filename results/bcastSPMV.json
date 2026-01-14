@@ -1,5 +1,5 @@
 {
-  "date": "2026-01-12T21:43:54Z",
+  "date": "2026-01-13T00:24:41Z",
   "nodes": [
     {
         "architecture": "x86_64",
@@ -84,18 +84,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 417.3181,
-    "warmup": 75.5069,
-    "kernel": [73.0078, 72.9907, 73.0522, 72.9592, 73.2970, 72.9709, 72.9916, 73.0836, 73.0507, 73.1001],
-    "communication": 0.0017
+    "setup": 398.4637,
+    "warmup": 68.4750,
+    "kernel": [64.2457, 64.1828, 64.1930, 64.1620, 64.1770, 64.1396, 64.1980, 64.1780, 64.1870, 64.1093],
+    "communication": 0.0045
   },
   "statistics": {
-    "kernel_p90_ms": 73.1001,
-    "gflops": 0.3013,
-    "bandwidth_gbps": 3.6327
+    "kernel_p90_ms": 64.1980,
+    "gflops": 0.3431,
+    "bandwidth_gbps": 4.1364
   },
   "memory": {
-    "bytes_per_rank": 265549860
+    "bytes_per_rank": 207646948
   },
   "errors": []
 }
@@ -122,18 +122,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1444.4821,
-    "warmup": 70.9643,
-    "kernel": [69.9399, 69.5751, 70.1454, 69.9453, 70.4994, 69.9348, 69.8314, 69.4063, 69.8099, 69.8667],
+    "setup": 2112.4127,
+    "warmup": 83.0312,
+    "kernel": [108.3760, 108.7399, 108.9635, 109.9048, 109.3738, 108.3729, 108.7890, 109.2870, 108.5038, 108.8848],
     "communication": 0.0019
   },
   "statistics": {
-    "kernel_p90_ms": 70.1454,
-    "gflops": 1.6961,
-    "bandwidth_gbps": 17.2283
+    "kernel_p90_ms": 109.3738,
+    "gflops": 1.0877,
+    "bandwidth_gbps": 11.0491
   },
   "memory": {
-    "bytes_per_rank": 1208485912
+    "bytes_per_rank": 745120912
   },
   "errors": []
 }
@@ -160,18 +160,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1327.1868,
-    "warmup": 191.1514,
-    "kernel": [186.9617, 186.9073, 186.8505, 186.8708, 186.9001, 186.9693, 186.9218, 186.9059, 186.8289, 186.9864],
-    "communication": 0.0012
+    "setup": 2336.8590,
+    "warmup": 338.6478,
+    "kernel": [406.9083, 444.1793, 333.9798, 330.7550, 330.7266, 330.5995, 330.6029, 330.6103, 330.7188, 331.4815],
+    "communication": 0.0014
   },
   "statistics": {
-    "kernel_p90_ms": 186.9693,
-    "gflops": 0.4920,
-    "bandwidth_gbps": 5.2313
+    "kernel_p90_ms": 406.9083,
+    "gflops": 0.2261,
+    "bandwidth_gbps": 2.4037
   },
   "memory": {
-    "bytes_per_rank": 978087816
+    "bytes_per_rank": 648901600
   },
   "errors": []
 }
@@ -198,18 +198,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 181.9921,
-    "warmup": 12.4559,
-    "kernel": [12.3324, 12.2604, 12.2790, 12.2678, 12.2173, 12.2995, 12.2564, 12.1713, 12.3355, 12.2964],
+    "setup": 177.6445,
+    "warmup": 12.1524,
+    "kernel": [12.2855, 12.2139, 12.2199, 12.1856, 12.2077, 12.2287, 12.2719, 12.2023, 12.2313, 12.1901],
     "communication": 0.0017
   },
   "statistics": {
-    "kernel_p90_ms": 12.3324,
-    "gflops": 0.7953,
-    "bandwidth_gbps": 9.1482
+    "kernel_p90_ms": 12.2719,
+    "gflops": 0.7993,
+    "bandwidth_gbps": 9.1934
   },
   "memory": {
-    "bytes_per_rank": 112820124
+    "bytes_per_rank": 83411052
   },
   "errors": []
 }
@@ -236,18 +236,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 364.0349,
-    "warmup": 21.0311,
-    "kernel": [17.0455, 16.7720, 16.6807, 16.7377, 16.5925, 16.6178, 16.6085, 16.5665, 16.5708, 16.5966],
-    "communication": 122.6432
+    "setup": 361.9816,
+    "warmup": 20.0050,
+    "kernel": [16.6872, 16.4850, 16.4657, 16.4652, 16.4628, 16.4530, 16.4163, 16.4549, 16.4165, 16.4468],
+    "communication": 122.6685
   },
   "statistics": {
-    "kernel_p90_ms": 16.7720,
-    "gflops": 1.3132,
-    "bandwidth_gbps": 15.8329
+    "kernel_p90_ms": 16.4850,
+    "gflops": 1.3361,
+    "bandwidth_gbps": 14.0478
   },
   "memory": {
-    "bytes_per_rank": 66387468
+    "bytes_per_rank": 173674036
   },
   "errors": []
 }
@@ -274,18 +274,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1436.3918,
-    "warmup": 18.0578,
-    "kernel": [17.9043, 17.7138, 17.7019, 18.1653, 17.7243, 17.8108, 17.8733, 18.0380, 17.5261, 18.1236],
-    "communication": 257.3411
+    "setup": 1425.9820,
+    "warmup": 17.2281,
+    "kernel": [17.0748, 17.3333, 17.0085, 16.8209, 17.3349, 17.3249, 17.2105, 17.1592, 16.9785, 17.2553],
+    "communication": 263.8319
   },
   "statistics": {
-    "kernel_p90_ms": 18.1236,
-    "gflops": 6.5644,
-    "bandwidth_gbps": 66.6801
+    "kernel_p90_ms": 17.3333,
+    "gflops": 6.8637,
+    "bandwidth_gbps": 68.9081
   },
   "memory": {
-    "bytes_per_rank": 302121487
+    "bytes_per_rank": 731037772
   },
   "errors": []
 }
@@ -312,18 +312,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1282.1631,
-    "warmup": 56.6423,
-    "kernel": [49.9132, 49.8338, 49.8805, 49.8586, 49.8736, 49.8807, 49.8505, 49.8533, 49.7551, 49.8619],
-    "communication": 278.4507
+    "setup": 1269.6455,
+    "warmup": 56.5934,
+    "kernel": [50.1256, 50.1366, 50.0546, 50.0040, 49.9756, 50.0128, 49.9794, 49.9933, 49.9611, 49.9530],
+    "communication": 275.7006
   },
   "statistics": {
-    "kernel_p90_ms": 49.8807,
-    "gflops": 1.8442,
-    "bandwidth_gbps": 19.6085
+    "kernel_p90_ms": 50.1256,
+    "gflops": 1.8352,
+    "bandwidth_gbps": 18.6424
   },
   "memory": {
-    "bytes_per_rank": 244521960
+    "bytes_per_rank": 605273464
   },
   "errors": []
 }
@@ -350,18 +350,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 162.1706,
-    "warmup": 3.0479,
-    "kernel": [3.0010, 2.9182, 2.8596, 2.8307, 2.8446, 2.8422, 2.8400, 2.8498, 2.8360, 2.8338],
-    "communication": 45.9027
+    "setup": 158.5734,
+    "warmup": 2.9814,
+    "kernel": [2.9659, 2.8732, 2.8136, 2.8081, 2.8214, 2.8236, 2.8300, 2.8291, 2.8269, 2.8088],
+    "communication": 45.4195
   },
   "statistics": {
-    "kernel_p90_ms": 2.9182,
-    "gflops": 3.3610,
-    "bandwidth_gbps": 38.6603
+    "kernel_p90_ms": 2.8732,
+    "gflops": 3.4138,
+    "bandwidth_gbps": 35.4199
   },
   "memory": {
-    "bytes_per_rank": 28205043
+    "bytes_per_rank": 72358656
   },
   "errors": []
 }
@@ -388,18 +388,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 394.8395,
-    "warmup": 7.5443,
-    "kernel": [7.0055, 6.9494, 6.9518, 6.9311, 6.9239, 6.9330, 6.9249, 6.9163, 6.9115, 6.9044],
-    "communication": 175.2219
+    "setup": 392.4391,
+    "warmup": 7.2870,
+    "kernel": [6.7680, 6.7208, 6.7108, 6.6981, 6.6712, 6.6726, 6.6643, 6.6955, 6.6659, 6.5548],
+    "communication": 173.9552
   },
   "statistics": {
-    "kernel_p90_ms": 6.9518,
-    "gflops": 3.1683,
-    "bandwidth_gbps": 38.1987
+    "kernel_p90_ms": 6.7208,
+    "gflops": 3.2772,
+    "bandwidth_gbps": 33.1931
   },
   "memory": {
-    "bytes_per_rank": 16596870
+    "bytes_per_rank": 165180808
   },
   "errors": []
 }
@@ -426,18 +426,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1463.8872,
-    "warmup": 5.1794,
-    "kernel": [5.1508, 5.1672, 5.2073, 5.0671, 5.1188, 5.1074, 5.0986, 5.1639, 5.1568, 5.1446],
-    "communication": 450.0232
+    "setup": 1408.6530,
+    "warmup": 5.0051,
+    "kernel": [5.7061, 5.2147, 5.0039, 5.0099, 5.0511, 5.0290, 5.1048, 5.0125, 4.9791, 4.9272],
+    "communication": 441.3958
   },
   "statistics": {
-    "kernel_p90_ms": 5.1672,
-    "gflops": 23.0240,
-    "bandwidth_gbps": 233.8743
+    "kernel_p90_ms": 5.2147,
+    "gflops": 22.8146,
+    "bandwidth_gbps": 228.3706
   },
   "memory": {
-    "bytes_per_rank": 75530377
+    "bytes_per_rank": 727516984
   },
   "errors": []
 }
@@ -464,18 +464,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1298.8405,
-    "warmup": 20.6456,
-    "kernel": [21.8058, 20.4053, 20.3044, 20.3435, 20.2885, 20.4036, 20.2982, 20.3795, 20.3161, 20.2401],
-    "communication": 438.5839
+    "setup": 2429.7817,
+    "warmup": 39.4735,
+    "kernel": [43.2928, 43.0427, 42.9749, 43.0110, 42.8369, 42.8762, 42.8824, 42.8822, 42.8691, 42.7837],
+    "communication": 644.2385
   },
   "statistics": {
-    "kernel_p90_ms": 20.4053,
-    "gflops": 4.5082,
-    "bandwidth_gbps": 47.9331
+    "kernel_p90_ms": 43.0427,
+    "gflops": 2.1372,
+    "bandwidth_gbps": 21.4567
   },
   "memory": {
-    "bytes_per_rank": 61130502
+    "bytes_per_rank": 594366436
   },
   "errors": []
 }
@@ -502,18 +502,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 192.2586,
-    "warmup": 1.2558,
-    "kernel": [1.2062, 1.1840, 1.1718, 1.1744, 1.1709, 1.1663, 1.1773, 1.1864, 1.1802, 1.1554],
-    "communication": 73.1452
+    "setup": 190.7861,
+    "warmup": 1.2369,
+    "kernel": [1.1806, 1.1697, 1.1718, 1.1721, 1.1399, 1.1480, 1.1442, 1.1518, 1.1530, 1.1520],
+    "communication": 75.4480
   },
   "statistics": {
-    "kernel_p90_ms": 1.1864,
-    "gflops": 8.2675,
-    "bandwidth_gbps": 95.0969
+    "kernel_p90_ms": 1.1721,
+    "gflops": 8.3684,
+    "bandwidth_gbps": 84.4702
   },
   "memory": {
-    "bytes_per_rank": 7051263
+    "bytes_per_rank": 69595548
   },
   "errors": []
 }
@@ -540,18 +540,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 576.8433,
-    "warmup": 3.0210,
-    "kernel": [2.4934, 2.3327, 2.2855, 2.2538, 2.2366, 2.2128, 2.1961, 2.2025, 2.1741, 2.1298],
-    "communication": 259.6195
+    "setup": 556.1092,
+    "warmup": 4.7967,
+    "kernel": [3.6488, 3.5017, 3.4928, 3.5031, 3.4544, 3.2992, 3.1528, 2.9078, 2.9061, 2.8100],
+    "communication": 269.4125
   },
   "statistics": {
-    "kernel_p90_ms": 2.3327,
-    "gflops": 9.4420,
-    "bandwidth_gbps": 113.8388
+    "kernel_p90_ms": 3.5031,
+    "gflops": 6.2874,
+    "bandwidth_gbps": 63.0760
   },
   "memory": {
-    "bytes_per_rank": 4149223
+    "bytes_per_rank": 163057504
   },
   "errors": []
 }
@@ -578,18 +578,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1787.3900,
-    "warmup": 4.6389,
-    "kernel": [3.5999, 3.5853, 3.5853, 3.5877, 3.6120, 3.5665, 3.6728, 3.6433, 3.4404, 3.1292],
-    "communication": 581.3859
+    "setup": 1757.5312,
+    "warmup": 7.0472,
+    "kernel": [5.9502, 5.6202, 5.7054, 5.7335, 5.7292, 5.7902, 5.7440, 5.2426, 4.7972, 4.4749],
+    "communication": 576.6189
   },
   "statistics": {
-    "kernel_p90_ms": 3.6433,
-    "gflops": 32.6549,
-    "bandwidth_gbps": 331.7033
+    "kernel_p90_ms": 5.7902,
+    "gflops": 20.5468,
+    "bandwidth_gbps": 205.5188
   },
   "memory": {
-    "bytes_per_rank": 18882597
+    "bytes_per_rank": 726636784
   },
   "errors": []
 }
@@ -616,18 +616,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1674.0453,
-    "warmup": 8.5661,
-    "kernel": [6.9804, 6.9747, 6.9461, 6.9320, 6.9120, 6.9816, 6.9146, 6.9125, 6.9058, 6.8331],
-    "communication": 579.5901
+    "setup": 1620.0149,
+    "warmup": 17.7886,
+    "kernel": [18.1670, 18.2037, 18.0860, 17.8328, 16.9804, 11.9646, 9.9730, 9.5217, 9.5174, 9.3460],
+    "communication": 605.0060
   },
   "statistics": {
-    "kernel_p90_ms": 6.9804,
-    "gflops": 13.1785,
-    "bandwidth_gbps": 140.1189
+    "kernel_p90_ms": 18.1670,
+    "gflops": 5.0637,
+    "bandwidth_gbps": 50.6867
   },
   "memory": {
-    "bytes_per_rank": 15282634
+    "bytes_per_rank": 591639676
   },
   "errors": []
 }
@@ -654,18 +654,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 259.2065,
-    "warmup": 1.3056,
-    "kernel": [1.0760, 0.9639, 0.9601, 0.9503, 0.9394, 0.9508, 0.9043, 0.8395, 0.7839, 0.7117],
-    "communication": 121.8500
+    "setup": 257.2434,
+    "warmup": 2.5558,
+    "kernel": [1.8504, 1.7538, 1.7195, 1.6873, 1.6730, 1.5984, 1.4784, 1.2500, 1.1313, 1.0033],
+    "communication": 122.8824
   },
   "statistics": {
-    "kernel_p90_ms": 0.9639,
-    "gflops": 10.1754,
-    "bandwidth_gbps": 117.0432
+    "kernel_p90_ms": 1.7538,
+    "gflops": 5.5926,
+    "bandwidth_gbps": 56.0574
   },
   "memory": {
-    "bytes_per_rank": 1762827
+    "bytes_per_rank": 68904780
   },
   "errors": []
 }
@@ -692,18 +692,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 683.4619,
-    "warmup": 1.8339,
-    "kernel": [1.5728, 1.5032, 1.4808, 1.4029, 1.4472, 1.0662, 1.0068, 0.9394, 0.8750, 0.7875],
-    "communication": 431.2670
+    "setup": 1158.8557,
+    "warmup": 5.7371,
+    "kernel": [3.5717, 3.4442, 3.2642, 2.6979, 2.6484, 2.5659, 2.5144, 2.4176, 2.3146, 2.1946],
+    "communication": 943.2428
   },
   "statistics": {
-    "kernel_p90_ms": 1.5032,
-    "gflops": 14.6520,
-    "bandwidth_gbps": 176.6539
+    "kernel_p90_ms": 3.4442,
+    "gflops": 6.3949,
+    "bandwidth_gbps": 64.0517
   },
   "memory": {
-    "bytes_per_rank": 2074619
+    "bytes_per_rank": 162703624
   },
   "errors": []
 }
@@ -730,18 +730,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 2369.4773,
-    "warmup": 3.7224,
-    "kernel": [3.4449, 3.4151, 3.4354, 3.4280, 3.4409, 3.4103, 3.4463, 3.4249, 3.4592, 3.2637],
-    "communication": 1073.5338
+    "setup": 3725.3966,
+    "warmup": 15.1141,
+    "kernel": [16.8891, 15.7614, 15.6202, 15.6898, 15.4181, 15.5284, 15.4738, 15.6567, 15.4619, 14.6916],
+    "communication": 1767.1549
   },
   "statistics": {
-    "kernel_p90_ms": 3.4463,
-    "gflops": 34.5209,
-    "bandwidth_gbps": 350.6579
+    "kernel_p90_ms": 15.7614,
+    "gflops": 7.5483,
+    "bandwidth_gbps": 75.4918
   },
   "memory": {
-    "bytes_per_rank": 9441300
+    "bytes_per_rank": 726490084
   },
   "errors": []
 }
@@ -768,18 +768,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 2159.3499,
-    "warmup": 5.3704,
-    "kernel": [4.4956, 4.4374, 4.4568, 4.3960, 4.3716, 4.3628, 4.4000, 4.3337, 4.3609, 4.2994],
-    "communication": 1014.1478
+    "setup": 3503.0580,
+    "warmup": 14.8716,
+    "kernel": [15.2123, 14.5633, 14.2970, 14.5593, 14.4944, 14.6115, 13.1738, 9.7272, 9.6891, 9.3930],
+    "communication": 1765.0807
   },
   "statistics": {
-    "kernel_p90_ms": 4.4568,
-    "gflops": 20.6409,
-    "bandwidth_gbps": 219.4619
+    "kernel_p90_ms": 14.6115,
+    "gflops": 6.2958,
+    "bandwidth_gbps": 62.9896
   },
   "memory": {
-    "bytes_per_rank": 7641319
+    "bytes_per_rank": 591185212
   },
   "errors": []
 }
@@ -806,18 +806,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 330.1105,
-    "warmup": 0.8626,
-    "kernel": [0.7212, 0.6177, 0.5763, 0.3288, 0.3119, 0.2906, 0.2832, 0.3033, 0.2742, 0.2720],
-    "communication": 214.2375
+    "setup": 713.4271,
+    "warmup": 1.6110,
+    "kernel": [1.2152, 0.9494, 0.7749, 0.7007, 0.6518, 0.6335, 0.6094, 0.5875, 0.5581, 0.5045],
+    "communication": 611.8543
   },
   "statistics": {
-    "kernel_p90_ms": 0.6177,
-    "gflops": 15.8777,
-    "bandwidth_gbps": 182.6360
+    "kernel_p90_ms": 0.9494,
+    "gflops": 10.3313,
+    "bandwidth_gbps": 103.4343
   },
   "memory": {
-    "bytes_per_rank": 881421
+    "bytes_per_rank": 68789652
   },
   "errors": []
 }
@@ -844,18 +844,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 782.1338,
-    "warmup": 1.1494,
-    "kernel": [0.9472, 0.6847, 0.6049, 0.6313, 0.5379, 0.4809, 0.4838, 0.4628, 0.4191, 0.3555],
-    "communication": 540.1723
+    "setup": 1634.9478,
+    "warmup": 2.2645,
+    "kernel": [1.6825, 0.8204, 0.5343, 0.4268, 0.3695, 0.4034, 0.5159, 0.4597, 0.3495, 0.3312],
+    "communication": 1427.2902
   },
   "statistics": {
-    "kernel_p90_ms": 0.6847,
-    "gflops": 32.1660,
-    "bandwidth_gbps": 387.8174
+    "kernel_p90_ms": 0.8204,
+    "gflops": 26.8470,
+    "bandwidth_gbps": 268.6861
   },
   "memory": {
-    "bytes_per_rank": 1037317
+    "bytes_per_rank": 162526684
   },
   "errors": []
 }
@@ -882,18 +882,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 3311.2836,
-    "warmup": 3.0432,
-    "kernel": [2.2244, 2.2194, 2.1763, 2.1682, 2.1775, 2.2061, 2.1772, 2.1446, 2.0568, 2.0142],
-    "communication": 1986.3524
+    "setup": 3881.4836,
+    "warmup": 6.6319,
+    "kernel": [5.8739, 5.5552, 5.4798, 5.4395, 5.4715, 5.4073, 5.4820, 5.3861, 5.3394, 5.1429],
+    "communication": 2572.5899
   },
   "statistics": {
-    "kernel_p90_ms": 2.2194,
-    "gflops": 53.6040,
-    "bandwidth_gbps": 544.5019
+    "kernel_p90_ms": 5.5552,
+    "gflops": 21.4163,
+    "bandwidth_gbps": 214.1762
   },
   "memory": {
-    "bytes_per_rank": 4720658
+    "bytes_per_rank": 726416740
   },
   "errors": []
 }
@@ -920,18 +920,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 2751.8828,
-    "warmup": 4.9217,
-    "kernel": [2.5523, 2.5089, 2.5496, 2.0978, 2.0235, 1.9999, 1.9000, 1.9026, 1.8997, 1.8821],
-    "communication": 1554.7519
+    "setup": 3630.8420,
+    "warmup": 8.3323,
+    "kernel": [6.1631, 4.2186, 4.1506, 4.1199, 4.0684, 4.0042, 3.9759, 3.9067, 3.7889, 3.7060],
+    "communication": 2487.5963
   },
   "statistics": {
-    "kernel_p90_ms": 2.5496,
-    "gflops": 36.0802,
-    "bandwidth_gbps": 383.6174
+    "kernel_p90_ms": 4.2186,
+    "gflops": 21.8063,
+    "bandwidth_gbps": 218.1171
   },
   "memory": {
-    "bytes_per_rank": 3820661
+    "bytes_per_rank": 590957980
   },
   "errors": []
 }
@@ -958,18 +958,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 379.6642,
-    "warmup": 0.2813,
-    "kernel": [0.2046, 0.1438, 0.1490, 0.1519, 0.1378, 0.1202, 0.1178, 0.1285, 0.1144, 0.1221],
-    "communication": 302.7430
+    "setup": 902.8254,
+    "warmup": 0.5705,
+    "kernel": [0.4740, 0.3791, 0.3517, 0.2983, 0.2210, 0.1976, 0.2041, 0.2022, 0.1864, 0.1569],
+    "communication": 834.4421
   },
   "statistics": {
-    "kernel_p90_ms": 0.1519,
-    "gflops": 64.5828,
-    "bandwidth_gbps": 742.8860
+    "kernel_p90_ms": 0.3791,
+    "gflops": 25.8737,
+    "bandwidth_gbps": 258.8892
   },
   "memory": {
-    "bytes_per_rank": 440718
+    "bytes_per_rank": 68732088
   },
   "errors": []
 }
@@ -996,18 +996,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 34580.7548,
-    "warmup": 6.3972,
-    "kernel": [3.8376, 3.8261, 3.8617, 3.8278, 3.7961, 3.7947, 3.8092, 3.8331, 3.8173, 3.7735],
-    "communication": 6512.2786
+    "setup": 38999.3186,
+    "warmup": 6.1185,
+    "kernel": [5.0049, 4.9846, 4.9431, 4.9858, 4.9841, 4.9753, 4.9927, 4.9875, 4.9787, 4.8974],
+    "communication": 5901.1738
   },
   "statistics": {
-    "kernel_p90_ms": 3.8376,
-    "gflops": 133.4172,
-    "bandwidth_gbps": 1334.6728
+    "kernel_p90_ms": 4.9927,
+    "gflops": 102.5492,
+    "bandwidth_gbps": 1025.4939
   },
   "memory": {
-    "bytes_per_rank": 20007504
+    "bytes_per_rank": 3073287504
   },
   "errors": []
 }
@@ -1034,18 +1034,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 1390.4865,
-    "warmup": 1.4477,
-    "kernel": [1.4405, 1.4119, 1.3719, 1.3947, 1.3509, 1.3630, 1.3642, 1.3652, 1.3721, 1.3647],
-    "communication": 137.1500
+    "setup": 1367.7952,
+    "warmup": 1.4238,
+    "kernel": [1.3871, 1.3735, 1.3747, 1.3592, 1.3549, 1.3623, 1.3497, 1.3626, 1.3769, 1.3452],
+    "communication": 127.1956
   },
   "statistics": {
-    "kernel_p90_ms": 1.4119,
-    "gflops": 22.6643,
-    "bandwidth_gbps": 226.9826
+    "kernel_p90_ms": 1.3769,
+    "gflops": 23.2412,
+    "bandwidth_gbps": 232.4334
   },
   "memory": {
-    "bytes_per_rank": 20030004
+    "bytes_per_rank": 192350004
   },
   "errors": []
 }
@@ -1072,18 +1072,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 15273.7246,
-    "warmup": 3.2415,
-    "kernel": [3.0344, 3.0153, 3.0100, 3.0415, 3.0205, 3.1097, 3.0420, 3.0525, 3.0472, 2.9712],
-    "communication": 2461.7517
+    "setup": 14975.9154,
+    "warmup": 5.8169,
+    "kernel": [5.2600, 5.0156, 5.0089, 4.9896, 4.9744, 4.9882, 4.9639, 4.9603, 4.9250, 4.9055],
+    "communication": 2518.7747
   },
   "statistics": {
-    "kernel_p90_ms": 3.0525,
-    "gflops": 83.8663,
-    "bandwidth_gbps": 839.1080
+    "kernel_p90_ms": 5.0156,
+    "gflops": 51.0406,
+    "bandwidth_gbps": 510.4077
   },
   "memory": {
-    "bytes_per_rank": 20010581
+    "bytes_per_rank": 1536913392
   },
   "errors": []
 }
@@ -1110,18 +1110,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 6713.9392,
-    "warmup": 2.5976,
-    "kernel": [2.4178, 2.4438, 2.4841, 2.4571, 2.5041, 2.5282, 2.5878, 2.4385, 2.2945, 2.1691],
-    "communication": 575.6338
+    "setup": 6502.8400,
+    "warmup": 3.3603,
+    "kernel": [2.7602, 2.7344, 2.7177, 2.7101, 2.6996, 2.6989, 2.6844, 2.6104, 2.4192, 2.1861],
+    "communication": 561.8012
   },
   "statistics": {
-    "kernel_p90_ms": 2.5282,
-    "gflops": 50.6291,
-    "bandwidth_gbps": 506.6708
+    "kernel_p90_ms": 2.7344,
+    "gflops": 46.8106,
+    "bandwidth_gbps": 468.1116
   },
   "memory": {
-    "bytes_per_rank": 20015004
+    "bytes_per_rank": 768655004
   },
   "errors": []
 }
@@ -1148,18 +1148,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 52.9859,
-    "warmup": 1.0796,
-    "kernel": [1.0567, 1.0345, 1.0314, 1.0309, 1.0312, 1.0314, 1.0314, 1.0309, 1.0312, 1.0309],
-    "communication": 0.0017
+    "setup": 53.3080,
+    "warmup": 1.0729,
+    "kernel": [1.0533, 1.0355, 1.0307, 1.0302, 1.0300, 1.0307, 1.0300, 1.0302, 1.0326, 1.0300],
+    "communication": 0.0005
   },
   "statistics": {
-    "kernel_p90_ms": 1.0345,
-    "gflops": 1.9333,
-    "bandwidth_gbps": 19.4490
+    "kernel_p90_ms": 1.0355,
+    "gflops": 1.9315,
+    "bandwidth_gbps": 19.4311
   },
   "memory": {
-    "bytes_per_rank": 20120004
+    "bytes_per_rank": 12200004
   },
   "errors": []
 }
@@ -1186,18 +1186,18 @@
     "total_ghost_entries": 0
   },
   "timings_ms": {
-    "setup": 283.7834,
-    "warmup": 1.2269,
-    "kernel": [1.1494, 1.1203, 1.1311, 1.0803, 1.1358, 1.1125, 1.0860, 1.0805, 1.0798, 1.0803],
-    "communication": 26.5710
+    "setup": 276.3791,
+    "warmup": 1.2162,
+    "kernel": [1.1384, 1.0853, 1.0910, 1.0803, 1.0803, 1.0805, 1.0803, 1.0798, 1.0798, 1.0839],
+    "communication": 20.8576
   },
   "statistics": {
-    "kernel_p90_ms": 1.1358,
-    "gflops": 7.0433,
-    "bandwidth_gbps": 70.6446
+    "kernel_p90_ms": 1.0910,
+    "gflops": 7.3327,
+    "bandwidth_gbps": 73.3820
   },
   "memory": {
-    "bytes_per_rank": 20060004
+    "bytes_per_rank": 48220004
   },
   "errors": []
 }
